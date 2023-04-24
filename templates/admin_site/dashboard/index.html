@@ -7,155 +7,7 @@ DASHBOARD
 {% block content %}
 {% load humanize %}
 
-<!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
-     <ul class="sidebar-nav" id="sidebar-nav">
 
-          <li class="nav-item active-nav">
-               <a class="nav-link " href="{% url 'admin_site:dashboard'%}" id="dash-ad">
-               <i class="ri-apps-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
-               <span>Dashboard</span>
-               </a>
-          </li><!-- End Dashboard Nav -->
-
-          <li class="nav-heading pt-3">Management</li>
-          <li class="nav-item">
-               <a class="nav-link collapsed" data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
-                    <i class="ri-user-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>User Accounts</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
-               </a>
-               <ul id="users-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-                    <li>
-                    <a href="{% url 'admin_site:user_list' %}">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Users List</span>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="{% url 'admin_site:list_reseller'%}">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Resellers List</span>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="{% url 'admin_site:list_inquiry'%}">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Requests</span>
-                    </a>
-                    </li>
-               </ul>
-          </li><!-- End User Accounts Nav -->
-
-          <li class="nav-item">
-          <a class="nav-link collapsed" href="{%url 'admin_site:list_product' %}">
-               <i class="ri-shopping-bag-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
-               <span>Products</span>
-          </a>
-          </li><!-- End Products Page Nav -->
-
-          <li class="nav-item">
-          <a class="nav-link collapsed " data-bs-target="#inventory-nav" data-bs-toggle="collapse" href="#">
-               <i class="ri-inbox-archive-line"style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
-               <span>Inventory</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
-          </a>
-          <ul id="inventory-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-               <li>
-                    <a href="{%url 'admin_site:inventory' %}">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Add Stock</span>
-                    </a>
-               </li>
-               <li>
-                    <a href="{% url 'admin_site:view_inventory' %}">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>View Stock</span>
-                    </a>
-               </li>
-          </ul>
-          </li><!-- End Inventory Page Nav -->
-
-          <li class="nav-item">
-          <a class="nav-link collapsed " data-bs-target="#sales-nav" data-bs-toggle="collapse" href="#">
-               <i class="ri-shopping-cart-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Order</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
-          </a>
-          <ul id="sales-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-               <li>
-                    <a href="{% url 'admin_site:transaction_orders' %}">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Pending</span>
-                    </a>
-               </li>
-               <li>
-                    <a href="{% url 'admin_site:transaction_outshipping' %}">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Out For Delivery</span>
-                    </a>
-               </li>
-               <li>
-                    <a href="{% url 'admin_site:transaction_completed' %}">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Delivered</span>
-                    </a>
-               </li>
-          </ul>
-          </li><!-- End Sales Nav -->
-
-                    <li class="nav-heading pt-3">Reports</li>
-          <li class="mb-act nav-item">
-               <a class="nav-link collapsed " data-bs-target="#reports-nav" data-bs-toggle="collapse" href="#">
-                    <i class="ri-file-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Reports</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
-               </a>
-               <ul id="reports-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-                    <li>
-                         <a href="{% url 'admin_site:report_actlog' %}">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Activity Log</span>
-                         </a>
-                    </li>
-                    <li>
-                         <a href="{% url 'admin_site:report_online_sales' %}">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Online Sales</span>
-                         </a>
-                    </li>
-                    <li>
-                         <a href="{% url 'admin_site:report_pos_sales' %}">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>POS Sales</span>
-                         </a>
-                    </li>
-               </ul>
-          </li>
-
-          <li class="nav-heading pt-3">Others</li>
-          <li class="nav-item">
-               <a class="nav-link collapsed " data-bs-target="#settings-nav" data-bs-toggle="collapse" href="#">
-                    <i class="ri-settings-3-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Settings</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
-               </a>
-               <ul id="settings-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-                    <li>
-                    <a href="{% url 'admin_site:settings_profile' %}">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Edit Profile</span>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="{% url 'admin_site:list_archive' %}">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Archived Resellers</span>
-                    </a>
-                    </li>
-                    <li>
-                    <a href="{% url 'admin_site:settings_product' %}">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Settings</span>
-                    </a>
-                    </li>
-                    <!-- <li>
-                    <a href="{% url 'admin_site:settings_page' %}">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Page Settings</span>
-                    </a>
-                    </li> -->
-                    <!-- <li>
-                    <a href="reports-admin/act-logged-out.php">
-                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Category</span>
-                    </a>
-                    </li> -->
-               </ul>
-          </li>
-
-          <li class="nav-item">
-               <a href="{% url 'admin_site:support' %}" class="nav-link collapsed ">
-                    <i class="ri-information-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Support</span>
-               </a>
-          </li>
-     </ul>
-</aside><!-- End Sidebar-->
 
 
 <main id="main" class="main mt-5">
@@ -203,7 +55,7 @@ DASHBOARD
                                                   <!-- <input step="0.01" min="0" value="&#8369;">{{ transaction_OnlineSales }}> -->
                                                   <!-- <h6 class="transaction-input d-none">Php 0.00</h6> -->
                                                   <!-- <input class="transaction-input-main" type="text" value="Php {{ transaction_OnlineSales|floatformat:2|intcomma }}" step="0.01" min="0" readonly> -->
-                                                  <h6 class="">Php {{ transaction_OnlineSales|floatformat:2|intcomma }}</h6>
+                                                  <h6 class="" id="id_your_field">Php {{ transaction_OnlineSales|default:"0.00"|floatformat:2|intcomma }}</h6>
                                                   <!-- <br> -->
                                                   <span class="text-muted small pt-1 ">Made</span>
                                                   <span class="text-muted small pt-2">Today</span>
@@ -241,7 +93,7 @@ DASHBOARD
                                              </div>
                                              <div class="transaction ps-3">
                                                   <!-- <h6 class="transaction-input-pos d-none">Php 0.00</h6> -->
-                                                  <h6 class="">Php {{ transaction_pos_payment|floatformat:2|intcomma }}</h6>
+                                                  <h6 class="">Php {{ transaction_pos_payment|default:"0.00"|floatformat:2|intcomma }}</h6>
                                                   <!-- <input class="transaction-input-pos-main" type="text" value="Php {{ transaction_pos_payment|floatformat:2|intcomma  }}" step="0.01" min="0" readonly> -->
                                                   <!-- <span class="text-danger small pt-1 fw-bold">12%</span>
                                                   <span class="text-muted small pt-2 ps-1">decrease</span> -->

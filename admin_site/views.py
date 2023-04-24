@@ -36,7 +36,7 @@ def dashboard_admin(request):
     transaction_completed = Transaction.objects.filter(transaction_orderstatus = "Completed").count()
     transaction_shipped = Transaction.objects.filter(transaction_orderstatus = "Out for Delivery").count()
     transaction_decline = Transaction.objects.filter(transaction_orderstatus = "Decline").count()
-    
+    list_profile = Profile.objects.filter(list_user = request.user)
     context = {
         'transaction_OnlineSales': transaction_OnlineSales,
         'transaction_pos_payment':transaction_pos_payment,
@@ -44,7 +44,9 @@ def dashboard_admin(request):
         'transaction_pending':transaction_pending,
         'transaction_completed':transaction_completed,
         'transaction_shipped':transaction_shipped,
-        'transaction_decline':transaction_decline
+        'transaction_decline':transaction_decline,
+        'sidebar': 'dashboard',
+        'list_profile': list_profile
     }
     return render(request, 'admin_site/dashboard/index.html', context)
 
@@ -104,14 +106,25 @@ def register(request, inquiryid):
 @login_required(login_url='landing_page:login')
 def list_reseller(request):
     list_reseller = Reseller.objects.order_by('-id').filter(reseller_status = "active") 
-    context = {'list_reseller':list_reseller}
+    list_profile = Profile.objects.filter(list_user = request.user)
+
+    context = {
+        'list_reseller':list_reseller,
+        'sidebar': 'reseller',
+        'list_profile': list_profile
+    }
     return render(request, 'admin_site/user/list_reseller.html', context)
 
 #list user account
 @login_required(login_url='landing_page:login')
 def user_list(request):
     users = User.objects.all()
-    context = {'users':users}
+    list_profile = Profile.objects.filter(list_user = request.user)
+    context = {
+        'users':users,
+        'list_profile': list_profile,
+        'sidebar': 'users'
+    }
     return render(request, 'admin_site/user/useraccount.html', context)
 
 
@@ -148,7 +161,13 @@ def update_user_account(request,userid):
 @login_required(login_url='landing_page:login')
 def list_inquiry(request):
     list_inquiry = Reseller.objects.order_by('-id').filter(reseller_status = "pending")
-    context = {'list_inquiry':list_inquiry}
+    list_profile = Profile.objects.filter(list_user = request.user)
+
+    context = {
+        'list_inquiry':list_inquiry,
+        'sidebar': 'requests',
+        'list_profile': list_profile,
+        }
     return render(request, 'admin_site/user/list_inquiry.html', context)
 
 
@@ -249,6 +268,7 @@ def update_reseller(request,id ):
 #archiving reseller
 @login_required(login_url='landing_page:login')
 def archive_reseller(request,resellerid):
+    
     if request.method =="POST":
         # changing status to inactice
         reseller = Reseller.objects.get(id = resellerid)
@@ -278,7 +298,7 @@ def archive_reseller(request,resellerid):
 def send_email(request):
     if request.method == "POST":
         # tile_email = "Your inquiry has been successfully approved."
-        tile_email = request.POST['title_email']
+        tile_email = "Account Confirmation"
         # tile_email = request.POST['name']
         email = request.POST['email']
         message = request.POST['message']
@@ -339,7 +359,13 @@ def process_inquiry(request):
 @login_required(login_url='landing_page:login')
 def list_products(request):
     list_products = Product.objects.all().order_by('-id')
-    context = {'list_products':list_products}
+    list_profile = Profile.objects.filter(list_user = request.user)
+
+    context = {
+        'list_products':list_products,
+        'sidebar': 'product',
+        'list_profile': list_profile,
+    }
     return render(request, 'admin_site/products/product.html', context)
 
 #viewing product
@@ -431,8 +457,13 @@ def update_product(request, productid):
 
 @login_required(login_url='landing_page:login')
 def list_archive(request):
+    list_profile = Profile.objects.filter(list_user = request.user)
     list_reseller = Reseller.objects.order_by('-id').filter(reseller_status = "inactive") 
-    context = {'list_reseller':list_reseller}
+    context = {
+        'list_reseller':list_reseller,
+        'sidebar': 'archived',
+        'list_profile': list_profile
+    }
     return render(request, 'admin_site/user/archive.html', context)    
 
 @login_required(login_url='landing_page:login')
@@ -502,7 +533,7 @@ def update_profile(request,profileid):
             profile.profile_pic = profile_picture
         profile.save()
         messages.success(request,("Profile updated"))
-        return redirect('admin_site:settings_profile') 
+        return redirect('admin_site:my_profile') 
 
 def my_profile(request):
     current_profile = Profile.objects.filter(list_user = request.user)
@@ -516,7 +547,8 @@ def my_profile(request):
 def settings_product(request):
     settings = Settings.objects.all()
     context ={
-        'settings':settings
+        'settings':settings,
+        'sidebar' : 'product_settings'
     }
     return render(request, 'admin_site/settings/product_settings.html',context)
 
@@ -555,13 +587,22 @@ def settings_addproduct(request):
 @login_required(login_url='landing_page:login')
 def inventory(request):
     list_products = Product.objects.all().order_by('-id')
-    context = {'list_products':list_products}
+    list_profile = Profile.objects.filter(list_user = request.user)
+
+    context = {
+        'list_products':list_products,
+        'sidebar' : 'stocks',
+        'list_profile': list_profile
+    }
     return render(request, 'admin_site/inventory/add-stock.html', context)   
 
 @login_required(login_url='landing_page:login')
 def view_inventory(request):
     list_inventory = By_Batch.objects.all().order_by('-id')
-    context = {'list_inventory':list_inventory}
+    context = {
+        'list_inventory':list_inventory,
+        'sidebar' : 'stocks'
+    }
     return render(request, 'admin_site/inventory/view.html', context)  
 
 #updating inventory
@@ -994,7 +1035,8 @@ def Transaction_orders(request):
     transaction_pending = Transaction.objects.filter(transaction_orderstatus = "Pending").count()
     context = {
         'list_transaction':list_transaction,
-        'transaction_pending':transaction_pending
+        'transaction_pending':transaction_pending,
+        'sidebar' : 'pending'
     }
     return render(request, 'admin_site/transaction/pending.html', context)
 
@@ -1003,7 +1045,8 @@ def Transaction_orders(request):
 def Transaction_outshipping(request):
     list_transaction = Transaction.objects.filter(Q(transaction_orderstatus = "Out for Delivery")).order_by('-id')
     context = {
-        'list_transaction':list_transaction
+        'list_transaction':list_transaction,
+        'sidebar' : 'orders'
     }
     return render(request, 'admin_site/transaction/orders.html', context)
 
@@ -1013,7 +1056,8 @@ def Transaction_outshipping(request):
 def Transaction_completed(request):
     list_transaction = Transaction.objects.filter(Q(transaction_orderstatus = "Completed")).order_by('-id')
     context = {
-        'list_transaction':list_transaction
+        'list_transaction':list_transaction,
+        'sidebar' : 'completed'
     }
     return render(request, 'admin_site/transaction/completed.html', context)
 
@@ -1071,10 +1115,48 @@ def transaction_view(request, id):
 #FOR REPORTS FEATURES
 #reports VIEW
 @login_required(login_url='landing_page:login') 
+def report_users(request):
+    list_users = User.objects.all()
+    context = {
+        'list_users':list_users,
+        'sidebar': 'rep_users'
+    }
+    return render(request, 'admin_site/reports/rep_users.html', context)
+
+@login_required(login_url='landing_page:login') 
+def report_res(request):
+    list_reseller = Reseller.objects.order_by('-id')
+    context = {
+        'list_reseller':list_reseller,
+        'sidebar': 'rep_res'
+    }
+    return render(request, 'admin_site/reports/rep_res.html', context)
+
+@login_required(login_url='landing_page:login') 
+def report_product(request):
+    list_products = Product.objects.all().order_by('-id')
+    context = {
+        'list_products':list_products,
+        'sidebar': 'rep_prod'
+    }
+    return render(request, 'admin_site/reports/rep_product.html', context)
+
+@login_required(login_url='landing_page:login') 
+def report_stocks(request):
+    list_inventory = By_Batch.objects.all().order_by('-id')
+    context = {
+        'list_inventory':list_inventory,
+        'sidebar': 'rep_stocks'
+    }
+    return render(request, 'admin_site/reports/rep_stock.html', context)
+
+
+@login_required(login_url='landing_page:login') 
 def report_actlog(request):
     list_reports = Activity_log.objects.all().order_by('-id')
     context = {
-        'list_reports':list_reports
+        'list_reports':list_reports,
+        'sidebar': 'act_log'
     }
     return render(request, 'admin_site/reports/act_log.html', context)
 
@@ -1084,7 +1166,8 @@ def report_actlog(request):
 def report_pos_sales(request):
     pos_payment = Cart_Payment.objects.filter(cart_status = 'Printed')
     context = {
-        'pos_payment':pos_payment
+        'pos_payment':pos_payment,
+        'sidebar': 'posS'
     }
     return render(request, 'admin_site/reports/pos_sales.html',context)
 
@@ -1095,7 +1178,8 @@ def report_pos_sales(request):
 def report_online_sales(request):
     transaction = Transaction.objects.filter(transaction_orderstatus = 'Completed')
     context = {
-        'transaction':transaction
+        'transaction':transaction,
+        'sidebar': 'os'
     }
     return render(request, 'admin_site/reports/online_sales.html', context) 
 
@@ -1227,7 +1311,10 @@ def search_pos_sales(request):
 # first landing of page
 @login_required(login_url='landing_page:login')
 def support(request):
-    return render(request, 'admin_site/support.html')
+    context = {
+        'sidebar' : 'support'
+    }
+    return render(request, 'admin_site/support.html', context)
 
 
 # @login_required(login_url='landing_page:login')
@@ -1254,3 +1341,21 @@ def settings_page(request):
 
 
 
+# # sidebar main menus
+# def usermanagement(request):
+#     context = {
+#         'sidebar':'mainuser',
+#     }
+#     url = reverse('admin_site') + '#feedbacks'
+#     return redirect(url)
+#     # return render(request, 'landing_page/index.html', {'form': form, 'menu': 'home'})
+#     return render(request, 'admin_site/base.html', context)
+# # sidebar main menus
+# def usermanagement(request):
+#     context = {
+#         'sidebar':'mainuser',
+#     }
+#     url = reverse('admin_site') + '#feedbacks'
+#     return redirect(url)
+#     # return render(request, 'landing_page/index.html', {'form': form, 'menu': 'home'})
+#     return render(request, 'admin_site/base.html', context)

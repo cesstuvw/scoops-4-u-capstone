@@ -829,13 +829,14 @@ font-family: P-SemiBold;
 .btn-edit,
 .btn-archive,
 .btn-trash{
-border: none;
-background-color: transparent;
-padding: 0;
-margin-right: 10px;
-text-decoration: none;
-color: var(--primary-c-grey-text) !important;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin-right: 10px;
+  text-decoration: none;
+  color: var(--primary-c-grey-text) !important;
 }
+
 
 
 .btn-edit:hover,
@@ -1813,6 +1814,12 @@ input{
 .edit-profile input[type="file"] {
   display: none;
 }
+
+.edit-file input[type="file"] {
+  display: none;
+}
+
+
 .custom-file-upload {
   /* border: 1px solid #ccc; */
   display: inline-block;
@@ -2517,4 +2524,43 @@ thead .sort-no {
 .col-md-6 .btn-secondary:hover{
   background-color: #9fa5e6 !important;
   color: var(--primary-c-white-text);
+}
+
+btn-edit-profile{
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  text-decoration: none;
+}
+
+.btn-edit-profile i{
+  font-size: 1.5rem;
+  color: var(--primary-c-blue) !important;
+  transition: 0.3s;
+  /* transition: all 9s ease-in-out !important; */
+  
+}
+
+.col-6 .ri-settings-3-line::before{
+  content: "\f0e5";
+
+}
+
+.col-6 .ri-settings-3-line:hover:before{
+  content: "\f0e6";
+}
+
+.edit-profile {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+}
+
+.header-icon .ri-checkbox-blank-circle-fill{
+  position: absolute;
+  color:  #6edb3f !important;
+  font-size: 0.9rem !important;
+  left: -0.4rem;
+  /* right: 3rem; */
 }

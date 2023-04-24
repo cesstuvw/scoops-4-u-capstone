@@ -1,7 +1,7 @@
 {% extends 'admin_site/base.html' %}
 
 {% block title %}
-    ACTIVITY LOG
+    REPORTS - RESELLERS LIST
 {% endblock title %}
 
 {% load static %}
@@ -10,12 +10,12 @@
 
 <main id="main" class="main mt-5">
     <div class="pagetitle">
-        <h1>Activity Log</h1>
+        <h1>Resellers List</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'admin_site:dashboard'%}">Home</a></li>
                 <li class="breadcrumb-item">Reports</li>
-                <li class="breadcrumb-item active">Activity Log</li>
+                <li class="breadcrumb-item active">Resellers List</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -28,7 +28,7 @@
                         <div class="report-u act-d">
                             <div class="row">
                                 <div class="col-7">
-                                    <h5 class="card-title feature">Activity Log</h5>
+                                    <h5 class="card-title feature">Resellers</h5>
                                     <div id="btn-place"></div>
                                     <div class="show-entries mb-4">
                                         <div id="showEntries"></div>
@@ -57,28 +57,40 @@
                         </div>
 
                             <!-- Table with hoverable rows -->
-                        {% if list_reports %}  
+                        {% if list_reseller %}  
                         <div class="table-responsive">
                             
                             <table id="tableRep" class="table table-hover ">
                                 <thead>
                                     <tr class="align-middle">
                                         <th scope="col">#</th>
-                                        <th scope="col">List User</th>
-                                        <th scope="col">Activity</th>
-                                        <th scope="col">Role</th>
-                                        <th scope="col" >Date-Time</th>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Middle Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Sex</th>
+                                        <th scope="col">Contact No</th>
+                                        <th scope="col" >Address</th>
+                                        <th scope="col" >Email</th>
+                                        <!-- <th scope="col" >Valid ID</th> -->
+                                        <!-- <th scope="col" >Business Permit</th> -->
+                                        <th scope="col" >Status</th>
                                     </tr>
                                 </thead>
                             
                                 <tbody id="tableRow">
-                                    {% for list in list_reports %}   
+                                    {% for list in list_reseller %}   
                                     <tr class="align-middle">
                                         <td class="num-row"></td>
-                                        <td>{{ list.user_name }}</td>
-                                        <td>{{ list.activity }}</td>
-                                        <td class="role">{{ list.role }}</td>
-                                        <td class="date-main" id="dateMain">{{ list.date_time|date:"m/d/Y h:i A" }}</td>
+                                        <td style="text-transform: capitalize;">{{ list.reseller_fname }}</td>
+                                        <td style="text-transform: capitalize;">{{ list.reseller_mname }}</td>
+                                        <td style="text-transform: capitalize;">{{ list.reseller_lname }}</td>
+                                        <td>{{ list.reseller_gender }}</td>
+                                        <td>{{ list.reseller_contact }}</td>
+                                        <td style="text-transform: capitalize;" class="pe-5">{{ list.reseller_address }}</td>
+                                        <td>{{ list.reseller_email }}</td>
+                                        
+                                        <!-- <td><i class="ri-eye-fill btn-edit" data-bs-toggle="modal" data-bs-target="#viewPic"></i></a></td> -->
+                                        <td><span class="badge rounded-pill bg-primary">{{ list.reseller_status }}</span></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

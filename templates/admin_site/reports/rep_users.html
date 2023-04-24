@@ -1,7 +1,7 @@
 {% extends 'admin_site/base.html' %}
 
 {% block title %}
-    ACTIVITY LOG
+    REPORTS - USERS LIST
 {% endblock title %}
 
 {% load static %}
@@ -10,12 +10,12 @@
 
 <main id="main" class="main mt-5">
     <div class="pagetitle">
-        <h1>Activity Log</h1>
+        <h1>Users List</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'admin_site:dashboard'%}">Home</a></li>
                 <li class="breadcrumb-item">Reports</li>
-                <li class="breadcrumb-item active">Activity Log</li>
+                <li class="breadcrumb-item active">Users List</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -28,7 +28,7 @@
                         <div class="report-u act-d">
                             <div class="row">
                                 <div class="col-7">
-                                    <h5 class="card-title feature">Activity Log</h5>
+                                    <h5 class="card-title feature">Users</h5>
                                     <div id="btn-place"></div>
                                     <div class="show-entries mb-4">
                                         <div id="showEntries"></div>
@@ -57,28 +57,28 @@
                         </div>
 
                             <!-- Table with hoverable rows -->
-                        {% if list_reports %}  
+                        {% if list_users %}  
                         <div class="table-responsive">
                             
                             <table id="tableRep" class="table table-hover ">
                                 <thead>
                                     <tr class="align-middle">
                                         <th scope="col">#</th>
-                                        <th scope="col">List User</th>
-                                        <th scope="col">Activity</th>
+                                        <th scope="col">Username</th>
+                                        <th scope="col">Email</th>
                                         <th scope="col">Role</th>
-                                        <th scope="col" >Date-Time</th>
+                                        <th scope="col" >Status</th>
                                     </tr>
                                 </thead>
                             
                                 <tbody id="tableRow">
-                                    {% for list in list_reports %}   
+                                    {% for list in list_users %}   
                                     <tr class="align-middle">
                                         <td class="num-row"></td>
-                                        <td>{{ list.user_name }}</td>
-                                        <td>{{ list.activity }}</td>
+                                        <td>{{ list.username }}</td>
+                                        <td>{{ list.email }}</td>
                                         <td class="role">{{ list.role }}</td>
-                                        <td class="date-main" id="dateMain">{{ list.date_time|date:"m/d/Y h:i A" }}</td>
+                                        <td><span class="badge badge-status rounded-pill bg-primary">{{ list.status }}</span></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

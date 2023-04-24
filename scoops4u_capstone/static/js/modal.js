@@ -86,6 +86,8 @@ $(document).ready(function () {
         $('#receiptCart').modal('show').find('.modal-content').load($(this).attr('href'));
     });
 
+    
+
 
 
 });
@@ -93,4 +95,6 @@ $(document).ready(function () {
 setTimeout(function() {
     $('.alert').fadeOut('slow');
 }, 2000); // <-- time in milliseconds, 1000 =  1 sec
+
+
 

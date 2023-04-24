@@ -12,7 +12,8 @@ def dashboard(request):
     transaction_pos_payment = Cart_Payment.objects.filter(cart_status = 'Printed', cart_date=now).aggregate(data =Sum('cart_TotalAmount'))['data']
     context = {
         'transaction_pos_payment':transaction_pos_payment,
-        'transaction_pending':transaction_pending
+        'transaction_pending':transaction_pending,
+        'sidebar' : 'sdashboard'
     }
     return render(request, 'staff_site/dashboard/index.html', context)
 

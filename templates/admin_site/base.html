@@ -69,8 +69,8 @@
   
   <div class="search-bar mx-auto">
     <form class="search-form d-flex align-items-center" method="POST" action="#">
-      <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-      <button type="submit" title="Search"><i class="ri-search-line"></i></button>
+      <input type="text" name="query" placeholder="Search" id="searchInput">
+      <button class="nope" type="submit" title="Search"><i class="ri-search-line"></i></button>
     </form>
   </div><!-- End Search Bar -->
   
@@ -88,15 +88,28 @@
         </a>
       </li><!-- End Search Icon-->
   
-      <li class="nav-item dropdown pe-3">
+      <li class="nav-item dropdown pe-3 header-icon">
   
         <a class="nav-link nav-profile d-flex align-items-center me-3" href="#" data-bs-toggle="dropdown">
-          <!-- {% if list_profile %}
-            {% for list in list_profile %}
-            <img src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
-            {% endfor %}
+          <!-- {% if list.profile_pic %}
+          <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
+          {% else %}
+          <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
           {% endif %} -->
-          <!-- <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i> -->
+
+
+          {% if list_profile %}
+            {% for list in list_profile %}
+              {% if list.profile_pic %}
+                <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
+                {% else %}
+                <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
+              {% endif %}
+            
+            <!-- <img src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle"> -->
+            {% endfor %}
+          {% endif %}
+          <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i>
           <span class="d-none d-md-block dropdown-toggle ps-2" style="text-transform: capitalize;">
             {{ user }}
           </span>
@@ -125,7 +138,781 @@
   </nav><!-- End Icons Navigation -->
 </header><!-- End Header -->
 
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+  <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item {% if sidebar == 'dashboard' %}active-nav{% endif %}">
+              <a class="nav-link {% if sidebar != 'dashboard' %}collapsed{% endif %}" href="{% url 'admin_site:dashboard'%}" id="dash-ad">
+              <i class="ri-apps-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
+              <span>Dashboard</span>
+              </a>
+        </li><!-- End Dashboard Nav -->
 
+        <li class="nav-heading pt-3">Management</li>
+
+        {% if sidebar == 'users' %}
+        <li class="nav-item {% if sidebar == 'users' %}active-nav{% endif %}">
+
+        <!-- <li class="nav-item {% if sidebar == 'users' %}active-nav{% endif %} {% if sidebar == 'reseller' %}active-nav{% endif %} {% if sidebar == 'requests' %}active-nav{% endif %}"> -->
+          <a class="nav-link {% if sidebar != 'users' %}collapsed{% endif %}"data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
+              <i class="ri-user-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>User Accounts</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+          </a>
+          <ul id="users-nav" class="nav-content collapse  {% if sidebar == 'users' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+              <li>
+              <a href="{% url 'admin_site:user_list' %}" class="{% if sidebar == 'users' %}active{% endif %}">
+                  <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Users List</span>
+              </a>
+              </li>
+              <li>
+              <a href="{% url 'admin_site:list_reseller'%}">
+                  <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Resellers List</span>
+              </a>
+              </li>
+              <li>
+              <a href="{% url 'admin_site:list_inquiry'%}">
+                  <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Requests</span>
+              </a>
+              </li>
+              <li>
+                <a href="{% url 'admin_site:list_archive' %}">
+                    <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Archives</span>
+                </a>
+              </li>
+          </ul>
+        </li><!-- End User Accounts Nav -->
+
+
+        {% elif sidebar == 'reseller' %}
+        <li class="nav-item {% if sidebar == 'reseller' %}active-nav{% endif %}">
+
+          <!-- <li class="nav-item {% if sidebar == 'users' %}active-nav{% endif %} {% if sidebar == 'reseller' %}active-nav{% endif %} {% if sidebar == 'requests' %}active-nav{% endif %}"> -->
+            <a class="nav-link {% if sidebar != 'reseller' %}collapsed{% endif %}"data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
+                <i class="ri-user-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>User Accounts</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+            </a>
+            <ul id="users-nav" class="nav-content collapse  {% if sidebar == 'reseller' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+                <li>
+                <a href="{% url 'admin_site:user_list' %}">
+                    <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Users List</span>
+                </a>
+                </li>
+                <li>
+                <a href="{% url 'admin_site:list_reseller'%}" class="{% if sidebar == 'reseller' %}active{% endif %}">
+                    <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Resellers List</span>
+                </a>
+                </li>
+                <li>
+                <a href="{% url 'admin_site:list_inquiry'%}">
+                    <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Requests</span>
+                </a>
+                </li>
+                <li>
+                  <a href="{% url 'admin_site:list_archive' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Archives</span>
+                  </a>
+                </li>
+            </ul>
+          </li><!-- End User Accounts Nav -->
+
+
+        {% elif sidebar == 'requests' %}
+        <li class="nav-item {% if sidebar == 'requests' %}active-nav{% endif %}">
+
+            <a class="nav-link {% if sidebar != 'requests' %}collapsed{% endif %}"data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
+                <i class="ri-user-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>User Accounts</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+            </a>
+            <ul id="users-nav" class="nav-content collapse  {% if sidebar == 'requests' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+                <li>
+                <a href="{% url 'admin_site:user_list' %}">
+                    <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Users List</span>
+                </a>
+                </li>
+                <li>
+                <a href="{% url 'admin_site:list_reseller'%}">
+                    <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Resellers List</span>
+                </a>
+                </li>
+                <li>
+                <a href="{% url 'admin_site:list_inquiry'%}" class="{% if sidebar == 'requests' %}active{% endif %}">
+                    <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Requests</span>
+                </a>
+                </li>
+                <li>
+                  <a href="{% url 'admin_site:list_archive' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Archives</span>
+                  </a>
+                </li>
+            </ul>
+          </li><!-- End User Accounts Nav -->
+
+        {% elif sidebar == 'archived' %}
+        <li class="nav-item {% if sidebar == 'archived' %}active-nav{% endif %}">
+
+            <a class="nav-link {% if sidebar != 'archived' %}collapsed{% endif %}"data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
+                <i class="ri-user-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>User Accounts</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+            </a>
+            <ul id="users-nav" class="nav-content collapse  {% if sidebar == 'archived' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+                <li>
+                <a href="{% url 'admin_site:user_list' %}">
+                    <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Users List</span>
+                </a>
+                </li>
+                <li>
+                <a href="{% url 'admin_site:list_reseller'%}">
+                    <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Resellers List</span>
+                </a>
+                </li>
+                <li>
+                <a href="{% url 'admin_site:list_inquiry'%}" >
+                    <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Requests</span>
+                </a>
+                </li>
+                <li>
+                <a href="{% url 'admin_site:list_archive' %}" class="{% if sidebar == 'archived' %}active{% endif %}">
+                    <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Archives</span>
+                </a>
+                </li>
+            </ul>
+          </li><!-- End User Accounts Nav -->
+
+        {% else %}
+        <li class="nav-item">
+
+            <a class="nav-link collapsed" data-bs-target="#users-nav" data-bs-toggle="collapse" href="#">
+                <i class="ri-user-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>User Accounts</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+            </a>
+            <ul id="users-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li>
+                <a href="{% url 'admin_site:user_list' %}">
+                    <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Users List</span>
+                </a>
+                </li>
+                <li>
+                <a href="{% url 'admin_site:list_reseller'%}">
+                    <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Resellers List</span>
+                </a>
+                </li>
+                <li>
+                <a href="{% url 'admin_site:list_inquiry'%}" >
+                    <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Requests</span>
+                </a>
+                </li>
+                <li>
+                <a href="{% url 'admin_site:list_inquiry'%}">
+                    <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Archives</span>
+                </a>
+                </li>
+            </ul>
+          </li><!-- End User Accounts Nav -->
+        {% endif %}
+
+
+        {% if sidebar == 'product' %}
+        <li class="nav-item {% if sidebar == 'product' %}active-nav{% endif %}">
+        <a class="nav-link {% if sidebar != 'product' %}collapsed{% endif %} " data-bs-target="#inventory-nav" data-bs-toggle="collapse" href="#">
+              <i class="ri-inbox-archive-line"style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
+              <span>Inventory</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+        </a>
+        <ul id="inventory-nav" class="nav-content collapse {% if sidebar == 'product' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+            <li>
+                <a href="{%url 'admin_site:list_product' %}" class="{% if sidebar == 'product' %}active{% endif %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Products</span>
+                </a>
+            </li>
+            <li>
+                <a href="{%url 'admin_site:inventory' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Stocks</span>
+                </a>
+            </li>
+          
+        </ul>
+        </li><!-- End Inventory Page Nav -->
+        {% elif sidebar == 'stocks' %}
+        <li class="nav-item {% if sidebar == 'stocks' %}active-nav{% endif %}">
+          <a class="nav-link {% if sidebar != 'stocks' %}collapsed{% endif %}" data-bs-target="#inventory-nav" data-bs-toggle="collapse" href="#">
+                <i class="ri-inbox-archive-line"style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
+                <span>Inventory</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+          </a>
+          <ul id="inventory-nav" class="nav-content collapse {% if sidebar == 'stocks' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+              <li>
+                  <a href="{%url 'admin_site:list_product' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Products</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{%url 'admin_site:inventory' %}" class="{% if sidebar == 'stocks' %}active{% endif %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Stocks</span>
+                  </a>
+              </li>
+            
+          </ul>
+          </li><!-- End Inventory Page Nav -->
+
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#inventory-nav" data-bs-toggle="collapse" href="#">
+                <i class="ri-inbox-archive-line"style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
+                <span>Inventory</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+          </a>
+          <ul id="inventory-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+              <li>
+                  <a href="{%url 'admin_site:list_product' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Products</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{%url 'admin_site:inventory' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Stocks</span>
+                  </a>
+              </li>
+            
+          </ul>
+          </li><!-- End Inventory Page Nav -->
+          {% endif %}
+
+
+
+
+        {% if sidebar == 'pending' %}
+        <li class="nav-item {% if sidebar == 'pending' %}active-nav{% endif %}">
+        <a class="nav-link {% if sidebar != 'pending' %}collapsed{% endif %}" data-bs-target="#sales-nav" data-bs-toggle="collapse" href="#">
+              <i class="ri-shopping-cart-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Order</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+        </a>
+        <ul id="sales-nav" class="nav-content collapse {% if sidebar == 'pending' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+              <li>
+                  <a href="{% url 'admin_site:transaction_orders' %}" class="{% if sidebar == 'pending' %}active{% endif %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Pending</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{% url 'admin_site:transaction_outshipping' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Out For Delivery</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{% url 'admin_site:transaction_completed' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Delivered</span>
+                  </a>
+              </li>
+              <li>
+                <a href="{%url 'admin_site:inventory' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returns</span>
+                </a>
+            </li>
+        </ul>
+        </li><!-- End Sales Nav -->
+
+        {% elif sidebar == 'orders' %}
+        <li class="nav-item {% if sidebar == 'orders' %}active-nav{% endif %}">
+        <a class="nav-link {% if sidebar != 'orders' %}collapsed{% endif %}" data-bs-target="#sales-nav" data-bs-toggle="collapse" href="#">
+              <i class="ri-shopping-cart-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Order</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+        </a>
+        <ul id="sales-nav" class="nav-content collapse {% if sidebar == 'orders' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+              <li>
+                  <a href="{% url 'admin_site:transaction_orders' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Pending</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{% url 'admin_site:transaction_outshipping' %}" class="{% if sidebar == 'orders' %}active{% endif %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Out For Delivery</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{% url 'admin_site:transaction_completed' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Delivered</span>
+                  </a>
+              </li>
+              <li>
+                <a href="{%url 'admin_site:inventory' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returns</span>
+                </a>
+            </li>
+        </ul>
+        </li><!-- End Sales Nav -->
+
+        {% elif sidebar == 'completed' %}
+        <li class="nav-item {% if sidebar == 'completed' %}active-nav{% endif %}">
+        <a class="nav-link {% if sidebar != 'completed' %}collapsed{% endif %}" data-bs-target="#sales-nav" data-bs-toggle="collapse" href="#">
+              <i class="ri-shopping-cart-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Order</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+        </a>
+        <ul id="sales-nav" class="nav-content collapse {% if sidebar == 'completed' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+              <li>
+                  <a href="{% url 'admin_site:transaction_orders' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Pending</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{% url 'admin_site:transaction_outshipping' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Out For Delivery</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{% url 'admin_site:transaction_completed' %}" class="{% if sidebar == 'completed' %}active{% endif %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Delivered</span>
+                  </a>
+              </li>
+              <li>
+                <a href="{%url 'admin_site:inventory' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returns</span>
+                </a>
+            </li>
+        </ul>
+        </li><!-- End Sales Nav -->
+
+        {% else %}
+        <li class="nav-item">
+        <a class="nav-link collapsed " data-bs-target="#sales-nav" data-bs-toggle="collapse" href="#">
+              <i class="ri-shopping-cart-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Order</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+        </a>
+        <ul id="sales-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+              <li>
+                  <a href="{% url 'admin_site:transaction_orders' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Pending</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{% url 'admin_site:transaction_outshipping' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Out For Delivery</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{% url 'admin_site:transaction_completed' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Delivered</span>
+                  </a>
+              </li>
+              <li>
+                <a href="{%url 'admin_site:inventory' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returns</span>
+                </a>
+            </li>
+        </ul>
+        </li><!-- End Sales Nav -->
+        {% endif %}
+
+
+
+
+
+        <li class="nav-heading pt-3">Reports</li>
+        {% if sidebar == 'act_log' %}
+        <li class="mb-act nav-item {% if sidebar == 'act_log' %}active-nav{% endif %}">
+              <a class="nav-link {% if sidebar != 'act_log' %}collapsed{% endif %}" data-bs-target="#reports-nav" data-bs-toggle="collapse" href="#">
+                  <i class="ri-file-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Reports</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+              </a>
+              <ul id="reports-nav" class="nav-content collapse {% if sidebar == 'act_log' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+                  <li>
+                      <a href="{% url 'admin_site:report_users' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Users List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_res' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Resellers List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_product' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Products List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_stocks' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Stocks</span>
+                      </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_actlog' %}" class="{% if sidebar == 'act_log' %}active{% endif %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Activity Log</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_online_sales' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Online Sales</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_pos_sales' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>POS Sales</span>
+                        </a>
+                  </li>
+              </ul>
+        </li>
+
+        {% elif sidebar == 'os' %}
+        <li class="mb-act nav-item {% if sidebar == 'os' %}active-nav{% endif %}">
+              <a class="nav-link {% if sidebar != 'os' %}collapsed{% endif %}" data-bs-target="#reports-nav" data-bs-toggle="collapse" href="#">
+                  <i class="ri-file-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Reports</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+              </a>
+              <ul id="reports-nav" class="nav-content collapse {% if sidebar == 'os' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+                  <li>
+                      <a href="{% url 'admin_site:report_users' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Users List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_res' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Resellers List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_product' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Products List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_stocks' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Stocks</span>
+                      </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_actlog' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Activity Log</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_online_sales' %}" class="{% if sidebar == 'os' %}active{% endif %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Online Sales</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_pos_sales' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>POS Sales</span>
+                        </a>
+                  </li>
+              </ul>
+        </li>
+
+        {% elif sidebar == 'posS' %}
+        <li class="mb-act nav-item {% if sidebar == 'posS' %}active-nav{% endif %}">
+              <a class="nav-link {% if sidebar != 'posS' %}collapsed{% endif %}" data-bs-target="#reports-nav" data-bs-toggle="collapse" href="#">
+                  <i class="ri-file-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Reports</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+              </a>
+              <ul id="reports-nav" class="nav-content collapse {% if sidebar == 'posS' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+                  <li>
+                      <a href="{% url 'admin_site:report_users' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Users List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_res' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Resellers List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_product' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Products List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_stocks' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Stocks</span>
+                      </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_actlog' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Activity Log</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_online_sales' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Online Sales</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_pos_sales' %}" class="{% if sidebar == 'posS' %}active{% endif %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>POS Sales</span>
+                        </a>
+                  </li>
+              </ul>
+        </li>
+
+        {% elif sidebar == 'rep_users' %}
+        <li class="mb-act nav-item {% if sidebar == 'rep_users' %}active-nav{% endif %}">
+              <a class="nav-link {% if sidebar != 'rep_users' %}collapsed{% endif %}" data-bs-target="#reports-nav" data-bs-toggle="collapse" href="#">
+                  <i class="ri-file-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Reports</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+              </a>
+              <ul id="reports-nav" class="nav-content collapse {% if sidebar == 'rep_users' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+                  <li>
+                      <a href="{% url 'admin_site:report_users' %}" class="{% if sidebar == 'rep_users' %}active{% endif %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Users List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_res' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Resellers List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_product' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Products List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_stocks' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Stocks</span>
+                      </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_actlog' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Activity Log</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_online_sales' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Online Sales</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_pos_sales' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>POS Sales</span>
+                        </a>
+                  </li>
+              </ul>
+        </li>
+
+        {% elif sidebar == 'rep_res' %}
+        <li class="mb-act nav-item {% if sidebar == 'rep_res' %}active-nav{% endif %}">
+              <a class="nav-link {% if sidebar != 'rep_res' %}collapsed{% endif %}" data-bs-target="#reports-nav" data-bs-toggle="collapse" href="#">
+                  <i class="ri-file-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Reports</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+              </a>
+              <ul id="reports-nav" class="nav-content collapse {% if sidebar == 'rep_res' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+                  <li>
+                      <a href="{% url 'admin_site:report_users' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Users List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_res' %}" class="{% if sidebar == 'rep_res' %}active{% endif %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Resellers List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_product' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Products List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_stocks' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Stocks</span>
+                      </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_actlog' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Activity Log</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_online_sales' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Online Sales</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_pos_sales' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>POS Sales</span>
+                        </a>
+                  </li>
+              </ul>
+        </li>
+
+
+        {% elif sidebar == 'rep_prod' %}
+        <li class="mb-act nav-item {% if sidebar == 'rep_prod' %}active-nav{% endif %}">
+              <a class="nav-link {% if sidebar != 'rep_prod' %}collapsed{% endif %}" data-bs-target="#reports-nav" data-bs-toggle="collapse" href="#">
+                  <i class="ri-file-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Reports</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+              </a>
+              <ul id="reports-nav" class="nav-content collapse {% if sidebar == 'rep_prod' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+                  <li>
+                      <a href="{% url 'admin_site:report_users' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Users List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_res' %}" >
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Resellers List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_product' %}" class="{% if sidebar == 'rep_prod' %}active{% endif %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Products List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_stocks' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Stocks</span>
+                      </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_actlog' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Activity Log</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_online_sales' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Online Sales</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_pos_sales' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>POS Sales</span>
+                        </a>
+                  </li>
+              </ul>
+        </li>
+
+
+        {% elif sidebar == 'rep_stocks' %}
+        <li class="mb-act nav-item {% if sidebar == 'rep_stocks' %}active-nav{% endif %}">
+              <a class="nav-link {% if sidebar != 'rep_stocks' %}collapsed{% endif %}" data-bs-target="#reports-nav" data-bs-toggle="collapse" href="#">
+                  <i class="ri-file-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Reports</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+              </a>
+              <ul id="reports-nav" class="nav-content collapse {% if sidebar == 'rep_stocks' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+                  <li>
+                      <a href="{% url 'admin_site:report_users' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Users List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_res' %}" >
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Resellers List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_product' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Products List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_stocks' %}" class="{% if sidebar == 'rep_stocks' %}active{% endif %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Stocks</span>
+                      </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_actlog' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Activity Log</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_online_sales' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Online Sales</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_pos_sales' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>POS Sales</span>
+                        </a>
+                  </li>
+              </ul>
+        </li>
+
+
+        {% else %}
+        <li class="mb-act nav-item">
+              <a class="nav-link collapsed " data-bs-target="#reports-nav" data-bs-toggle="collapse" href="#">
+                  <i class="ri-file-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Reports</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+              </a>
+              <ul id="reports-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                  <li>
+                      <a href="{% url 'admin_site:report_users' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Users List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_res' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Resellers List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_product' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Products List</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_site:report_stocks' %}">
+                            <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Stocks</span>
+                      </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_actlog' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Activity Log</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_online_sales' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Online Sales</span>
+                        </a>
+                  </li>
+                  <li>
+                        <a href="{% url 'admin_site:report_pos_sales' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>POS Sales</span>
+                        </a>
+                  </li>
+              </ul>
+        </li>
+        {% endif %}
+
+
+
+
+
+        <li class="nav-heading pt-3">Others</li>
+        {% if sidebar == 'product_settings' %}
+        <li class="nav-item {% if sidebar == 'product_settings' %}active-nav{% endif %}">
+              <a class="nav-link {% if sidebar != 'product_settings' %}collapsed{% endif %}" data-bs-target="#settings-nav" data-bs-toggle="collapse" href="#">
+                  <i class="ri-settings-3-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Settings</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+              </a>
+              <ul id="settings-nav" class="nav-content collapse {% if sidebar == 'product_settings' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+                  <!-- <li>
+                  <a href="{% url 'admin_site:settings_profile' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Edit Profile</span>
+                  </a>
+                  </li>
+                  <li>
+                  <a href="{% url 'admin_site:list_archive' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Archived Resellers</span>
+                  </a>
+                  </li> -->
+                  <li>
+                  <a href="{% url 'admin_site:settings_product' %}" class="{% if sidebar == 'product_settings' %}active{% endif %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Settings</span>
+                  </a>
+                  </li>
+              </ul>
+        </li>
+
+        {% else %}
+        <li class="nav-item">
+              <a class="nav-link collapsed " data-bs-target="#settings-nav" data-bs-toggle="collapse" href="#">
+                  <i class="ri-settings-3-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Settings</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+              </a>
+              <ul id="settings-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                  <!-- <li>
+                  <a href="{% url 'admin_site:settings_profile' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Edit Profile</span>
+                  </a>
+                  </li>
+                  <li>
+                  <a href="{% url 'admin_site:list_archive' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Archived Resellers</span>
+                  </a>
+                  </li> -->
+                  <li>
+                  <a href="{% url 'admin_site:settings_product' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Settings</span>
+                  </a>
+                  </li>
+              </ul>
+        </li>
+        {% endif %}
+
+
+        
+        <li class="nav-item {% if sidebar == 'support' %}active-nav{% endif %}">
+              <a href="{% url 'admin_site:support' %}" class="nav-link {% if sidebar != 'support' %}collapsed{% endif %}">
+                  <i class="ri-information-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Support</span>
+              </a>
+        </li>
+</ul>
+</aside><!-- End Sidebar-->
 {% endif %}
 
 
@@ -142,8 +929,8 @@
   
   <div class="search-bar mx-auto">
     <form class="search-form d-flex align-items-center" method="POST" action="#">
-      <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-      <button type="submit" title="Search"><i class="ri-search-line"></i></button>
+      <input type="text" name="query" placeholder="Search" id="searchInput">
+      <button class="nope" type="submit" title="Search"><i class="ri-search-line"></i></button>
     </form>
   </div><!-- End Search Bar -->
   
@@ -163,11 +950,11 @@
       <li class="nav-item dropdown pe-3">
   
         <a class="nav-link nav-profile d-flex align-items-center me-3" href="#" data-bs-toggle="dropdown">
-          <!-- {% if list_profile %}
-          {% for list in list_profile %}
-          <img src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
-          {% endfor %}
-        {% endif %} -->
+          {% if list.profile_pic %}
+          <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
+          {% else %}
+          <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
+          {% endif %}
           <!-- <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i> -->
           <span class="d-none d-md-block dropdown-toggle ps-2" style="text-transform: capitalize;">
             {{ user }}
@@ -198,6 +985,174 @@
 </header><!-- End Header -->
 
 
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+  <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item {% if sidebar == 'sdashboard' %}active-nav{% endif %}">
+              <a class="nav-link {% if sidebar != 'sdashboard' %}collapsed{% endif %}" href="{% url 'staff_site:dashboard'%}">
+              <i class="ri-apps-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
+              <span>Dashboard</span>
+              </a>
+        </li><!-- End Dashboard Nav -->
+
+        <li class="nav-heading pt-3">Management</li>
+
+        {% if sidebar == 'product' %}
+        <li class="nav-item {% if sidebar == 'product' %}active-nav{% endif %}">
+        <a class="nav-link {% if sidebar != 'product' %}collapsed{% endif %} " data-bs-target="#inventory-nav" data-bs-toggle="collapse" href="#">
+              <i class="ri-inbox-archive-line"style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
+              <span>Inventory</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+        </a>
+        <ul id="inventory-nav" class="nav-content collapse {% if sidebar == 'product' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+            <li>
+                <a href="{%url 'admin_site:list_product' %}" class="{% if sidebar == 'product' %}active{% endif %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Products</span>
+                </a>
+            </li>
+            <li>
+                <a href="{%url 'admin_site:inventory' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Stocks</span>
+                </a>
+            </li>
+          
+        </ul>
+        </li><!-- End Inventory Page Nav -->
+        {% elif sidebar == 'stocks' %}
+        <li class="nav-item {% if sidebar == 'stocks' %}active-nav{% endif %}">
+          <a class="nav-link {% if sidebar != 'stocks' %}collapsed{% endif %}" data-bs-target="#inventory-nav" data-bs-toggle="collapse" href="#">
+                <i class="ri-inbox-archive-line"style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
+                <span>Inventory</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+          </a>
+          <ul id="inventory-nav" class="nav-content collapse {% if sidebar == 'stocks' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+              <li>
+                  <a href="{%url 'admin_site:list_product' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Products</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{%url 'admin_site:inventory' %}" class="{% if sidebar == 'stocks' %}active{% endif %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Stocks</span>
+                  </a>
+              </li>
+            
+          </ul>
+          </li><!-- End Inventory Page Nav -->
+
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#inventory-nav" data-bs-toggle="collapse" href="#">
+                <i class="ri-inbox-archive-line"style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
+                <span>Inventory</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+          </a>
+          <ul id="inventory-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+              <li>
+                  <a href="{%url 'admin_site:list_product' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Products</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{%url 'admin_site:inventory' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Stocks</span>
+                  </a>
+              </li>
+            
+          </ul>
+          </li><!-- End Inventory Page Nav -->
+          {% endif %}
+
+
+
+
+        {% if sidebar == 'pending' %}
+        <li class="nav-item {% if sidebar == 'pending' %}active-nav{% endif %}">
+        <a class="nav-link {% if sidebar != 'pending' %}collapsed{% endif %}" data-bs-target="#sales-nav" data-bs-toggle="collapse" href="#">
+              <i class="ri-shopping-cart-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Order</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+        </a>
+        <ul id="sales-nav" class="nav-content collapse {% if sidebar == 'pending' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+              <li>
+                  <a href="{% url 'admin_site:transaction_orders' %}" class="{% if sidebar == 'pending' %}active{% endif %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Pending</span>
+                  </a>
+              </li>
+        </ul>
+        </li><!-- End Sales Nav -->
+
+
+        {% else %}
+        <li class="nav-item">
+        <a class="nav-link collapsed " data-bs-target="#sales-nav" data-bs-toggle="collapse" href="#">
+              <i class="ri-shopping-cart-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Order</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+        </a>
+        <ul id="sales-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+              <li>
+                  <a href="{% url 'admin_site:transaction_orders' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Pending</span>
+                  </a>
+              </li>
+        </ul>
+        </li><!-- End Sales Nav -->
+        {% endif %}
+
+        <li class="nav-heading pt-3">Others</li>
+        {% if sidebar == 'product_settings' %}
+        <li class="nav-item {% if sidebar == 'product_settings' %}active-nav{% endif %}">
+              <a class="nav-link {% if sidebar != 'product_settings' %}collapsed{% endif %}" data-bs-target="#settings-nav" data-bs-toggle="collapse" href="#">
+                  <i class="ri-settings-3-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Settings</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+              </a>
+              <ul id="settings-nav" class="nav-content collapse {% if sidebar == 'product_settings' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+                  <!-- <li>
+                  <a href="{% url 'admin_site:settings_profile' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Edit Profile</span>
+                  </a>
+                  </li>
+                  <li>
+                  <a href="{% url 'admin_site:list_archive' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Archived Resellers</span>
+                  </a>
+                  </li> -->
+                  <li>
+                  <a href="{% url 'admin_site:settings_product' %}" class="{% if sidebar == 'product_settings' %}active{% endif %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Settings</span>
+                  </a>
+                  </li>
+              </ul>
+        </li>
+
+        {% else %}
+        <li class="nav-item">
+              <a class="nav-link collapsed " data-bs-target="#settings-nav" data-bs-toggle="collapse" href="#">
+                  <i class="ri-settings-3-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Settings</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+              </a>
+              <ul id="settings-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                  <!-- <li>
+                  <a href="{% url 'admin_site:settings_profile' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Edit Profile</span>
+                  </a>
+                  </li>
+                  <li>
+                  <a href="{% url 'admin_site:list_archive' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Archived Resellers</span>
+                  </a>
+                  </li> -->
+                  <li>
+                  <a href="{% url 'admin_site:settings_product' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Product Settings</span>
+                  </a>
+                  </li>
+              </ul>
+        </li>
+        {% endif %}
+
+
+        
+        <li class="nav-item {% if sidebar == 'support' %}active-nav{% endif %}">
+              <a href="{% url 'admin_site:support' %}" class="nav-link {% if sidebar != 'support' %}collapsed{% endif %}">
+                  <i class="ri-information-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Support</span>
+              </a>
+        </li>
+</ul>
+</aside><!-- End Sidebar-->
+
 
 {% endif %}
 
@@ -214,8 +1169,8 @@
   
   <div class="search-bar mx-auto">
     <form class="search-form d-flex align-items-center" method="POST" action="#">
-      <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-      <button type="submit" title="Search"><i class="ri-search-line"></i></button>
+      <input type="text" name="query" placeholder="Search" id="searchInput">
+      <button class="nope" type="submit" title="Search"><i class="ri-search-line"></i></button>
     </form>
   </div><!-- End Search Bar -->
   
@@ -240,6 +1195,11 @@
             <img src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
             {% endfor %}
           {% endif %} -->
+          {% if list.profile_pic %}
+          <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
+          {% else %}
+          <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
+          {% endif %}
           <!-- <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i> -->
           <span class="d-none d-md-block dropdown-toggle ps-2" style="text-transform: capitalize;">
             {{ user }}
@@ -269,6 +1229,34 @@
   </nav><!-- End Icons Navigation -->
 </header><!-- End Header -->
 
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+  <ul class="sidebar-nav" id="sidebar-nav">
+
+  <li class="nav-item {% if sidebar == 'resdashboard' %}active-nav{% endif %}">
+      <a class="nav-link {% if sidebar != 'resdashboard' %}collapsed{% endif %}" href="{% url 'reseller_site:dashboard'%}">
+      <i class="ri-apps-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
+      <span>Dashboard</span>
+      </a>
+  </li><!-- End Dashboard Nav -->
+
+  <li class="nav-heading pt-3">Management</li>
+  <li class="nav-item {% if sidebar == 'resorders' %}active-nav{% endif %}">
+  <a class="nav-link {% if sidebar != 'resorders' %}collapsed{% endif %}" href="{% url 'reseller_site:transaction_orders'  %}">
+      <i class="ri-shopping-bag-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
+      <span>Orders</span>
+  </a>
+  </li><!-- End Products Page Nav -->
+
+  <li class="nav-heading pt-3">Others</li>
+  <li class="nav-item {% if sidebar == 'support' %}active-nav{% endif %}">
+      <a href="{% url 'admin_site:support' %}" class="nav-link {% if sidebar != 'support' %}collapsed{% endif %}">
+          <i class="ri-information-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Support</span>
+      </a>
+  </li>
+</ul>
+</aside><!-- End Sidebar-->
+
 {% endif %}
 
 {% if user.role == "rider"%}
@@ -284,8 +1272,8 @@
   
   <div class="search-bar mx-auto">
     <form class="search-form d-flex align-items-center" method="POST" action="#">
-      <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-      <button type="submit" title="Search"><i class="ri-search-line"></i></button>
+      <input type="text" name="query" placeholder="Search" id="searchInput">
+      <button class="nope" type="submit" title="Search"><i class="ri-search-line"></i></button>
     </form>
   </div><!-- End Search Bar -->
   
@@ -305,6 +1293,12 @@
             <img src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
             {% endfor %}
           {% endif %} -->
+
+          {% if list.profile_pic %}
+          <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
+          {% else %}
+          <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
+          {% endif %}
           <!-- <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i> -->
           <span class="d-none d-md-block dropdown-toggle ps-2" style="text-transform: capitalize;">
             {{ user }}
@@ -333,6 +1327,55 @@
     </ul>
   </nav><!-- End Icons Navigation -->
 </header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+  <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item {% if sidebar == 'riderdashboard' %}active-nav{% endif %}">
+          <a class="nav-link {% if sidebar != 'riderdashboard' %}collapsed{% endif %}" href="{% url 'rider_site:dashboard'%}">
+          <i class="ri-apps-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
+          <span>Dashboard</span>
+          </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-heading pt-3">Management</li>
+      <li class="nav-item {% if sidebar == 'riderorders' %}active-nav{% endif %}">
+      <a class="nav-link {% if sidebar != 'riderorders' %}collapsed{% endif %}" href="{% url 'rider_site:transaction_orders'  %}">
+          <i class="ri-truck-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
+          <span>Delivery</span>
+      </a>
+      </li><!-- End Products Page Nav -->
+
+      <li class="nav-heading pt-3">Reports</li>
+      <li class="nav-item {% if sidebar == 'riderreport' %}active-nav{% endif %}">
+          <a class="nav-link {% if sidebar != 'riderreport' %}collapsed{% endif %}" href="{% url 'rider_site:report_deliver'%}">
+              <i class="ri-file-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
+              <span>Delivery Report</span>
+          </a>
+      </li><!-- End Reports Page Nav -->
+
+      <li class="nav-heading pt-3">Others</li>
+      <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#settings-nav" data-bs-toggle="collapse" href="#">
+              <i class="ri-settings-3-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Settings</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+          </a>
+          <ul id="settings-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+              <li>
+              <a href="{% url 'admin_site:settings_profile' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Edit Profile</span>
+              </a>
+              </li>
+          </ul>
+      </li>
+
+      <li class="nav-item {% if sidebar == 'support' %}active-nav{% endif %}">
+        <a href="{% url 'admin_site:support' %}" class="nav-link {% if sidebar != 'support' %}collapsed{% endif %}">
+            <i class="ri-information-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Support</span>
+        </a>
+      </li>
+  </ul>
+</aside><!-- End Sidebar-->
 
 
 {% endif %}

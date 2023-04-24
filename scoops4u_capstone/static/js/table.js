@@ -33,9 +33,10 @@ $(document).ready(function () {
                 targets: 0, 
             },
         ],
-        order: [[1, 'asc']],
+        // order: [[1, 'asc']],
 
-        
+         // order: [[1, 'asc']],
+        order: [] 
     });
 
     $('#btn-place').html(table.buttons().container()); 
@@ -91,7 +92,8 @@ $(document).ready(function () {
                 targets: 0, 
             },
         ],
-        order: [[1, 'asc']],
+        // order: [[1, 'asc']],
+        order: [] 
     });
 
     // for row numbers
@@ -209,9 +211,9 @@ $(document).ready(function () {
                 targets: 0, 
             },
         ],
-        order: [[1, 'asc']],
+        // order: [[1, 'asc']],
 
-        
+        order: [] 
     });
 
 
@@ -505,8 +507,9 @@ $.fn.dataTable.ext.search.push(
                     targets: 0, 
                 },
             ],
-            order: [[1, 'asc']],
-    
+            // order: [[1, 'asc']],
+
+            order: [] 
             
         });
     
@@ -652,8 +655,8 @@ $.fn.dataTable.ext.search.push(
                 targets: 0, 
             },
         ],
-        order: [[1, 'asc']],
-
+        // order: [[1, 'asc']],
+        order: [] 
         
     });
 
@@ -767,7 +770,8 @@ $.fn.dataTable.ext.search.push(
                 targets: 0, 
             },
         ],
-        order: [[1, 'asc']],
+        // order: [[1, 'asc']],
+        order: [] 
     });
 
     // for row numbers
@@ -856,7 +860,8 @@ $.fn.dataTable.ext.search.push(
                 targets: 0, 
             },
         ],
-        order: [[1, 'asc']],
+        // order: [[1, 'asc']],
+        order: [] 
     });
 
     // for row numbers

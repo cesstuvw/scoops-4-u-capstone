@@ -20,7 +20,8 @@ def dashboard(request):
         'list_numberorder':list_numberorder,
         'transaction_pending':transaction_pending,
         'transaction_shipped':transaction_shipped,
-        'transaction_decline':transaction_decline
+        'transaction_decline':transaction_decline,
+        'sidebar':'resdashboard'
     }
     return render(request, 'reseller_site/dashboard/index.html',context)
 
@@ -265,7 +266,8 @@ def checkout(request):
 def transaction_orders(request):
     list_transaction = Transaction.objects.filter(transaction_user= request.user).order_by('-id')
     context = {
-        'list_transaction':list_transaction
+        'list_transaction':list_transaction,
+        'sidebar':'resorders'
     }
     return render(request, 'reseller_site/orders/orders.html', context)
 

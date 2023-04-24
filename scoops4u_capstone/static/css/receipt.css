@@ -141,7 +141,7 @@ text-decoration: none;
 .pos-receipt{
     /* box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.1); */
     width: 19rem;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     padding: 1.2rem;
     border: 1px solid var(--primary-c-black);
     /* text-align: center; */
@@ -316,6 +316,14 @@ footer span{
 }
 
 @media print {
+    .main{
+        /* display: flex; */
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+        flex-direction: column;
+    }
+
+
     .hidden-print,
     .hidden-print * {
         display: none !important;

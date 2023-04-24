@@ -1,21 +1,22 @@
 {% extends 'admin_site/base.html' %}
 
 {% block title %}
-    ACTIVITY LOG
+    REPORTS - PRODUCTS LIST
 {% endblock title %}
 
 {% load static %}
+{% load humanize %}
 {% block content %}
 
 
 <main id="main" class="main mt-5">
     <div class="pagetitle">
-        <h1>Activity Log</h1>
+        <h1>Products List</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'admin_site:dashboard'%}">Home</a></li>
                 <li class="breadcrumb-item">Reports</li>
-                <li class="breadcrumb-item active">Activity Log</li>
+                <li class="breadcrumb-item active">Products List</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -28,7 +29,7 @@
                         <div class="report-u act-d">
                             <div class="row">
                                 <div class="col-7">
-                                    <h5 class="card-title feature">Activity Log</h5>
+                                    <h5 class="card-title feature">Products</h5>
                                     <div id="btn-place"></div>
                                     <div class="show-entries mb-4">
                                         <div id="showEntries"></div>
@@ -57,28 +58,46 @@
                         </div>
 
                             <!-- Table with hoverable rows -->
-                        {% if list_reports %}  
+                        {% if list_products %}  
                         <div class="table-responsive">
                             
                             <table id="tableRep" class="table table-hover ">
                                 <thead>
                                     <tr class="align-middle">
                                         <th scope="col">#</th>
-                                        <th scope="col">List User</th>
-                                        <th scope="col">Activity</th>
-                                        <th scope="col">Role</th>
-                                        <th scope="col" >Date-Time</th>
+                                        <th scope="col">Product Code</th>
+                                        <th scope="col">Product Name</th>
+                                        <th scope="col">Product Category</th>
+                                        <th scope="col">Unit</th>
+                                        <th scope="col">Reseller Price</th>
+                                        <th scope="col" >POS Price</th>
+                                        <th scope="col" >Available Stock</th>
+                                        <th scope="col" >Status</th>
                                     </tr>
                                 </thead>
                             
                                 <tbody id="tableRow">
-                                    {% for list in list_reports %}   
+                                    {% for list in list_products %}   
                                     <tr class="align-middle">
                                         <td class="num-row"></td>
-                                        <td>{{ list.user_name }}</td>
-                                        <td>{{ list.activity }}</td>
-                                        <td class="role">{{ list.role }}</td>
-                                        <td class="date-main" id="dateMain">{{ list.date_time|date:"m/d/Y h:i A" }}</td>
+                                        <td class="modal-view-product">
+                                            <a href="{% url 'admin_site:view_product' list.id %}" data-bs-toggle="modal" data-bs-target="#viewProductModal" class="text-decoration-none"><span >{{ list.product_code }}</span></a>
+                                        </td>
+                                        <td style="text-transform: capitalize;">{{ list.product_name }}</td>
+                                        <td style="text-transform: capitalize;">{{ list.product_category }}</td>
+                                        <td>{{ list.product_unit }}</td>
+                                        <td>Php {{ list.product_ResellerPrice|floatformat:2|intcomma }}</td>
+                                        <td>Php {{ list.product_price|floatformat:2|intcomma }}</td>
+                                        <td class="stock-status">{{ list.product_stock }}</td>
+
+
+                                        <!-- <td><span class="badge badge-stat-prod rounded-pill bg-primary">{{ list.product_status }}</span></td> -->
+
+                                        {% if list.product_status == "available" %}
+                                        <td><span class="badge rounded-pill bg-primary">{{ list.product_status }}</span></td>
+                                        {% else %}
+                                        <td><span class="badge rounded-pill bg-danger">{{ list.product_status }}</span></td>
+                                        {% endif %}
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -94,6 +113,15 @@
         </div>
     </section>
 </main>
+
+<!-- VIEW PRODUCT -->
+<div class="modal fade border-0"  id="viewProductModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg moda">
+        <div class="modal-content border-0 p-4">
+            
+        </div>
+    </div>
+</div>
 
 
 {% endblock content %}

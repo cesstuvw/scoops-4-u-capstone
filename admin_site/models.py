@@ -147,7 +147,7 @@ class Profile(models.Model):
     profile_cnumber = models.BigIntegerField( null=False, verbose_name="Contact Number")
     profile_address = models.TextField(null=False, verbose_name="Address")
     profile_email = models.CharField( max_length=100, null=False, verbose_name="Email Address")
-    profile_pic =models.ImageField( upload_to=image_path,null=True, verbose_name='Profile Pic')
+    profile_pic =models.ImageField( upload_to=image_path,null=True, default='img/default_profile.jpg', verbose_name='Profile Pic')
 
     def __str__(self):
         return self.profile_email

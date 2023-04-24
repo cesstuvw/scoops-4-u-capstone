@@ -12,7 +12,8 @@ def dashboard(request):
     list_complete = Transaction.objects.filter(transaction_orderstatus = "Completed").count()
     context ={
         'list_pending':list_pending,
-        'list_complete':list_complete
+        'list_complete':list_complete,
+        'sidebar' : 'riderdashboard'
     }
     return render(request, 'rider_site/dashboard/index.html', context)
 
@@ -53,7 +54,8 @@ def transaction_orders(request):
     status = "Out for Delivery"
     list_transaction = Transaction.objects.filter(transaction_orderstatus = status).order_by('-id')
     context = {
-        'list_transaction':list_transaction
+        'list_transaction':list_transaction,
+        'sidebar' : 'riderorders'
     }
     return render(request, 'rider_site/orders/index.html', context)
 
@@ -101,7 +103,8 @@ def completed_process(request):
 def report_deliver(request):
     list_transaction = Transaction.objects.filter(transaction_orderstatus = "Completed").order_by('-id')
     context = {
-        'list_transaction':list_transaction
+        'list_transaction':list_transaction,
+        'sidebar' : 'riderreport'
     }
     return render(request, 'rider_site/report/index.html',context)
 

@@ -93,6 +93,10 @@ urlpatterns = [
     path('reports/activity-log/', views.report_actlog, name='report_actlog'),
     path('reports/pos-sales/', views.report_pos_sales, name='report_pos_sales'),
     path('reports/online-sales/', views.report_online_sales, name='report_online_sales'),
+    path('reports/users/', views.report_users, name='report_users'),
+    path('reports/resellers/', views.report_res, name='report_res'),
+    path('reports/product/', views.report_product, name='report_product'),
+    path('reports/stocks/', views.report_stocks, name='report_stocks'),
 
 
     path('register/<int:inquiryid>/', views.register, name='register'),
