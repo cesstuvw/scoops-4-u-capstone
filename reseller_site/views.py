@@ -183,8 +183,9 @@ def checkout(request):
             for item in NewOrderItems:
                 OrderItem.objects.create(
                     OrderItem_transactionNo = trackno,
-                    OrderItem_category = item.cart_category,
                     OrderItem_name = item.cart_name,
+                    OrderItem_flavor = item.cart_flavor,
+                    OrderItem_category = item.cart_category,
                     OrderItem_unit = item.cart_unit,
                     OrderItem_quantity  = item.cart_quantity,
                     OrderItem_amount= item.cart_amount
@@ -198,13 +199,15 @@ def checkout(request):
                     minus_stock =  current_stock - cart_quantity	
                     products.product_stock = minus_stock	
                     products.save()	
-            
-                    if products.product_stock == 0:	
+                    if products.product_stock <= 20:	
                         products.product_status = "not available"	
-                        products.save()
-            pos.delete()
-            messages.success(request, ("Please wait for your order"))
-            return redirect('reseller_site:transaction_orders')
+                        products.save()	
+                    elif products.product_stock == 0:	
+                        products.product_status = "not available"	
+                        products.save()	
+                pos.delete()	
+                messages.success(request, ("Please wait for your order"))	
+                return redirect('reseller_site:transaction_orders')
         else:
             NewTransaction = Transaction()
             NewTransaction.transaction_user = request.user
@@ -238,8 +241,9 @@ def checkout(request):
             for item in NewOrderItems:
                 OrderItem.objects.create(
                     OrderItem_transactionNo = trackno,
-                    OrderItem_category = item.cart_category,
                     OrderItem_name = item.cart_name,
+                    OrderItem_flavor = item.cart_flavor,
+                    OrderItem_category = item.cart_category,
                     OrderItem_unit = item.cart_unit,
                     OrderItem_quantity  = item.cart_quantity,
                     OrderItem_amount= item.cart_ResellerAmount
@@ -252,10 +256,13 @@ def checkout(request):
                         current_stock = int(products.product_stock)	
                         minus_stock =   current_stock - cart_quantity	
                         products.product_stock = minus_stock	
-                        products.save()	
+                        products.save()
                     
                         if products.product_stock == 0:	
                             products.product_status = "not available"	
+                            products.save()	
+                        elif products.product_stock <= 20:	
+                            products.product_status = "low stock"	
                             products.save()
                 pos.delete()
             messages.success(request, ("Please wait for your orders"))

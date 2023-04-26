@@ -101,9 +101,9 @@
           {% if list_profile %}
             {% for list in list_profile %}
               {% if list.profile_pic %}
-                <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
+                <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
                 {% else %}
-                <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
+                <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
               {% endif %}
             
             <!-- <img src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle"> -->
@@ -947,15 +947,15 @@
         </a>
       </li><!-- End Search Icon-->
   
-      <li class="nav-item dropdown pe-3">
+      <li class="nav-item dropdown pe-3 header-icon">
   
         <a class="nav-link nav-profile d-flex align-items-center me-3" href="#" data-bs-toggle="dropdown">
           {% if list.profile_pic %}
-          <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
+          <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
           {% else %}
-          <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
+          <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
           {% endif %}
-          <!-- <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i> -->
+          <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i>
           <span class="d-none d-md-block dropdown-toggle ps-2" style="text-transform: capitalize;">
             {{ user }}
           </span>
@@ -1187,7 +1187,7 @@
         </a>
       </li><!-- End Search Icon-->
   
-      <li class="nav-item dropdown pe-3">
+      <li class="nav-item dropdown pe-3 header-icon">
   
         <a class="nav-link nav-profile d-flex align-items-center me-3" href="#" data-bs-toggle="dropdown">
           <!-- {% if list_profile %}
@@ -1196,10 +1196,11 @@
             {% endfor %}
           {% endif %} -->
           {% if list.profile_pic %}
-          <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
+          <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
           {% else %}
-          <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle">
+          <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
           {% endif %}
+          <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i>
           <!-- <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i> -->
           <span class="d-none d-md-block dropdown-toggle ps-2" style="text-transform: capitalize;">
             {{ user }}
@@ -1259,11 +1260,11 @@
 
 {% endif %}
 
-{% if user.role == "rider"%}
+{% if user.role == "delivery_staff"%}
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
   <div class="d-flex align-items-center justify-content-between">
-    <a href="{% url 'rider_site:dashboard'%}" class="logo d-flex align-items-center">
+    <a href="{% url 'delivery_staff_site:dashboard'%}" class="logo d-flex align-items-center">
       <img src="{% static '/img/logo-header.svg'%}" alt="">
       <span class="d-none d-lg-block">SCOOPS 4 U</span>
     </a>
@@ -1332,24 +1333,24 @@
 <aside id="sidebar" class="sidebar">
   <ul class="sidebar-nav" id="sidebar-nav">
 
-      <li class="nav-item {% if sidebar == 'riderdashboard' %}active-nav{% endif %}">
-          <a class="nav-link {% if sidebar != 'riderdashboard' %}collapsed{% endif %}" href="{% url 'rider_site:dashboard'%}">
+      <li class="nav-item {% if sidebar == 'delivery_staffdashboard' %}active-nav{% endif %}">
+          <a class="nav-link {% if sidebar != 'delivery_staffdashboard' %}collapsed{% endif %}" href="{% url 'delivery_staff_site:dashboard'%}">
           <i class="ri-apps-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
           <span>Dashboard</span>
           </a>
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-heading pt-3">Management</li>
-      <li class="nav-item {% if sidebar == 'riderorders' %}active-nav{% endif %}">
-      <a class="nav-link {% if sidebar != 'riderorders' %}collapsed{% endif %}" href="{% url 'rider_site:transaction_orders'  %}">
+      <li class="nav-item {% if sidebar == 'delivery_stafforders' %}active-nav{% endif %}">
+      <a class="nav-link {% if sidebar != 'delivery_stafforders' %}collapsed{% endif %}" href="{% url 'delivery_staff_site:transaction_orders'  %}">
           <i class="ri-truck-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
           <span>Delivery</span>
       </a>
       </li><!-- End Products Page Nav -->
 
       <li class="nav-heading pt-3">Reports</li>
-      <li class="nav-item {% if sidebar == 'riderreport' %}active-nav{% endif %}">
-          <a class="nav-link {% if sidebar != 'riderreport' %}collapsed{% endif %}" href="{% url 'rider_site:report_deliver'%}">
+      <li class="nav-item {% if sidebar == 'delivery_staffreport' %}active-nav{% endif %}">
+          <a class="nav-link {% if sidebar != 'delivery_staffreport' %}collapsed{% endif %}" href="{% url 'delivery_staff_site:report_deliver'%}">
               <i class="ri-file-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
               <span>Delivery Report</span>
           </a>

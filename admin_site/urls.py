@@ -103,12 +103,28 @@ urlpatterns = [
     path('viewing-pic/valid-id/<int:id>/', views.viewpic_vid , name='viewingpic_vid'),	
     path('viewing-pic/business-permit/<int:id>/', views.viewpic_bpermit , name='viewingpic_bpermit'),	
 
-    #search 
+    #settings profile 
     path('settings_profile/', views.settings_profile, name='settings_profile'),
-    path('settings_Product/', views.settings_product, name='settings_product'),
-    path('settings_add/', views.settings_addproduct, name='settings_addproduct'),
-    path('remove-settings_product/<int:id>/', views.settings_remove, name='settings_remove'),
-   
+    path('settings_password/', views.settings_password, name='settings_password'),
+
+    #view
+    path('settings_product/', views.settings_product, name='settings_product'),
+    # path('settings_add/', views.settings_addproduct, name='settings_addproduct'),
+
+    #add 	
+    path('add-category/', views.settings_addcategory , name='settings_addcategory'),	
+    path('add-unit/', views.settings_addunit , name='settings_addunit'),	
+    path('add-flavor/', views.settings_addflavor , name='settings_addflavor'),
+
+    #remove
+    # path('remove-settings_product/<int:id>/', views.settings_remove, name='settings_remove'),
+    path('remove/Product-category/<int:id>/', views.remove_category , name='remove_category'),	
+    path('remove/Product-unit/<int:id>/', views.remove_unit , name='remove_unit'),	
+    path('remove/Product-flavor/<int:id>/', views.remove_flavor , name='remove_flavor'),
+
+    #return products	
+    path('Return/Product/', views.return_product, name='return_product'),	
+    path('Add/Return-Product/', views.add_returnproduct , name='add_returnproduct'),
 
     path('support/', views.support, name='support'),
    

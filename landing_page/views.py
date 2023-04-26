@@ -152,8 +152,8 @@ def loginView(request):
                 return redirect('admin_site:dashboard') 
             elif user.role == "reseller" and user.status == "active":
                 return redirect('reseller_site:dashboard')
-            elif user.role == "rider" and user.status == "active":    
-                return redirect('rider_site:dashboard')
+            elif user.role == "delivery_staff" and user.status == "active":    
+                return redirect('delivery_staff_site:dashboard')
             elif user.role == "staff" and user.status == "active": 
                 return redirect('staff_site:dashboard')
             elif user.status == "inactive": 
@@ -211,7 +211,7 @@ def logoutView(request):
 #         elif user is not None and user.role == "staff":
 #             login(request, user)
 #             return redirect('landing_page:dashboard_staff')
-#         elif user is not None and user.role == "rider":
+#         elif user is not None and user.role == "delivery_staff":
 #             login(request, user)
 #             return redirect('scoops_admin:list_reseller')  
 #         else:

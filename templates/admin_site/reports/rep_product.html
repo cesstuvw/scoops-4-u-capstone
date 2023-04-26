@@ -8,6 +8,13 @@
 {% load humanize %}
 {% block content %}
 
+<style>
+    @media print{
+        tr {
+            page-break-inside: avoid;
+        }
+    }
+</style>
 
 <main id="main" class="main mt-5">
     <div class="pagetitle">

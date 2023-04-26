@@ -86,6 +86,7 @@ def register(request, inquiryid):
     if request.method =="POST":
         reseller = Reseller.objects.get(id = inquiryid)
         status = "active"
+        check_sign = SignUpForm()
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
@@ -384,12 +385,19 @@ def view_product(request, productid):
 
 
 def add_product(request):
+        list_category = Settings_category.objects.all()	
+        list_flavor = Settings_flavor.objects.all()	
+        list_unit = Settings_unit.objects.all()
         list_settings = Settings.objects.all()
         context={
+            'list_category':list_category,	
+            'list_flavor':list_flavor,	
+            'list_unit':list_unit,
             'list_settings':list_settings
         }
         return render(request, 'admin_site/products/add_product.html',context)
 
+#adding product for tbl product	
 @login_required(login_url='landing_page:login')
 def process_product(request):
     if request.method == "POST":
@@ -404,34 +412,27 @@ def process_product(request):
         pstock = 0
         pstatus = "not available"
 
-        # locale.setlocale(locale.LC_ALL, 'en_PH.UTF-8')
-        # decimal_sales = Decimal(r_price)
-        # reseller_price = locale.currency(decimal_sales, grouping=True, symbol=True)
 
-        # locale.setlocale(locale.LC_ALL, 'en_PH.UTF-8')
-        # decimal_sales = Decimal(pprice)
-        # pos_price = locale.currency(decimal_sales, grouping=True, symbol=True)
+        if Product.objects.filter(Q(product_name =pname) & Q(product_flavor = flavor) & Q(product_category = pcategory) & Q(product_unit =product_unit)):	
+            messages.error(request,'Product already Exist!')	
+            return redirect('admin_site:add_product')	
+        else:	
+            while Product.objects.filter(product_code = product_code) is None:	
+                product_code = 'S4U'+str(random.randint(1111111,9999999))
 
-
-        while Product.objects.filter(product_code = product_code) is None:
-            product_code = 'S4U'+str(random.randint(1111111,9999999))
-
-        #inserting to database 
-        product = Product(product_code = product_code, product_category = pcategory, product_name = pname, product_unit =product_unit, product_ResellerPrice =r_price, product_price = pprice, product_stock = pstock, product_status = pstatus)
-        product.save()
+        #inserting to database 	
+        product = Product(product_code = product_code, product_name =pname, product_flavor = flavor, product_category = pcategory,  product_unit =product_unit, product_ResellerPrice =r_price, product_price = pprice, product_stock = pstock, product_status = pstatus)	
+        product.save()	
         
-        #activity log
-        activity = "Adding Product"
-        NewActLog = Activity_log()
-        NewActLog.user_name = request.user
-        NewActLog.role = request.user.role
-        NewActLog.activity = activity 
-        NewActLog.save()
-
-
-        messages.success(request,("Successfully Product added"))
+        #activity log	
+        activity = "Adding Product"	
+        NewActLog = Activity_log()	
+        NewActLog.user_name = request.user	
+        NewActLog.role = request.user.role	
+        NewActLog.activity = activity 	
+        NewActLog.save()	
+        messages.success(request,("Successfully added Product"))	
         return redirect('admin_site:list_product')
-   
         
 
 def edit_product(request, productid):
@@ -503,6 +504,32 @@ def settings_profile(request):
     }
     return render(request,'admin_site/profile/settings_profile.html', context)
 
+
+def settings_password(request):
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            current_password = form.cleaned_data['current_password']
+            new_password = form.cleaned_data['new_password']
+            if user.check_password(current_password):
+                user.set_password(new_password)
+                user.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('admin_site:my_profile')
+            else:
+                form.add_error('current_password', 'Incorrect password')
+    else:
+        form = ChangePasswordForm()
+    
+    context={
+        'form':form
+    }
+    return render(request,'admin_site/profile/change_pass.html', context)
+
+    
+
 def add_profile(request):
     if request.method == "POST":
         
@@ -537,44 +564,48 @@ def update_profile(request,profileid):
 
 def my_profile(request):
     current_profile = Profile.objects.filter(list_user = request.user)
+    list_profile = Profile.objects.filter(list_user = request.user)
 
     context ={
+        'list_profile': list_profile,
         'current_profile':current_profile
     }
     return render(request, 'admin_site/profile/my_profile.html',context)
 
 
-def settings_product(request):
-    settings = Settings.objects.all()
-    context ={
-        'settings':settings,
-        'sidebar' : 'product_settings'
-    }
-    return render(request, 'admin_site/settings/product_settings.html',context)
+# def settings_product(request):
+#     settings = Settings.objects.all()
+#     list_profile = Profile.objects.filter(list_user = request.user)
+#     context ={
+#         'settings':settings,
+#         'sidebar' : 'product_settings',
+#         'list_profile': list_profile
+#     }
+#     return render(request, 'admin_site/settings/product_settings.html',context)
 
-def settings_remove(request, id):
-    settings = Settings.objects.get(pk = id)
-    settings.delete()
-    messages.success(request,("succussfully removed"))
-    return redirect('admin_site:settings_product')
+# def settings_remove(request, id):
+#     settings = Settings.objects.get(pk = id)
+#     settings.delete()
+#     messages.success(request,("succussfully removed"))
+#     return redirect('admin_site:settings_product')
 
 
 
-def settings_addproduct(request):
-    if request.method == "POST":
-        category = request.POST['category']
-        unit = request.POST['unit']
-        settings = Settings()
+# def settings_addproduct(request):
+#     if request.method == "POST":
+#         category = request.POST['category']
+#         unit = request.POST['unit']
+#         settings = Settings()
 
-        if Settings.objects.filter(Q(settings_category =category) | Q(settings_unit = unit)):
-            messages.error(request,("It is already Exist"))
-            return redirect('admin_site:settings_product')
-        else:
-            settings.settings_category = request.POST.get('category')
-            settings.settings_unit = request.POST.get('unit')
-            settings.save()
-            return redirect('admin_site:settings_product')
-    return render(request, 'admin_site/settings/add_settings.html')
+#         if Settings.objects.filter(Q(settings_category =category) | Q(settings_unit = unit)):
+#             messages.error(request,("It is already Exist"))
+#             return redirect('admin_site:settings_product')
+#         else:
+#             settings.settings_category = request.POST.get('category')
+#             settings.settings_unit = request.POST.get('unit')
+#             settings.save()
+#             return redirect('admin_site:settings_product')
+#     return render(request, 'admin_site/settings/add_settings.html')
 
 
 
@@ -720,15 +751,15 @@ def pos(request):
     list_pos = Cart.objects.filter(cart_user = current_user).order_by('-id')
     sum_amount = Cart.objects.filter(cart_user = current_user).all().aggregate(total =Sum('cart_amount'))['total']
     list_pospayment = Cart_Payment.objects.filter(cart_status = "not Print")
-    
+    list_profile = Profile.objects.filter(list_user = request.user)
 
 
     context = {
         'list_products':list_products,
         'list_pos':list_pos,
         'sum_amount':sum_amount,
-        'list_pospayment':list_pospayment
-
+        'list_pospayment':list_pospayment,
+        'list_profile': list_profile
         }
     return render(request, 'admin_site/pos/pos_admin.html', context)
 
@@ -750,25 +781,36 @@ def pos_receipt_process(request):
     if request.method == "POST":
         get_paymentID = request.POST['get_id']
         pos = Cart.objects.filter(cart_user = request.user)	
+        pos_payment = Cart_Payment.objects.get(id = get_paymentID)	
+       	
         if Cart.objects.filter(cart_user = request.user):	
-            
             for carts in pos:	
                 products = Product.objects.get(product_code = carts.cart_pcode)	
+                return_product = Return_product.objects.get(product_code = carts.cart_pcode, product_qty = carts.cart_quantity)	
                 cart_quantity = int(carts.cart_quantity)	
                 current_stock = int(products.product_stock)	
-                minus_stock = cart_quantity - current_stock	
+                minus_stock = current_stock - cart_quantity 	
                 products.product_stock = minus_stock	
                 products.save()	
             
                 if products.product_stock == 0:	
                     products.product_status = "not available"	
                     products.save()	
-               
+                elif products.product_stock <= 20:	
+                        products.product_status = "low stock"	
+                        products.save()  	
+
+                if Cart_Payment.objects.filter(cart_cash = 0):	
+                    return_product.return_status = "returned"	
+                    return_product.save()	
+
             pos_payment = Cart_Payment.objects.get(id = get_paymentID)	
             pos_payment.cart_status = "Printed"	
-            pos_payment.save()	
+            pos_payment.save()
+
             pos = Cart.objects.filter(cart_user = request.user)	
-            pos.delete()	
+            pos.delete()
+
             return redirect('admin_site:pos')
         
         
@@ -780,17 +822,6 @@ def pos_addreceipt(request):
         #saving to pos payment in databse
         pos_id = request.POST['get_id']
         
-        pos = Cart.objects.filter(cart_user = request.user)	
-        for carts in pos:	
-                        
-            products = Product.objects.get(product_code = carts.cart_pcode)	
-                    
-                
-            if products.product_stock < carts.cart_quantity:	
-                    
-                messages.error(request,('Some Products out of stock'))	
-                return redirect('admin_site:pos')	
-
         if Cart_Payment.objects.filter(cart_user =request.user.role, cart_status="not Print"):
             messages.error(request,('receipt still not done'))
             return redirect('admin_site:pos')
@@ -863,6 +894,10 @@ def add_qty(request,productid):
     product = Product.objects.get(product_code = current_pcode)
     if product.product_stock == 0:
         messages.success(request,("No available Stock"))
+        return redirect('admin_site:pos')
+
+    elif product.product_stock <= pos.cart_quantity:	
+        messages.error(request,('The available stock is not enough'))	
         return redirect('admin_site:pos')
 
     else:
@@ -953,6 +988,7 @@ def cart_products(request, productid):
         p_unit = request.POST['product_unit']
         p_category = request.POST['product_category']
         p_name = request.POST['product_name']
+        p_flavor = request.POST['product_flavor']	
 
        
          
@@ -969,7 +1005,7 @@ def cart_products(request, productid):
 
         #checking if have already product in the cart
 
-        status = "low stock"
+        # status = "low stock"
 
         
         
@@ -996,9 +1032,8 @@ def cart_products(request, productid):
             # product.save()
 
             #inserting product in pos table
-            pos = Cart(cart_user=current_user, cart_pcode=pcode, cart_category= p_category,  cart_name = p_name, cart_unit= p_unit,cart_reseller_price =p_reseller_price , cart_price = p_price, cart_quantity = qty, cart_amount = amount_cart,  cart_ResellerAmount =reseller_cart )
-            pos.save()   
-
+            pos = Cart(cart_user=current_user, cart_pcode=pcode,   cart_name = p_name, cart_flavor= p_flavor,  cart_category= p_category, cart_unit= p_unit,cart_reseller_price =p_reseller_price , cart_price = p_price, cart_quantity = qty, cart_amount = amount_cart,  cart_ResellerAmount =reseller_cart )
+            pos.save()
             pos_payment = Cart_Payment.objects.filter(cart_user = request.user, cart_status="not Print")
             pos_payment.delete()
 
@@ -1033,20 +1068,24 @@ def cart_products(request, productid):
 def Transaction_orders(request):
     list_transaction = Transaction.objects.filter(Q(transaction_orderstatus = "Pending")).order_by('-id')
     transaction_pending = Transaction.objects.filter(transaction_orderstatus = "Pending").count()
+    list_profile = Profile.objects.filter(list_user = request.user)
     context = {
         'list_transaction':list_transaction,
         'transaction_pending':transaction_pending,
-        'sidebar' : 'pending'
+        'sidebar' : 'pending',
+        'list_profile': list_profile
     }
     return render(request, 'admin_site/transaction/pending.html', context)
 
 
 @login_required(login_url='landing_page:login') 
 def Transaction_outshipping(request):
+    list_profile = Profile.objects.filter(list_user = request.user)
     list_transaction = Transaction.objects.filter(Q(transaction_orderstatus = "Out for Delivery")).order_by('-id')
     context = {
         'list_transaction':list_transaction,
-        'sidebar' : 'orders'
+        'sidebar' : 'orders',
+        'list_profile': list_profile
     }
     return render(request, 'admin_site/transaction/orders.html', context)
 
@@ -1054,10 +1093,12 @@ def Transaction_outshipping(request):
 
 @login_required(login_url='landing_page:login') 
 def Transaction_completed(request):
+    list_profile = Profile.objects.filter(list_user = request.user)
     list_transaction = Transaction.objects.filter(Q(transaction_orderstatus = "Completed")).order_by('-id')
     context = {
         'list_transaction':list_transaction,
-        'sidebar' : 'completed'
+        'sidebar' : 'completed',
+        'list_profile': list_profile
     }
     return render(request, 'admin_site/transaction/completed.html', context)
 
@@ -1111,42 +1152,160 @@ def transaction_view(request, id):
 
 
 
+		
+#return products	
+@login_required(login_url='landing_page:login')	
+def return_product(request):	
+        return_product = Return_product.objects.all()	
+        context ={	
+            'return_product':return_product 	
+        }	
+        return render(request,'admin_site/transaction/return_products.html',context)
+
+
+@login_required(login_url='landing_page:login')	
+def add_returnproduct(request):	
+    product = Product.objects.all()	
+    if request.method == "POST":	
+        return_product = Return_product()	
+        return_product.product_code = request.POST.get('pcode')	
+        return_product.product_qty= request.POST.get('qty')	
+        return_product.reseller_name = request.POST.get('reseller_name')	
+        return_product.reason =  request.POST.get('reason')	
+        return_product.return_date =  request.POST.get('date')	
+        return_product.return_status =  "unreturned"	
+        return_product.save()	
+        messages.success(request,("Successfully added"))	
+        return redirect ('admin_site:return_product')	
+    context={	
+        'product':product	
+    }	
+    return render(request, 'admin_site/transaction/add_return.html',context)
+
+
+#settings feature	
+def settings_product(request):	
+    list_profile = Profile.objects.filter(list_user = request.user)
+    list_category = Settings_category.objects.all()	
+    list_flavor = Settings_flavor.objects.all()	
+    list_unit = Settings_unit.objects.all()	
+    context ={	
+        'list_profile':list_profile,	
+        'list_category':list_category,	
+        'list_flavor':list_flavor,	
+        'list_unit':list_unit,	
+    }	
+    return render(request, 'admin_site/settings/product_settings.html',context)
+
+#remove category	
+def remove_category(request, id):	
+    settings = Settings_category.objects.get(pk = id)	
+    settings.delete()	
+    messages.success(request,("succussfully removed"))	
+    return redirect('admin_site:settings_product')
+
+#remove unit	
+def remove_unit(request, id):	
+    settings = Settings_unit.objects.get(pk = id)	
+    settings.delete()	
+    messages.success(request,("succussfully removed"))	
+    return redirect('admin_site:settings_product')
+
+#remove flavor	
+def remove_flavor(request, id):	
+    settings = Settings_flavor.objects.get(pk = id)	
+    settings.delete()	
+    messages.success(request,("succussfully removed"))	
+    return redirect('admin_site:settings_product')
+
+def settings_addcategory(request):	
+    if request.method == "POST":	
+        category = request.POST['category']	
+        settings_category = Settings_category()	
+        if Settings_category.objects.filter(settings_category =category ):	
+            messages.error(request,("Category already exists"))	
+            return redirect('admin_site:settings_product')	
+        else:	
+            settings_category.settings_category = request.POST.get('category')
+            messages.success(request,("Category added"))
+            settings_category.save()	
+            return redirect('admin_site:settings_product')	
+    return render(request, 'admin_site/settings/addcategory_settings.html')
+
+def settings_addflavor(request):	
+    if request.method == "POST":	
+        flavor = request.POST['flavor']	
+        settings_flavor = Settings_flavor()	
+        if Settings_flavor.objects.filter(settings_flavor = flavor ):	
+            messages.error(request,("Flavor already exists"))	
+            return redirect('admin_site:settings_product')	
+        else:	
+            settings_flavor.settings_flavor = request.POST.get('flavor')
+            messages.success(request,("Flavor added"))	
+            settings_flavor.save()	
+            return redirect('admin_site:settings_product')	
+    return render(request, 'admin_site/settings/addflavor_settings.html')
+
+def settings_addunit(request):	
+    if request.method == "POST":	
+        unit = request.POST['unit']	
+        settings_unit= Settings_unit()	
+        if Settings_unit.objects.filter(settings_unit = unit ):	
+            messages.error(request,("Unit already exists"))	
+            return redirect('admin_site:settings_product')	
+        else:	
+            settings_unit.settings_unit = request.POST.get('unit')	
+            messages.success(request,("Unit added"))	
+            settings_unit.save()	
+            return redirect('admin_site:settings_product')	
+    return render(request, 'admin_site/settings/addunit_settings.html')
+
 
 #FOR REPORTS FEATURES
 #reports VIEW
 @login_required(login_url='landing_page:login') 
 def report_users(request):
     list_users = User.objects.all()
+    list_profile = Profile.objects.filter(list_user = request.user)
     context = {
         'list_users':list_users,
-        'sidebar': 'rep_users'
+        'sidebar': 'rep_users',
+        'list_profile': list_profile
     }
     return render(request, 'admin_site/reports/rep_users.html', context)
 
 @login_required(login_url='landing_page:login') 
 def report_res(request):
     list_reseller = Reseller.objects.order_by('-id')
+    list_profile = Profile.objects.filter(list_user = request.user)
+    
     context = {
         'list_reseller':list_reseller,
-        'sidebar': 'rep_res'
+        'sidebar': 'rep_res',
+        'list_profile': list_profile
     }
     return render(request, 'admin_site/reports/rep_res.html', context)
 
 @login_required(login_url='landing_page:login') 
 def report_product(request):
     list_products = Product.objects.all().order_by('-id')
+    list_profile = Profile.objects.filter(list_user = request.user)
+
     context = {
         'list_products':list_products,
-        'sidebar': 'rep_prod'
+        'sidebar': 'rep_prod',
+        'list_profile': list_profile
     }
     return render(request, 'admin_site/reports/rep_product.html', context)
 
 @login_required(login_url='landing_page:login') 
 def report_stocks(request):
     list_inventory = By_Batch.objects.all().order_by('-id')
+    list_profile = Profile.objects.filter(list_user = request.user)
     context = {
         'list_inventory':list_inventory,
-        'sidebar': 'rep_stocks'
+        'sidebar': 'rep_stocks',
+        'list_profile': list_profile
     }
     return render(request, 'admin_site/reports/rep_stock.html', context)
 
@@ -1154,9 +1313,11 @@ def report_stocks(request):
 @login_required(login_url='landing_page:login') 
 def report_actlog(request):
     list_reports = Activity_log.objects.all().order_by('-id')
+    list_profile = Profile.objects.filter(list_user = request.user)
     context = {
         'list_reports':list_reports,
-        'sidebar': 'act_log'
+        'sidebar': 'act_log',
+        'list_profile': list_profile
     }
     return render(request, 'admin_site/reports/act_log.html', context)
 
@@ -1164,10 +1325,12 @@ def report_actlog(request):
 
 @login_required(login_url='landing_page:login') 
 def report_pos_sales(request):
+    list_profile = Profile.objects.filter(list_user = request.user)
     pos_payment = Cart_Payment.objects.filter(cart_status = 'Printed')
     context = {
         'pos_payment':pos_payment,
-        'sidebar': 'posS'
+        'sidebar': 'posS',
+        'list_profile': list_profile
     }
     return render(request, 'admin_site/reports/pos_sales.html',context)
 
@@ -1177,9 +1340,11 @@ def report_pos_sales(request):
 @login_required(login_url='landing_page:login') 
 def report_online_sales(request):
     transaction = Transaction.objects.filter(transaction_orderstatus = 'Completed')
+    list_profile = Profile.objects.filter(list_user = request.user)
     context = {
         'transaction':transaction,
-        'sidebar': 'os'
+        'sidebar': 'os',
+        'list_profile': list_profile
     }
     return render(request, 'admin_site/reports/online_sales.html', context) 
 
@@ -1311,8 +1476,11 @@ def search_pos_sales(request):
 # first landing of page
 @login_required(login_url='landing_page:login')
 def support(request):
+    list_profile = Profile.objects.filter(list_user = request.user)
+
     context = {
-        'sidebar' : 'support'
+        'sidebar' : 'support',
+        'list_profile': list_profile,
     }
     return render(request, 'admin_site/support.html', context)
 
@@ -1359,3 +1527,14 @@ def settings_page(request):
 #     return redirect(url)
 #     # return render(request, 'landing_page/index.html', {'form': form, 'menu': 'home'})
 #     return render(request, 'admin_site/base.html', context)
+
+
+
+@login_required(login_url='landing_page:login') 
+def export_view(request):
+    list_profile = Profile.objects.filter(list_user = request.user)
+
+    context = {
+        'list_profile': list_profile
+    }
+    return render(request, 'admin_site/profile/my_profile.html', context)

@@ -141,9 +141,11 @@ $(document).ready(function () {
 
       // for most tables (reports actlog)
 
+
     var tableRep = $('#tableRep').DataTable({
 
         dom: 'lBfrtip',
+    
         // buttons: [
         //     // 'excel', 
         //     { extend: 'excel', text: '<i class="ri-file-excel-2-fill"></i>' },
@@ -155,27 +157,132 @@ $(document).ready(function () {
                 text: '<i class="ri-save-fill"></i>',
                 buttons: [
                     { extend: 'excel', text: '<i class="ri-file-excel-2-line me-2 align-middle"></i>Excel' },
+                    
                     { extend: 'pdf', 
                         text: '<i class="ri-file-pdf-line me-2 align-middle"></i>PDF',
-                        // orientation: 'landscape',
+                        orientation: 'landscape',
                         customize: function (doc) {
                             doc.content[1].table.widths = 
                                 Array(doc.content[1].table.body[0].length + 1).join('*').split('');
                                 doc.defaultStyle.alignment = 'center';
                             doc.styles.tableHeader.alignment = 'center';
                             
+                            doc.pageMargins = [10,10,10,10];
+                            doc.defaultStyle.fontSize = 8;
+                            doc.styles.tableHeader.fontSize = 7;
+                            doc.styles.title.fontSize = 9;
+                            // Remove spaces around page title
+                            doc.content[0].text = doc.content[0].text.trim();
+                            doc['footer']=(function(page, pages) {
+                                return {
+                                    columns: [
+                                        'This is your left footer column',
+                                        {
+                                            // This is the right column
+                                            alignment: 'right',
+                                            text: ['page ', { text: page.toString() },  ' of ', { text: pages.toString() }]
+                                        }
+                                    ],
+                                    margin: [10, 0]
+                                }
+                            });
+
+                            // Styling the table: create style object
+                            var objLayout = {};
+                            // Horizontal line thickness
+                            objLayout['hLineWidth'] = function(i) { return .5; };
+                            // Vertikal line thickness
+                            objLayout['vLineWidth'] = function(i) { return .5; };
+                            // Horizontal line color
+                            objLayout['hLineColor'] = function(i) { return '#aaa'; };
+                            // Vertical line color
+                            objLayout['vLineColor'] = function(i) { return '#aaa'; };
+                            // Left padding of the cell
+                            objLayout['paddingLeft'] = function(i) { return 4; };
+                            // Right padding of the cell
+                            objLayout['paddingRight'] = function(i) { return 4; };
+                            // Inject the object in the document
+                            doc.content[1].layout = objLayout;
+
+                            
                         }
                     },
+
+
+
+                    
                     { extend: 'print', text: '<i class="ri-printer-line me-2 align-middle"></i>Print' ,
+                    // autoPrint: false,
+                    footer: true,
                         customize: function ( win ) {
-                            $(win.document.body)
+                        $(win.document.body)
                         .css( 'font-size', '5px' )
+                        .css('background', '#fff')
+                        .css('margin-top', '1.7rem')
+                        .css('margin-left', '1.5rem')
+                        .css('margin-right', '1.5rem')
+
+                        $(win.document.body).find('h1')
+                            .css('font-size', '1.2rem')
+                            .css('font-weight', '900')
+                            .css('margin-bottom', '1.3rem')
+                            .addClass('h1-style')
+
+                        
+                        
+                        // HEADER
+                        $(win.document.body).prepend(`
+                        <div class="col rep-header">
+                            <div class="row d-flex justify-content-center align-items-center">
+                                <div class="col">
+                                    <img src="https://i.pinimg.com/originals/aa/58/37/aa583766a0d79119b66a87db5b2b8183.png" alt="Scoops 4 U Logo">
+                                    <h1 class="mt-2 mb-4">SCOOPS 4 U</h1>
+                                </div>
+                                
+                                <div class="col scoops">
+                                    <h3 class="w-75 mb-0">#12 Filipinas Avenue Brgy. Dulumbayan Teresa, Rizal, 1880</h3>
+                                    <h3 class="mb-0">scoops4uteresa@gmail.com</h3>
+                                    <h3 class="">09364671062</h3>
+                                    <!-- <h3><span><i class="ri-store-fill"></i>&nbsp; </span>#12 Filipinas Avenue Brgy. Dulumbayan Teresa, Rizal, 1880</h3>
+                                    <h3><span><i class="ri-mail-fill"></i>&nbsp; </span>scoops4uteresa@gmail.com</h3>
+                                    <h3><span><i class="ri-contacts-fill"></i>&nbsp; </span>09364671062</h3> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <hr>
+                        </div>
+
+                        
+                        
+
+                        <div class="col rep-footer w-100">
+                            <div class="row">
+                                <div class="col text-start">
+                                    <p>&copy; 2023 SCOOPS 4 U</p>
+                                </div>
+                                <div class="col text-end pe-5">
+                                    <p>Teresa, Rizal</p>
+                                </div>
+                            </div>
+                        </div>
+                        `);
+
+                        
+
+                        
 
                         $(win.document.body).find( 'table' )
                             .addClass( 'compact' )
-                            .css( 'font-size', '5px' );
-                            }
-                        },
+                            .removeClass('table-hover')
+                            // .css( 'font-size', '5px' );
+
+                        $(win.document.body).find( '.rep-header' )
+                            .addClass( 'printable-area' )
+                        }
+                    },
+
+                        
                 ]
             }
         ],
@@ -936,6 +1043,192 @@ $.fn.dataTable.ext.search.push(
 
     // --------------------------------------------------------------------------------------------------------------------------------------------
     // ------------------------------------------------------------- end INVENTORY ----------------------------------------------------------------
+    // --------------------------------------------------------------------------------------------------------------------------------------------
+    
+    
+    
+    
+    // --------------------------------------------------------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------- start PRODUCT SETTINGS ----------------------------------------------------------------
+    // --------------------------------------------------------------------------------------------------------------------------------------------
+    
+    // FLAVOR
+    var tableFlavor = $('#tableFlavor').DataTable({
+
+        "fnDrawCallback": function(oSettings) {
+            if (oSettings._iDisplayLength > oSettings.fnRecordsDisplay()) {
+                $(oSettings.nTableWrapper).find('.dataTables_paginate').hide();
+            } else {
+                $(oSettings.nTableWrapper).find('.dataTables_paginate').show();
+            }
+        },
+        "lengthChange": true,
+
+        initComplete: (settings, json)=>{
+            $('.flavor-set .dataTables_length').appendTo('#showEntriesFlavor');
+        },
+
+        "oLanguage": {
+            // &nbsp; is a blank text ---- used for spacing
+            "sLengthMenu": "_MENU_ &nbsp;&nbsp;Entries per page",
+            "oPaginate": {
+                sNext: '<i class="ri-arrow-right-s-line"></i>',
+                sPrevious: '<i class="ri-arrow-left-s-line"></i>',
+                // sFirst: '<i class="ri-arrow-left-s-fill"></i>',
+                // sLast: '<i class="ri-arrow-right-s-fill"></i>'
+            }
+        },
+
+        columnDefs: [
+            {
+                searchable: false,
+                orderable: false,
+                targets: 0, 
+            },
+        ],
+        // order: [[1, 'asc']],
+
+         // order: [[1, 'asc']],
+        order: [] 
+    });
+
+
+    // for row numbers
+    tableFlavor.on('order.dt search.dt', function () {
+        let i = 1;
+
+        tableFlavor.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+            this.data(i++);
+        });
+    }).draw();
+    
+
+    // for most tables search bar
+    $('#tableMFlavor').keyup(function(){
+        tableFlavor.search($(this).val()).draw();
+    });    
+
+
+    // CATEGORY
+    var tableCat = $('#tableCat').DataTable({
+
+        "fnDrawCallback": function(oSettings) {
+            if (oSettings._iDisplayLength > oSettings.fnRecordsDisplay()) {
+                $(oSettings.nTableWrapper).find('.dataTables_paginate').hide();
+            } else {
+                $(oSettings.nTableWrapper).find('.dataTables_paginate').show();
+            }
+        },
+        "lengthChange": true,
+
+        initComplete: (settings, json)=>{
+            $('.category-set .dataTables_length').appendTo('#showEntriesCat');
+        },
+
+        "oLanguage": {
+            // &nbsp; is a blank text ---- used for spacing
+            "sLengthMenu": "_MENU_ &nbsp;&nbsp;Entries per page",
+            "oPaginate": {
+                sNext: '<i class="ri-arrow-right-s-line"></i>',
+                sPrevious: '<i class="ri-arrow-left-s-line"></i>',
+                // sFirst: '<i class="ri-arrow-left-s-fill"></i>',
+                // sLast: '<i class="ri-arrow-right-s-fill"></i>'
+            }
+        },
+
+        columnDefs: [
+            {
+                searchable: false,
+                orderable: false,
+                targets: 0, 
+            },
+        ],
+        // order: [[1, 'asc']],
+
+         // order: [[1, 'asc']],
+        order: [] 
+    });
+
+
+    // for row numbers
+    tableCat.on('order.dt search.dt', function () {
+        let i = 1;
+
+        tableCat.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+            this.data(i++);
+        });
+    }).draw();
+    
+
+    // for most tables search bar
+    $('#tableMCategory').keyup(function(){
+        tableCat.search($(this).val()).draw();
+    });    
+
+    // UNIT
+    var tableUnit = $('#tableUnit').DataTable({
+
+        "fnDrawCallback": function(oSettings) {
+            if (oSettings._iDisplayLength > oSettings.fnRecordsDisplay()) {
+                $(oSettings.nTableWrapper).find('.dataTables_paginate').hide();
+            } else {
+                $(oSettings.nTableWrapper).find('.dataTables_paginate').show();
+            }
+        },
+        "lengthChange": true,
+
+        initComplete: (settings, json)=>{
+            $('.unit-set .dataTables_length').appendTo('#showEntriesUnit');
+        },
+
+        "oLanguage": {
+            // &nbsp; is a blank text ---- used for spacing
+            "sLengthMenu": "_MENU_ &nbsp;&nbsp;Entries per page",
+            "oPaginate": {
+                sNext: '<i class="ri-arrow-right-s-line"></i>',
+                sPrevious: '<i class="ri-arrow-left-s-line"></i>',
+                // sFirst: '<i class="ri-arrow-left-s-fill"></i>',
+                // sLast: '<i class="ri-arrow-right-s-fill"></i>'
+            }
+        },
+
+        columnDefs: [
+            {
+                searchable: false,
+                orderable: false,
+                targets: 0, 
+            },
+        ],
+        // order: [[1, 'asc']],
+
+         // order: [[1, 'asc']],
+        order: [] 
+    });
+
+
+    // for row numbers
+    tableUnit.on('order.dt search.dt', function () {
+        let i = 1;
+
+        tableUnit.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+            this.data(i++);
+        });
+    }).draw();
+    
+
+    // for most tables search bar
+    $('#tableMUnit').keyup(function(){
+        tableUnit.search($(this).val()).draw();
+    });    
+    
+    
+    
+    
+    
+    
+    
+    // --------------------------------------------------------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------- end PRODUCT SETTINGS ----------------------------------------------------------------
     // --------------------------------------------------------------------------------------------------------------------------------------------
 
 });

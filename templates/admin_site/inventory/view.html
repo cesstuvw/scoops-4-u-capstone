@@ -74,6 +74,7 @@
                                             <th scope="col">#</th>
                                             <th scope="col">Product Code</th>
                                             <th scope="col">Product Name</th>
+                                            <th scope="col">Product Flavor</th>
                                             <th scope="col">Quantity</th>
                                             <th scope="col">Date-Time Added</th>
                                         </tr>
@@ -88,6 +89,7 @@
                                             <td class="num-row"></td>
                                             <td class="text-decoration-none">{{ list.product_code }}</td>
                                             <td style="text-transform: capitalize;">{{ list.product_name }}</td>
+                                            <td style="text-transform: capitalize;">{{ list.product_flavor }}</td>
                                             <td>{{ list.product_quantity }}</td>
                                             <td>{{ list.created_at|date:"m/d/Y h:i A" }}</td>
                                         </tr>

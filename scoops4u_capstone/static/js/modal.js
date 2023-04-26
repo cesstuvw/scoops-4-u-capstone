@@ -86,10 +86,22 @@ $(document).ready(function () {
         $('#receiptCart').modal('show').find('.modal-content').load($(this).attr('href'));
     });
 
-    
 
+    // Settings - Product
+    $('.modal-add-fla').on('click', 'a', function(e){
+        e.preventDefault();
+        $('#addFlavorModal').modal('show').find('.modal-content').load($(this).attr('href'));
+    });
 
+    $('.modal-add-cat').on('click', 'a', function(e){
+        e.preventDefault();
+        $('#addCategoryModal').modal('show').find('.modal-content').load($(this).attr('href'));
+    });
 
+    $('.modal-add-unit').on('click', 'a', function(e){
+        e.preventDefault();
+        $('#addUnitModal').modal('show').find('.modal-content').load($(this).attr('href'));
+    });
 });
 
 setTimeout(function() {
