@@ -52,7 +52,6 @@ class Product(models.Model):
     product_name=  models.CharField(max_length=200, null=True, verbose_name='Product Name')	
     product_flavor =  models.CharField(max_length=200,null=True, verbose_name='Product Flavor')
     product_category =  models.CharField(max_length=200, verbose_name='Category')
-    product_name=  models.CharField(max_length=200, verbose_name='Product Name')
     product_unit =  models.CharField(max_length=200, verbose_name='Unit')
     product_ResellerPrice =   models.BigIntegerField(null=True, verbose_name='Reseller Price')
     product_price =   models.BigIntegerField(null=True, verbose_name='Pos Price')
@@ -64,13 +63,13 @@ class Product(models.Model):
         return self.product_code
 
 class Return_product(models.Model):	
-    STATUS = (("",""),("returned","returned"),("unreturned","unreturned"))	
-    product_code =  models.CharField(max_length=200, verbose_name='Product Code')	
-    product_qty =     models.BigIntegerField(null=True, verbose_name='Available Stock')	
-    reseller_name =  models.CharField(null=True,max_length=200, verbose_name='Reseller Name')	
-    reason = models.TextField(null=True, verbose_name='Reason')	
-    return_date =     models.CharField(max_length=200, null=True,verbose_name='Return Date')	
-    return_status =  models.CharField(max_length=200, choices=STATUS, verbose_name='Status')	
+    STATUS = (("",""),("returned","returned"),("unreturned","unreturned"))
+    product_code =  models.CharField(max_length=200, verbose_name='Product Code')
+    product_qty =     models.BigIntegerField(null=True, verbose_name='Available Stock')
+    reseller_name =  models.CharField(null=True,max_length=200, verbose_name='Reseller Name')
+    reason = models.TextField(null=True, verbose_name='Reason')
+    return_date =     models.CharField(max_length=200, null=True,verbose_name='Return Date')
+    return_status =  models.CharField(max_length=200, choices=STATUS, verbose_name='Status')
     
     def __str__(self):	
         return self.return_date
@@ -81,7 +80,7 @@ class By_Batch(models.Model):
     product_name = models.CharField( max_length=200, null=True,verbose_name='Product Name')
     product_flavor = models.CharField( max_length=200, null=True, verbose_name='Product Flavor')	
     product_batch =  models.CharField(max_length=200, null=True, verbose_name='Batch Number')
-    product_quantity =  models.BigIntegerField(null=True,  verbose_name='Quantity')
+    product_quantity =  models.IntegerField(null=True,  verbose_name='Quantity')
     product_expired =  models.DateField( null=True, verbose_name='Expiration Date')
     created_at =models.DateTimeField(default=timezone.now,  verbose_name='created')
     
@@ -92,7 +91,6 @@ class By_Batch(models.Model):
 class Cart(models.Model):
     cart_user =  models.CharField(max_length=200, null=False, default=None, verbose_name='List user')
     cart_pcode =  models.CharField(max_length=200, verbose_name='Product Code')
-    # cart_category =  models.CharField(max_length=200, verbose_name='Category')
     cart_name=  models.CharField(max_length=200, verbose_name='Product Name')
     cart_flavor =  models.CharField(max_length=200, null=True, verbose_name='Product Flavor')	
     cart_category =  models.CharField(max_length=200, verbose_name='Category')
@@ -102,7 +100,6 @@ class Cart(models.Model):
     cart_quantity =  models.BigIntegerField(null=True, verbose_name='quantity')
     cart_ResellerAmount =   models.BigIntegerField(null=True, verbose_name='Reseller Amount')
     cart_amount =  models.BigIntegerField(null=True, verbose_name='POS Amount')
-    # created_at =models.DateField(default=timezone.now,null=True,   verbose_name='Date Created')
 
 
     def __str__(self):
@@ -150,7 +147,6 @@ class OrderItem(models.Model):
     OrderItem_name=  models.CharField(max_length=200, verbose_name='Product Name')	
     OrderItem_flavor =  models.CharField(max_length=200, null=True, verbose_name='Product Flavor')
     OrderItem_category =  models.CharField(max_length=200, verbose_name='Category')
-    # OrderItem_name=  models.CharField(max_length=200, verbose_name='Product Name')
     OrderItem_unit =  models.CharField(max_length=200, null=True, verbose_name='Unit')
     OrderItem_quantity =  models.CharField(max_length=200, null=True, verbose_name='quantity')
     OrderItem_amount =  models.DecimalField( max_digits=10, decimal_places=2,null=True, verbose_name='Amount')

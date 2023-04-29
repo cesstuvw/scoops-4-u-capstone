@@ -394,7 +394,7 @@
                   </a>
               </li>
               <li>
-                <a href="{%url 'admin_site:inventory' %}">
+                <a href="{%url 'admin_site:return_product' %}">
                       <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returns</span>
                 </a>
             </li>
@@ -423,7 +423,7 @@
                   </a>
               </li>
               <li>
-                <a href="{%url 'admin_site:inventory' %}">
+                <a href="{%url 'admin_site:return_product' %}">
                       <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returns</span>
                 </a>
             </li>
@@ -452,7 +452,36 @@
                   </a>
               </li>
               <li>
-                <a href="{%url 'admin_site:inventory' %}">
+                <a href="{%url 'admin_site:return_product' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returns</span>
+                </a>
+            </li>
+        </ul>
+        </li><!-- End Sales Nav -->
+
+        {% elif sidebar == 'returns' %}
+        <li class="nav-item {% if sidebar == 'returns' %}active-nav{% endif %}">
+        <a class="nav-link {% if sidebar != 'returns' %}collapsed{% endif %}" data-bs-target="#sales-nav" data-bs-toggle="collapse" href="#">
+              <i class="ri-shopping-cart-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Order</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+        </a>
+        <ul id="sales-nav" class="nav-content collapse {% if sidebar == 'returns' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+              <li>
+                  <a href="{% url 'admin_site:transaction_orders' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Pending</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{% url 'admin_site:transaction_outshipping' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Out For Delivery</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{% url 'admin_site:transaction_completed' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Delivered</span>
+                  </a>
+              </li>
+              <li>
+                <a href="{%url 'admin_site:return_product' %}" class="{% if sidebar == 'returns' %}active{% endif %}">
                       <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returns</span>
                 </a>
             </li>
@@ -481,7 +510,7 @@
                   </a>
               </li>
               <li>
-                <a href="{%url 'admin_site:inventory' %}">
+                <a href="{%url 'admin_site:return_product' %}">
                       <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returns</span>
                 </a>
             </li>
@@ -916,7 +945,7 @@
 {% endif %}
 
 
-{% if user.role == "staff"%}
+{% if user.role == "si_staff"%}
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
   <div class="d-flex align-items-center justify-content-between">
@@ -1264,7 +1293,7 @@
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
   <div class="d-flex align-items-center justify-content-between">
-    <a href="{% url 'delivery_staff_site:dashboard'%}" class="logo d-flex align-items-center">
+    <a href="{% url 'staff_site:dashboard'%}" class="logo d-flex align-items-center">
       <img src="{% static '/img/logo-header.svg'%}" alt="">
       <span class="d-none d-lg-block">SCOOPS 4 U</span>
     </a>
@@ -1333,42 +1362,30 @@
 <aside id="sidebar" class="sidebar">
   <ul class="sidebar-nav" id="sidebar-nav">
 
-      <li class="nav-item {% if sidebar == 'delivery_staffdashboard' %}active-nav{% endif %}">
-          <a class="nav-link {% if sidebar != 'delivery_staffdashboard' %}collapsed{% endif %}" href="{% url 'delivery_staff_site:dashboard'%}">
+      <li class="nav-item {% if sidebar == 'riderdashboard' %}active-nav{% endif %}">
+          <a class="nav-link {% if sidebar != 'riderdashboard' %}collapsed{% endif %}" href="{% url 'rider_site:dashboard'%}">
           <i class="ri-apps-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
           <span>Dashboard</span>
           </a>
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-heading pt-3">Management</li>
-      <li class="nav-item {% if sidebar == 'delivery_stafforders' %}active-nav{% endif %}">
-      <a class="nav-link {% if sidebar != 'delivery_stafforders' %}collapsed{% endif %}" href="{% url 'delivery_staff_site:transaction_orders'  %}">
+      <li class="nav-item {% if sidebar == 'riderorders' %}active-nav{% endif %}">
+      <a class="nav-link {% if sidebar != 'riderorders' %}collapsed{% endif %}" href="{% url 'rider_site:transaction_orders'  %}">
           <i class="ri-truck-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
           <span>Delivery</span>
       </a>
       </li><!-- End Products Page Nav -->
 
       <li class="nav-heading pt-3">Reports</li>
-      <li class="nav-item {% if sidebar == 'delivery_staffreport' %}active-nav{% endif %}">
-          <a class="nav-link {% if sidebar != 'delivery_staffreport' %}collapsed{% endif %}" href="{% url 'delivery_staff_site:report_deliver'%}">
+      <li class="nav-item {% if sidebar == 'riderreport' %}active-nav{% endif %}">
+          <a class="nav-link {% if sidebar != 'riderreport' %}collapsed{% endif %}" href="{% url 'rider_site:report_deliver'%}">
               <i class="ri-file-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
               <span>Delivery Report</span>
           </a>
       </li><!-- End Reports Page Nav -->
 
       <li class="nav-heading pt-3">Others</li>
-      <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#settings-nav" data-bs-toggle="collapse" href="#">
-              <i class="ri-settings-3-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Settings</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
-          </a>
-          <ul id="settings-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-              <li>
-              <a href="{% url 'admin_site:settings_profile' %}">
-                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Edit Profile</span>
-              </a>
-              </li>
-          </ul>
-      </li>
 
       <li class="nav-item {% if sidebar == 'support' %}active-nav{% endif %}">
         <a href="{% url 'admin_site:support' %}" class="nav-link {% if sidebar != 'support' %}collapsed{% endif %}">
@@ -1430,10 +1447,11 @@
 <script src="{% static '/js/dashboard.js' %}" alt=""></script>
 <script src="{% static '/js/receipt.js' %}"></script>
 <script src="{% static '/js/profile.js' %}"></script>
-<script src="{% static '/js/ta.js' %}"></script>
+<script src="{% static '/js/vfs_fonts.js' %}"></script>
+<script src="{% static '/js/table-reports.js' %}"></script>
 
 
-  
+
 
 
 

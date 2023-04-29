@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'staff_site',
     'rider_site',
     'django.contrib.humanize',
+
 ]
 
 MIDDLEWARE = [

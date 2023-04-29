@@ -190,6 +190,7 @@
                                                 <!-- <th scope="col">#</th> -->
                                                 <th scope="col">Product ID</th>
                                                 <th scope="col">Product Name</th>
+                                                <th scope="col">Flavor</th>
                                                 <th scope="col">Category</th>
                                                 <th scope="col">Unit</th>
                                                 {% if user.role == "reseller" %}
@@ -211,6 +212,7 @@
                                                     <!-- <td class="num-row"></td> -->
                                                     <td>{{ list.cart_pcode }}</td>
                                                     <td style="text-transform: capitalize;">{{ list.cart_name }}</td>
+                                                    <td style="text-transform: capitalize;">{{ list.cart_flavor }}</td>
                                                     <td style="text-transform: capitalize;">{{ list.cart_category }}</td>
                                                     <td>{{ list.cart_unit }}</td>
                                 
@@ -263,17 +265,6 @@
                         <div class="card-body">
                             <div class="add-product">
                                 <h5 class="card-title feature pt-3 mb-3">Order Summary</h5>
-                                <!-- {% if list_pospayment %}
-                                    {% if user.role == "admin" %}
-                                        <div class="recent-act">
-                                            <a href="{% url 'admin_site:click_receipt' %}">Recent Activity</a>
-                                        </div>
-                                    {% elif  user.role == "staff"%} 
-                                        <div class="recent-act">
-                                            <a href="{% url 'admin_site:click_receipt' %}">Recent Activity</a>
-                                        </div>
-                                    {% endif %}
-                                {% endif %} -->
                             </div> 
                             <div>
                                 {% if list_pos %}         
@@ -285,44 +276,43 @@
                                             <input type="text" value="Php {{ sum_amount|floatformat:2|intcomma }}" class="form-control text-end" step="0.01" min="0" readonly="readonly"> 
                                         </div>
 
-                                        <!-- <label style="font-weight: bolder;">Total Amount:</label>
-                                        <input type="text"  style="font-weight: bolder;" value="&#8369;{{sum_amount|floatformat:2|intcomma}}"  step="0.01" min="0" class="form-control"   readonly="readonly"> -->
 
                                         <!-- for hide -->
                                         <input type="hidden" name="total_amount"  value="{{sum_amount}}" class="form-control" id="total_amount"   readonly="readonly">  
 
-                                        <!-- <label for="">Cash</label>
-                                        <p id="msg" style=" display:none;"></p>
-                                        <input type="number" name="cash"  class="form-control"  id="cash" required> -->
 
                                         <div class="col-12 align-middle cash "  style="display:flex; flex-direction: row; justify-content: space-between; align-items: center;">
                                             <label for=""><span class="align-middle">Cash</span></label>
-                                            <p id="msg" class="pt-2" style=" display:none;"></p>
-                                            <input class="form-control text-end" type="number" name="cash" id="cash"  required>
+                                            <input class="form-control text-end" type="number" name="cash" id="cash" inputmode="numeric"   required>
+                                            
                                         </div>
-<!--                                     
-                                        <label for="">Change</label>
-                                        <input type="number" name="change"  class="form-control" id="change"  readonly="readonly">
-                                        <input type="hidden" name="get_id" id="get_id"> -->
+
+                                        <div class="col cash d-flex justify-content-end">
+                                            <p id="msg" class="py-2" style=" display:none;"></p>
+                                        </div>
+
 
                                         <div class="col-12 align-middle change" style="display:flex; flex-direction: row; justify-content: space-between; align-items: center;">
+
                                             <label for="">Change</label>
-                                            <input type="number" name="change" class="form-control text-end" id="change" placeholder="0.00" min="0.01" step="0.01" readonly="readonly" style="color: #001BDE">
+                                            <input type="text" name="vchange"  class="form-control text-end" id="vchange" placeholder="Php 0.00" readonly="readonly" style="color: #001BDE">
+                                            <input type="hidden" name="change"  class="form-control" id="change"  readonly="readonly">
                                             <input type="hidden" name="get_id" id="get_id">
                                         </div>
 
-                                        <!-- <div class="text-center pt-2" >
-                                        <button id="btn_compute" class="btn btn-success" >Compute</button>
-                                        <button  class="btn btn-success"id="btn-receipt" hidden>Receipt</button>
-                                        </div> -->
+                                        <div class="col-12 text-right d-flex justify-content-end return-text pe-2">
+                                            <input type="checkbox" name="return" id="return">
+                                            <label for="return" class="ps-2">To Return</label>
+                                        </div>
+                                        
 
                                         <div class="text-center mt-4">
                                             <button id="btn_compute" class="btn btn-comp mb-3" >compute</button>
-                                            <button  class="btn btn-receipt" id="btn-receipt" hidden>Receipt</button>
+                                            <button  class="btn btn-receipt d-none" id="btn-receipt">Receipt</button>
                                         </div>
                                     </form>
                                     
-                                    {% elif user.role == "staff" %}
+                                    {% elif user.role == "si_staff" %}
                                     <form action="{% url 'admin_site:add_receipt' %}" method="POST" id="form" >
                                         {% csrf_token %}
                                         <div class="col-12 total align-middle" style="display:flex; flex-direction: row; justify-content: space-between; align-items: center;">
@@ -330,36 +320,26 @@
                                             <input type="text" value="Php {{ sum_amount|floatformat:2|intcomma }}" class="form-control text-end" step="0.01" min="0" readonly="readonly"> 
                                         </div>
 
-                                        <!-- <label style="font-weight: bolder;">Total Amount:</label>
-                                        <input type="text"  style="font-weight: bolder;" value="&#8369;{{sum_amount|floatformat:2|intcomma}}"  step="0.01" min="0" class="form-control"   readonly="readonly"> -->
-
                                         <!-- for hide -->
                                         <input type="hidden" name="total_amount"  value="{{sum_amount}}" class="form-control" id="total_amount"   readonly="readonly">  
 
-                                        <!-- <label for="">Cash</label>
-                                        <p id="msg" style=" display:none;"></p>
-                                        <input type="number" name="cash"  class="form-control"  id="cash" required> -->
 
                                         <div class="col-12 align-middle cash "  style="display:flex; flex-direction: row; justify-content: space-between; align-items: center;">
                                             <label for=""><span class="align-middle">Cash</span></label>
-                                            <p id="msg" class="pt-2" style=" display:none;"></p>
-                                            <input class="form-control text-end" type="number" name="cash" id="cash"  required>
+                                            <input class="form-control text-end" type="number" name="cash" id="cash" inputmode="numeric"   required>
+                                            
                                         </div>
-<!--                                     
-                                        <label for="">Change</label>
-                                        <input type="number" name="change"  class="form-control" id="change"  readonly="readonly">
-                                        <input type="hidden" name="get_id" id="get_id"> -->
+
+                                        <div class="col cash d-flex justify-content-end">
+                                            <p id="msg" class="py-2" style=" display:none;"></p>
+                                        </div>
 
                                         <div class="col-12 align-middle change" style="display:flex; flex-direction: row; justify-content: space-between; align-items: center;">
                                             <label for="">Change</label>
-                                            <input type="number" name="change" class="form-control text-end" id="change" placeholder="0.00" min="0.01" step="0.01" readonly="readonly" style="color: #001BDE">
+                                            <input type="text" name="vchange"  class="form-control text-end" id="vchange" placeholder="Php 0.00" readonly="readonly" style="color: #001BDE">
+                                            <input type="hidden" name="change"  class="form-control" id="change"  readonly="readonly">
                                             <input type="hidden" name="get_id" id="get_id">
                                         </div>
-
-                                        <!-- <div class="text-center pt-2" >
-                                        <button id="btn_compute" class="btn btn-success" >Compute</button>
-                                        <button  class="btn btn-success"id="btn-receipt" hidden>Receipt</button>
-                                        </div> -->
 
                                         <div class="text-center mt-4">
                                             <button id="btn_compute" class="btn btn-comp mb-3" >compute</button>
@@ -427,6 +407,7 @@
                                 </thead>
                                 <tbody id="tableRow">
                                     {% for list in list_products %}
+                                    {% if list.product_stock > 0 %}
                                     <tr class="align-middle product-code">
                                         <td class="num-row"></td>
                                         <td>{{ list.product_code }}</td>
@@ -461,11 +442,13 @@
                                     <input type="hidden" name="product_code" value="{{ list.product_code }}">
                                     <input type="hidden" name="product_category" value="{{ list.product_category }}">
                                     <input type="hidden" name="product_name" value="{{ list.product_name}}">
+                                    <input type="hidden" name="product_flavor" value="{{ list.product_flavor}}">
                                     <input type="hidden" name="product_unit" value="{{ list.product_unit }}">
                                     <input type="hidden" name="product_reseller_price" value="{{ list.product_ResellerPrice }}">
                                     <input type="hidden" name="product_price" value="{{ list.product_price }}">
                                     </form>
                                     </tr>
+                                    {% endif %}
                                     {% endfor %}
                                 </tbody>
                             </table>

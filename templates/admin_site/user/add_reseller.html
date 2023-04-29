@@ -22,7 +22,7 @@
 
                 <!-- this should be sex not gender -->
                 <label for="sex">Sex</label>
-                <select name="gender" class="form-control" id="gender" required >
+                <select name="gender" class="form-control form-select" id="gender" required >
                     <option ></option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -55,6 +55,7 @@
         <div class="modal-footer border-0">
             <!-- <button type="submit" class="btn btn-primary" value="Add Product"><i class="ri-check-fill"></i>Add Product</button> -->
             <button type="submit" name="submit" class="btn btn-primary me-2"><i class="ri-check-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Add</span></button>
-            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"><i class="ri-close-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Cancel</span></button>
+            <a href="{% url 'admin_site:list_reseller' %}" type="submit" id="close-modal" class="btn btn-secondary" data-bs-dismiss="modal" style="font-size: 15px; padding: 5px 13px;"><i class="ri-close-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Cancel</span></a>
+            <!-- <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"><i class="ri-close-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Cancel</span></button> -->
         </div>
 </form>    

@@ -11,6 +11,22 @@ $(document).ready(function () {
     }).removeClass('bg-danger')
         .addClass('bg-primary')
 
+    $('.badge-status').filter(function () {
+        return $(this).text() == 'pending';
+    }).removeClass('bg-danger')
+        .addClass('bg-pending')
+
+
+    $('.badge-status').filter(function () {
+        return $(this).text() == 'unreturned';
+    }).removeClass('bg-danger')
+        .addClass('bg-pending')
+
+    $('.badge-status').filter(function () {
+        return $(this).text() == 'returned';
+    }).removeClass('bg-danger')
+        .addClass('bg-primary')
+
 
     // badge-status
 
@@ -39,6 +55,7 @@ $(document).ready(function () {
         .removeClass('bg-pending')
 
 
+    
 
 
 });

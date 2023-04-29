@@ -21,17 +21,45 @@ $(document).ready(function () {
         e.preventDefault();
         $('#addUser').modal('show').find('.modal-content').load($(this).attr('href'));
     });
+
     // Add Reseller
     $('.modal-add').on('click', function(e){
         e.preventDefault();
         $('#addReseller').modal('show').find('.modal-content').load($(this).attr('href'));
     });
 
+
+    // Add Reseller
+    $('.modal-add').on('click', function(e){
+        e.preventDefault();
+        $('#addReseller').modal('show').find('.modal-content').load($(this).attr('href'));
+    });
+    
+
     // Add Product
     $('.modal-add-prod').on('click', 'a', function(e){
         e.preventDefault();
         $('#addProductModal').modal('show').find('.modal-content').load($(this).attr('href'));
     });
+
+    // Add Product
+    $('.modal-add-res').on('click', 'a', function(e){
+        e.preventDefault();
+        $('#addResellerEmpty').modal('show').find('.modal-content').load($(this).attr('href'));
+    });
+
+    // Add Product
+    $('.modal-add-ret').on('click', 'a', function(e){
+        e.preventDefault();
+        $('#addReturnModal').modal('show').find('.modal-content').load($(this).attr('href'));
+    });
+
+        // // Add Reseller
+        // $('.modal-add-res').on('click', function(e){
+        //     e.preventDefault();
+        //     $('#addResellerEmpty').modal('show').find('.modal-content').load($(this).attr('href'));
+        // });
+        
 
     // Select Product
     $('.modal-select-prod').on('click', 'a', function(e){
@@ -78,6 +106,18 @@ $(document).ready(function () {
     $('.modal-edit').on('click', function(e){
         e.preventDefault();
         $('#editUser').modal('show').find('.modal-content').load($(this).attr('href'));
+    });
+
+    // Edit User
+    $('.modal-edit').on('click', function(e){
+        e.preventDefault();
+        $('#editProduct').modal('show').find('.modal-content').load($(this).attr('href'));
+    });
+
+    // Edit User
+    $('.modal-edit').on('click', function(e){
+        e.preventDefault();
+        $('#editReturn').modal('show').find('.modal-content').load($(this).attr('href'));
     });
 
     // Receipt

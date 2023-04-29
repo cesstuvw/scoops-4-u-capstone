@@ -20,8 +20,9 @@
 
         <label for="Product Unit">POS Price</label>
         <input type="number" placeholder="Update Pos Price" name="pos_price" class="form-control" value="{{ list_product.product_price }}">
-
-        <select name="status" class="form-select" id="gender" required >
+        
+        <label for="status">Status</label>
+        <select name="status" class="form-select form-control" id="gender" required >
             <option value="available"{% if list_product.product_status == 'available' %}selected{% endif %}>available</option>
             <option value="not available"{% if list_product.product_status == 'not available' %}selected{% endif %}>not available</option>
         </select>

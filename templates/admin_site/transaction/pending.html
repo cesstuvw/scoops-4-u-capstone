@@ -24,8 +24,8 @@
             {% if user.role == "staff"%}
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'staff_site:dashboard'%}">Home</a></li>
-                <li class="breadcrumb-item">Inventory</li>
-                <li class="breadcrumb-item active">Add Stock</li>
+                <li class="breadcrumb-item">Order</li>
+                <li class="breadcrumb-item active">Pending</li>
             </ol>
             {% endif %}
         </nav>
@@ -48,7 +48,7 @@
 <section class="section">
 
     <div class="empty-screen d-none">
-        <img src="../../../../static/img/nopendingorders.svg" alt="haha">
+        <img src="../../../../static/img/nopendingorders.svg" alt="">
         <h5>No Pending Orders</h5>
         <p>There are currently no pending orders from resellers online.</p>
     </div>

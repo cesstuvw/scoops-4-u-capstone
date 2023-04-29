@@ -69,6 +69,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Product Code</th>
                                     <th scope="col">Product Name</th>
+                                    <th scope="col">Flavor</th>
                                     <th scope="col">Product Category</th>
                                     <th scope="col">Unit</th>
                                     <th scope="col">Reseller Price</th>
@@ -88,6 +89,7 @@
                                             <a href="{% url 'admin_site:view_product' list.id %}" data-bs-toggle="modal" data-bs-target="#viewProductModal" class="text-decoration-none"><span >{{ list.product_code }}</span></a>
                                         </td>
                                         <td style="text-transform: capitalize;">{{ list.product_name }}</td>
+                                        <td style="text-transform: capitalize;">{{ list.product_flavor }}</td>
                                         <td style="text-transform: capitalize;">{{ list.product_category }}</td>
                                         <td>{{ list.product_unit }}</td>
                                         <td>Php {{ list.product_ResellerPrice|floatformat:2|intcomma }}</td>
@@ -140,7 +142,7 @@
     </div>
 
     <!-- EDIT PRODUCT -->
-    <div class="modal fade border-0" id="editUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade border-0" id="editProduct" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content border-0 p-4">
                 

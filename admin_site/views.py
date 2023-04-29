@@ -20,7 +20,6 @@ from django.urls import reverse
 
 
 
-
 # Create your views here.
 @login_required(login_url='landing_page:login')
 def dashboard_admin(request):
@@ -219,7 +218,7 @@ def add_reseller(request):
 
             
             #showing message
-            messages.sucess(request,"Successfully")
+            messages.success(request,"Successfully")
             return redirect('admin_site:list_reseller')
     else:
         pass
@@ -375,7 +374,7 @@ def view_product(request, productid):
     list_product = Product.objects.get(id = productid)
     current_pcode = list_product.product_code
     list_batch = By_Batch.objects.filter(product_code = current_pcode)
-    latest_bnumber = By_Batch.objects.filter(product_code = current_pcode).aggregate(max = Max('product_batch'))['max']
+    latest_bnumber = By_Batch.objects.filter(product_code = current_pcode).count()	
     context ={
         'list_product':list_product,
         'list_batch':list_batch,
@@ -388,12 +387,12 @@ def add_product(request):
         list_category = Settings_category.objects.all()	
         list_flavor = Settings_flavor.objects.all()	
         list_unit = Settings_unit.objects.all()
-        list_settings = Settings.objects.all()
+        # list_settings = Settings.objects.all()
         context={
             'list_category':list_category,	
             'list_flavor':list_flavor,	
             'list_unit':list_unit,
-            'list_settings':list_settings
+            # 'list_settings':list_settings
         }
         return render(request, 'admin_site/products/add_product.html',context)
 
@@ -406,6 +405,7 @@ def process_product(request):
 
         pcategory = request.POST['category']
         pname = request.POST['product_name']
+        flavor = request.POST['flavor']
         product_unit = request.POST['unit']
         r_price = int(request.POST['reseller_price'])
         pprice = int(request.POST['price'])
@@ -651,7 +651,7 @@ def update_inventory(request, productid):
      
 
         #check batch
-        by_batch = By_Batch.objects.filter(product_code = product.product_code).aggregate(max = Max('product_batch'))['max']
+        by_batch = By_Batch.objects.filter(product_code = product.product_code).count()
         
         
         if by_batch == None:
@@ -815,13 +815,14 @@ def pos_receipt_process(request):
         
         
 
+
 def pos_addreceipt(request):
     if request.method == "POST":
-    
 
         #saving to pos payment in databse
         pos_id = request.POST['get_id']
-        
+
+
         if Cart_Payment.objects.filter(cart_user =request.user.role, cart_status="not Print"):
             messages.error(request,('receipt still not done'))
             return redirect('admin_site:pos')
@@ -831,7 +832,6 @@ def pos_addreceipt(request):
             new_Cart_Payment.cart_no = pos_id
             new_Cart_Payment.cart_TotalAmount = request.POST.get('total_amount')
             new_Cart_Payment.cart_cash = request.POST.get('cash')
-            
             new_Cart_Payment.cart_change = request.POST.get('change')
             new_Cart_Payment.cart_status = "not Print"
             new_Cart_Payment.save()
@@ -1158,7 +1158,8 @@ def transaction_view(request, id):
 def return_product(request):	
         return_product = Return_product.objects.all()	
         context ={	
-            'return_product':return_product 	
+            'return_product':return_product,
+            'sidebar' : 'returns' 	
         }	
         return render(request,'admin_site/transaction/return_products.html',context)
 
@@ -1182,6 +1183,28 @@ def add_returnproduct(request):
     }	
     return render(request, 'admin_site/transaction/add_return.html',context)
 
+@login_required(login_url='landing_page:login')	
+def edit_returnproduct(request,id):	
+    return_product = Return_product.objects.get(pk = id)	
+
+    context={	
+        'return_product':return_product	
+    }	
+    return render(request, 'admin_site/transaction/edit_return.html',context)
+    
+@login_required(login_url='landing_page:login')	
+def update_returnproduct(request,id):	
+    return_product = Return_product.objects.get(pk = id)	
+    if request.method == "POST":	
+        return_product.product_code = request.POST.get('pcode')	
+        return_product.product_qty= request.POST.get('qty')	
+        return_product.reseller_name = request.POST.get('reseller_name')	
+        return_product.reason =  request.POST.get('reason')	
+        return_product.return_date =  request.POST.get('date')	
+        return_product.return_status =  request.POST.get('status')	
+        return_product.save()	
+        messages.success(request,("Successfully Updated"))	
+        return redirect ('admin_site:return_product')
 
 #settings feature	
 def settings_product(request):	
@@ -1290,11 +1313,13 @@ def report_res(request):
 def report_product(request):
     list_products = Product.objects.all().order_by('-id')
     list_profile = Profile.objects.filter(list_user = request.user)
+    list_category = Settings_category.objects.all()	
 
     context = {
         'list_products':list_products,
         'sidebar': 'rep_prod',
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'list_category': list_category,
     }
     return render(request, 'admin_site/reports/rep_product.html', context)
 
@@ -1443,6 +1468,7 @@ def search_date_actlog(request):
 
 
 
+
 @login_required(login_url='landing_page:login')
 def search_online_sales(request):
     if request.method == "POST":
@@ -1538,3 +1564,5 @@ def export_view(request):
         'list_profile': list_profile
     }
     return render(request, 'admin_site/profile/my_profile.html', context)
+
+

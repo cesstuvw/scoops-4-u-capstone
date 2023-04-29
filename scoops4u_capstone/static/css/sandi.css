@@ -841,6 +841,9 @@ font-family: P-SemiBold;
 
 .btn-edit:hover,
 .btn-place:hover,
+.btn-placeUs:hover,
+.btn-placeRes:hover,
+.btn-placePro:hover,
 .btn-archive:hover,
 .btn-trash:hover,
 .dt-button:hover{
@@ -1272,6 +1275,9 @@ textarea{
   display: none !important;
 }
 .btn-place .dropdown-toggle::after,
+.btn-placeUs .dropdown-toggle::after,
+.btn-placePro .dropdown-toggle::after,
+.btn-placeRes .dropdown-toggle::after,
 .btn-placePOS .dropdown-toggle::after,
 .btn-placeV .dropdown-toggle::after,
 .btn-placeOS .dropdown-toggle::after{
@@ -1766,12 +1772,13 @@ input{
   font-family: P-Light !important;
 }
 
-.change input[type="number"]{
+.change input[type="text"]{
   background-color: #E5E9F9;
   color: var(--primary-c-blue) !important;
   width: 55%;
   height: 85%;
   font-family: p-SemiBold;
+  /* text-transform: capitalize !important; */
 }
 
 .total label{
@@ -1789,6 +1796,13 @@ input{
   font-family: P-SemiBold;
   color: var(--primary-c-white-text);
   text-transform: uppercase;
+  border: 2px solid var(--primary-c-blue);
+}
+
+.btn-comp:hover{
+  border: 2px solid var(--primary-c-blue);
+  background-color: var(--c-l-purple);
+  color: var(--primary-c-blue);
 }
 
 .btn-receipt{
@@ -1797,6 +1811,12 @@ input{
   font-family: P-SemiBold;
   color: var(--primary-c-blue);
   text-transform: uppercase;
+  border: 2px solid var(--primary-c-white-text);
+}
+
+.btn-receipt:hover{
+  border: 2px solid var(--primary-c-blue);
+  background-color: var(--primary-c-white-text);
 }
 /* 
 .recent-act{
@@ -2059,6 +2079,10 @@ thead th.sorting::after {
 }
 
 #tableRep,
+#tableRepPro,
+#tableRepSto,
+#tableRepUs,
+#tableRepRes,
 #tableView,
 #tableRepPOS,
 #tableRepOS,
@@ -2177,6 +2201,14 @@ thead .sort-no {
 #tableOrder td,
 #tableRep th,
 #tableRep td,
+#tableRepSto th,
+#tableRepSto td,
+#tableRepPro th,
+#tableRepPro td,
+#tableRepRes th,
+#tableRepRes td,
+#tableRepUs th,
+#tableRepUs td,
 #tableView th,
 #tableView td,
 #tableRepPOS th,
@@ -2216,6 +2248,10 @@ thead .sort-no {
 
 .empty-screen,
 .empty-screen1,
+.empty-screenUs,
+.empty-screenRes,
+.empty-screenSto,
+.empty-screenAct,
 .empty-screen2{
   display: flex;
   justify-content: center;
@@ -2227,7 +2263,12 @@ thead .sort-no {
 }
 
 .empty-screen h5,
+.empty-screenAct h5,
 .empty-screen1 h5,
+.empty-screenPro h5,
+.empty-screenRes h5,
+.empty-screenUs h5,
+.empty-screenSto h5,
 .empty-screen2 h5{
   font-family: P-Bold;
   font-size: 1.3rem;
@@ -2236,12 +2277,22 @@ thead .sort-no {
 
 .empty-screen img,
 .empty-screen1 img,
+.empty-screenPro img,
+.empty-screenSto img,
+.empty-screenRes img,
+.empty-screenUs img,
+.empty-screenAct img,
 .empty-screen2 img{
   width: 30%;
 }
 
 .empty-screen p,
+.empty-screenUs p,
+.empty-screenRes p,
+.empty-screenPro p,
+.empty-screenSto p,
 .empty-screen1 p,
+.empty-screenAct p,
 .empty-screen2 p{
   max-width: 30%;
   font-size: .9375rem;
@@ -2603,3 +2654,71 @@ btn-edit-profile{
   page-break-before: always;
 }
 
+
+.modal-add-res a{
+  color: var(--primary-c-blue) !important;
+}
+
+
+
+.filter-wrapper .filter-checkbox{
+  margin-left: 1rem;
+  margin-right: 0.4rem;
+}
+
+.filter-wrapper label,
+.main-sdie label,
+.main-sdie .form-select{
+  font-family: P-Medium !important;
+  color: var(--primary-c-grey-text) !important;
+  font-size: .8rem !important;
+}
+
+.main-sdie .role-main{
+  font-family: P-Bold !important;
+}
+
+
+.main-sdie option{
+  border: none;
+  font-size: 0.85rem;
+  box-shadow: -1px 5px 15px rgba(0, 0, 0, 0.05) !important;
+  /* background: var(--primary-c-white); */
+}
+
+.right-sdie{
+  display: flex;
+  justify-content: end;
+  align-items: center !important;
+}
+
+.main-sdie{
+  display: flex;
+  align-items: center !important;
+  justify-content: end !important;
+}
+
+.right-sdie .dt-button.buttons-collection{
+  padding: 0 !important;
+}
+
+.main-sdie-right .search-tab{
+  width: 12.1rem;
+  position: relative;
+}
+
+.main-sdie-right .btn-search{
+  position: absolute;
+  top: 4px;
+  right: 6px;
+}
+
+.main-sdie-right{
+  display: flex;
+  justify-content: end;
+}
+
+.return-text label{
+  font-family: P-Medium;
+  
+}

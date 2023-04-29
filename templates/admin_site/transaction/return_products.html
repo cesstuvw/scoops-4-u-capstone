@@ -1,0 +1,148 @@
+
+
+{% extends 'admin_site/base.html' %}
+
+
+{% block title %}
+    RETURNS
+{% endblock title %}
+
+{% block content %}
+{% load humanize %}
+
+<main id="main" class="main mt-5">
+    <div class="pagetitle">
+        <h1>Returns</h1>
+        <nav>
+            {% if user.role == "admin"%}
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'admin_site:dashboard'%}">Home</a></li>
+                <li class="breadcrumb-item">Order</li>
+                <li class="breadcrumb-item active">Returns</li>
+            </ol>
+            {% endif %}
+        </nav>
+    </div><!-- End Page Title -->
+
+    {% for message in messages  %}
+    {% if 'success' in message.tags %}
+    <p class='alert alert-success mt-3'>{{message}}</p>
+    {% elif 'error' in message.tags %}
+    <p class='alert alert-danger mt-3'>{{message}}</p>
+    {% else %}
+    <p class='alert alert-info mt-3'>{{message}}</p>
+    {% endif %}
+    {% endfor %}
+
+    <section class="section ">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body mt-3">
+                        <div class="add-product product-d mb-4">
+                            <h5 class="card-title feature">Returns</h5>
+                            <div class="show-entries">
+                                <div id="showEntries"></div>
+                            </div>
+                            <div class="modal-add-ret">
+                                <a href="{% url 'admin_site:add_returnproduct' %}" class="btn btn-add-product" data-bs-toggle="modal" data-bs-target="#addReturnModal"><i class="ri-add-line align-middle me-2 text-end" style="font-size:17px; font-weight: 500;"></i><span class="align-middle pe-1">Return A Product</span></a>
+                            </div>
+                            <form class="search-tab" action="{% url 'admin_site:search_product' %}" method="GET"  class="text-end px-4">
+                                {% csrf_token %}
+                                <input type="text" id="tableM" class="form-control p-2 ps-3" name="search" placeholder="Search">
+                                <button class="btn btn-search btn-sm nope" type="submit"><i class="ri-search-line"></i></button>
+                            </form>  
+                        </div> 
+                        
+                        <!-- Table with hoverable rows -->
+                        <div class="table-responsive">
+                            <table id="tableMain" class="table table-hover">
+                                <thead>
+                                <tr class="align-middle">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Product Code</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Reseller</th>
+                                    <th scope="col">Reason</th>
+                                    <th scope="col">Return Date</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col" class="sort-no">Action</th>
+                                </tr>
+                                </thead>
+                            
+                                <tbody id="tableRow">
+                                    {% for list in return_product %}
+                                    <tr class="align-middle">
+                                        <td class="num-row"></td>
+                                        <!-- <td class="modal-view-product">
+                                            <a href="{% url 'admin_site:view_product' list.id %}" data-bs-toggle="modal" data-bs-target="#viewProductModal" class="text-decoration-none"><span >{{ list.product_code }}</span></a>
+                                        </td> -->
+                                        <td style="text-transform: capitalize;">{{ list.product_code }}</td>
+                                        <td style="text-transform: capitalize;">{{ list.product_qty }}</td>
+                                        <td style="text-transform: capitalize;">{{ list.reseller_name }}</td>
+                                        <td>{{ list.reason }}</td>
+                                        <td>{{ list.return_date }}</td>
+                                        <td><span class="badge badge-status rounded-pill bg-primary">{{ list.return_status }}</span></td>
+                                        <td>
+                                            <form class="action"  method="POST">
+                                                <a href="{% url 'admin_site:edit_returnproduct' list.id %}"class="btn btn-edit modal-edit"><i class="ri-edit-fill"></i></a>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- End Table with hoverable rows -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ADD RETURN -->
+    <div class="modal fade border-0"  id="addReturnModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content border-0 p-4">
+                
+            </div>
+        </div>
+    </div>
+
+     <!-- EDIT PRODUCT -->
+     <div class="modal fade border-0" id="editReturn" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content border-0 p-4">
+                
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+        // product status
+    //     $('.badge-stat-prod').filter(function () {
+    //     return $(this).text() == 'available';
+    // }).removeClass('bg-danger')
+    //     .addClass('bg-primary')
+
+    // $('.badge-stat-prod').filter(function () {
+    //     return $(this).text() == 'not available';
+    // }).addClass('bg-danger')
+    //     .removeClass('bg-primary')
+
+        // var stockNo = '{{ list.product_stock }}'
+
+        // if (!(stockNo > 0)){
+        //     $('badge-stat-prod').val('available');
+        //     $('badge-stat-prod').removeClass('bg-danger');
+        //     $('badge-stat-prod').addClass('bg-primary');
+        // }
+        // else{
+        //     $('badge-stat-prod').val('not available');
+        //     $('badge-stat-prod').addClass('bg-danger');
+        //     $('badge-stat-prod').removeClass('bg-primary');
+        // }
+</script>
+{% endblock content %}
+    

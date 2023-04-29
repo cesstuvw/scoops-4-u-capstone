@@ -199,12 +199,12 @@ def checkout(request):
                     minus_stock =  current_stock - cart_quantity	
                     products.product_stock = minus_stock	
                     products.save()	
-                    if products.product_stock <= 20:	
+                    if products.product_stock == 0:	
                         products.product_status = "not available"	
                         products.save()	
-                    elif products.product_stock == 0:	
+                    elif products.product_stock <= 20:	
                         products.product_status = "not available"	
-                        products.save()	
+                        products.save()
                 pos.delete()	
                 messages.success(request, ("Please wait for your order"))	
                 return redirect('reseller_site:transaction_orders')

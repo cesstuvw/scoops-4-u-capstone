@@ -1,0 +1,110 @@
+{% extends 'admin_site/base.html' %}
+
+{% block title %}
+    REPORTS - PRODUCT STOCKS
+{% endblock title %}
+
+{% load static %}
+{% load humanize %}
+{% block content %}
+
+<style>
+    @media print{
+        tr {
+            page-break-inside: avoid;
+        }
+    }
+</style>
+
+<main id="main" class="main mt-5">
+    <div class="pagetitle">
+        <h1>Product Stocks</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'admin_site:dashboard'%}">Home</a></li>
+                <li class="breadcrumb-item">Reports</li>
+                <li class="breadcrumb-item active">Product Stocks</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body mt-3">
+                        <div class="report-u act-d">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h5 class="card-title feature">STOCKS</h5>
+                                    <div id="btn-place"></div>
+                                    <div class="show-entries mb-4">
+                                        <div id="showEntries"></div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-5  d-flex flex-column justify-content-end">
+                                    <div class="d-flex flex-row align-items-center mb-1 input-daterange">
+
+                                        <input type="type" id="min" name="min" class="form-control date-range-filter" placeholder="mm/dd/yyyy">
+                                        
+                                        <span class="px-2 date-to">to</span>
+                                        <input type="type" id="max" name="max" class="form-control date-range-filter"  placeholder="mm/dd/yyyy">
+
+                                        <button class="btn btn-edit btn-filter ms-3 pe-0"><i class="ri-close-circle-fill"></i></button>
+                                        <button class="btn-place btn btn-edit" data-toggle="tooltip" data-placement="bottom" title="Save/Export"></button>
+
+                                    </div>
+                                    <form class="search-tab mb-4" action="{% url 'admin_site:search_reseller' %}" method="GET"  class="text-end px-4">
+                                        {% csrf_token %}
+                                        <input type="text" id="tableM" class="form-control p-2 ps-3" name="search" placeholder="Search">
+                                        <button class="btn btn-search btn-sm nope" type="submit"><i class="ri-search-line"></i></button>
+                                    </form>  
+                                </div>
+                            </div>
+                        </div>
+
+                            <!-- Table with hoverable rows -->
+                        {% if list_inventory %}  
+                        <div class="table-responsive">
+                            
+                            <table id="tableRep" class="table table-hover ">
+                                <thead>
+                                    <tr class="align-middle">
+                                        <th scope="col">#</th>
+                                        <th scope="col">Product Code</th>
+                                        <th scope="col">Product Name</th>
+                                        <!-- <th scope="col">Product Flavor</th> -->
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Date-Time Added</th>
+                                    </tr>
+                                </thead>
+                            
+                                <tbody id="tableRow">
+                                    {% for list in list_inventory %}   
+                                    <tr class="align-middle">
+                                        <td class="num-row"></td>
+                                        <td class="text-decoration-none">{{ list.product_code }}</td>
+                                        <td style="text-transform: capitalize;">{{ list.product_name }}</td>
+                                        <!-- <td style="text-transform: capitalize;">{{ list.product_flavor }}</td> -->
+                                        <td>{{ list.product_quantity }}</td>
+                                        <td>{{ list.created_at|date:"m/d/Y h:i A" }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% endif %}
+                        <!-- End Table with hoverable rows -->
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+{% endblock content %}
+    

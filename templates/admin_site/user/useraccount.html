@@ -100,7 +100,12 @@
                                         <td class="num-row"></td>
                                         <td>{{ list.username }}</td>
                                         <td>{{ list.email }}</td>
-                                        <td class="role">{{ list.role }}</td>
+                                        <td class="role">
+                                            {{ list.role|title }}
+
+
+                                        </td>
+                                        
                                         <td><span class="badge badge-status rounded-pill bg-primary">{{ list.status }}</span></td>
                                         
                                         <!-- <form method="POST" action="{% url 'admin_site:archive_reseller'  list.id %}" onsubmit="return submitForm(this);">

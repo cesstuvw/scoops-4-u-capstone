@@ -37,13 +37,26 @@
     {% endfor %}
 
     <section class="section">
-        <div class="empty-screen1 d-none">
-            <img src="../../../../static/img/noresellers.svg" alt="haha">
+        <div class="empty-screen1 d-none modal-add-res">
+            <img src="../../../../static/img/noresellers.svg" alt="">
             <h5>No Resellers</h5>
-            <p>There are currently no records of resellers registered on the system.</p>
+            <p>There are currently no records of resellers registered on the system. 
+                <a href="{% url 'admin_site:add_reseller' %}" data-bs-toggle="modal" data-bs-target="#addResellerEmpty">Add</a> Now.
+                <!-- <div class="modal-add-res">
+                </div> -->
+            </p>
         </div>
 
-        <div id="resID" class="row d-none">
+            <!-- ADD PRODUCT -->
+        <div class="modal fade border-0"  id="addResellerEmpty">
+            <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content border-0 p-4">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div id="resliID" class="row d-none">
             <div class="col-lg-12">
                 <div class="card">
 
@@ -54,7 +67,7 @@
                                 <div id="showEntries"></div>
                             </div>
                             
-                            <a href="{% url 'admin_site:add_reseller' %}" class="btn btn-add modal-add"><i class="ri-add-line align-middle me-2 text-end" style="font-size:17px; font-weight: 500;"></i><span class="align-middle pe-1">Add a New Reseller</span></a>
+                            <a href="{% url 'admin_site:add_reseller' %}" class="btn btn-add modal-add" data-bs-toggle="modal" data-bs-target="#addReseller"><i class="ri-add-line align-middle me-2 text-end" style="font-size:17px; font-weight: 500;"></i><span class="align-middle pe-1">Add a New Reseller</span></a>
                             <!-- <a href="{% url 'admin_site:add_reseller' %}" class="btn btn-add" data-add="addRes" data-bs-toggle="modal" data-bs-target="#addReseller"><i class="ri-add-line align-middle me-2 text-end" style="font-size:17px; font-weight: 500;"></i><span class="align-middle pe-1">Add a New Reseller</span></a> -->
                             <form class="search-tab" action="{% url 'admin_site:search_reseller' %}" method="GET"  class="text-end px-4">
                                 {% csrf_token %}

@@ -15,9 +15,9 @@
         <label for="">Role</label>
         <select name="role" class="form-control" id="role" required >
             <option value="admin"{% if list_users.role == 'admin' %}selected{% endif %}>admin</option>
-            <option value="staff"{% if list_users.role == 'staff' %}selected{% endif %}>staff</option>
+            <option value="si_staff"{% if list_users.role == 'si_staff' %}selected{% endif %}>si staff</option>
             <option value="reseller"{% if list_users.role == 'reseller' %}selected{% endif %}>reseller</option>
-            <option value="rider"{% if list_users.role == 'rider' %}selected{% endif %}>rider</option>
+            <option value="delivery_staff"{% if list_users.role == 'delivery_staff' %}selected{% endif %}>delivery staff</option>
         </select>
 
         <label >Status </label>

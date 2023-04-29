@@ -17,7 +17,8 @@ $(document).ready(function(){
         var result =  cash - total_amount
 ;
         // var formattedNumber = new result.toLocaleString('en-PH', options);
-        var currency = parseFloat(result).toLocaleString('en-PH', { style: 'currency', currency: 'PHP' });
+        var currency = parseFloat(result).toLocaleString('en-PH', { style: 'currency', currency: 'PHP', currencyDisplay: 'code' }).replace('PHP', 'Php');
+       
         var msg = $('#msg')
         var pos_id = $('#pos_id').val()
 
@@ -25,7 +26,9 @@ $(document).ready(function(){
         if(cash >= total_amount){
             $('#get_id').val(pos_id)
             $('#vchange').val(currency)
-            $('#change').val(result)
+            $('#change').val(result).css('text-transform', 'capitalize');
+            // $('#change').val(result.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' }));
+
             // $('#btn-receipt').removeAttr('hidden');
             $('#btn-receipt').show()	
             
@@ -37,9 +40,11 @@ $(document).ready(function(){
             // $('#msg').css("fontSize", "20px")
             $('#msg').css("display", "block")
             msg.html('<i class="msg">Insufficient Payment<i/>')
-            setTimeout(function (){
-                $('.msg').remove()
-            },3000)
+            // msg.html('<p class="msg">Insufficient Payment</p>')
+            $('#vchange').val("Php 0.00").css('text-transform', 'capitalize');
+            setTimeout(function() {
+                $('#msg').css("display", "none");
+            }, 3000);
         }
         
     })
@@ -63,16 +68,20 @@ $(document).ready(function(){
     $('#return').change(function() {	
         var defaultCash = 0	
         if(this.checked) {	
-            $('#cash').val(defaultCash)	
-            $('#vchange').val("0.00")	
+            $('.cash').addClass('d-none')
+            $('.change').addClass('d-none')
+            $('#cash').val(defaultCash)
+            $('#vchange').val("Php 0.00")	
             $('#change').val(0)	
-            $('#btn-receipt').show()	
-            $('#btn_compute').hide(1000)	
+            $('#btn-receipt').removeClass('d-none')
+            $('#btn_compute').addClass('d-none')
         
         } else {	
         
-            $('#btn-receipt').fadeOut(1000)	
-            $('#btn_compute').show()	
+            $('#btn-receipt').addClass('d-none')	
+            $('.cash').removeClass('d-none')
+            $('.change').removeClass('d-none')
+            $('#btn_compute').removeClass('d-none')	
             $('#cash').val("")	
             $('#vchange').val("")	
     
