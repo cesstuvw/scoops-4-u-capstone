@@ -99,16 +99,16 @@
 
 
           {% if list_profile %}
-            {% for list in list_profile %}
-              {% if list.profile_pic %}
-                <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
-                {% else %}
-                <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
-              {% endif %}
-            
-            <!-- <img src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle"> -->
-            {% endfor %}
-          {% endif %}
+          {% for list in list_profile %}
+            {% if list.profile_pic %}
+              <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
+            {% else %}
+              <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
+        {% endif %}
           <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i>
           <span class="d-none d-md-block dropdown-toggle ps-2" style="text-transform: capitalize;">
             {{ user }}
@@ -964,8 +964,9 @@
   </div><!-- End Search Bar -->
   
   <div class="POS POS-header">
-      <a href="{%url 'admin_site:pos' %}">POS</a>
-    </div>
+    <i class="fa-solid fa-cash-register"></i>
+    <a href="{%url 'admin_site:pos' %}">POS</a>
+  </div>
     <!-- End POS -->
   
   <nav class="header-nav ms-auto">
@@ -981,21 +982,22 @@
         <a class="nav-link nav-profile d-flex align-items-center me-3" href="#" data-bs-toggle="dropdown">
           
           {% if list_profile %}
-            {% for list in list_profile %}
-              {% if list.profile_pic %}
-                <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
-                {% else %}
-                <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
-              {% endif %}
-            
-            <!-- <img src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle"> -->
-            {% endfor %}
-          {% endif %}
-          <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i>
-          <span class="d-none d-md-block dropdown-toggle ps-2" style="text-transform: capitalize;">
-            {{ user }}
-          </span>
-        </a><!-- End Profile Image Icon -->
+          {% for list in list_profile %}
+            {% if list.profile_pic %}
+              <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
+            {% else %}
+              <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
+        {% endif %}
+        
+        <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i>
+        <span class="d-none d-md-block dropdown-toggle ps-2" style="text-transform: capitalize;">
+          {{ user }}
+        </span>
+      </a><!-- End Profile Image Icon -->
   
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile p-2">
   
@@ -1161,6 +1163,7 @@
   </div><!-- End Search Bar -->
   
   <div class="POS POS-header">
+      <i class="fa-solid fa-cart-shopping"></i>
       <a href="{% url 'reseller_site:add_cart'  %}">Order</a>
     </div>
     <!-- End POS -->
@@ -1180,12 +1183,12 @@
           {% for list in list_profile %}
             {% if list.profile_pic %}
               <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
-              {% else %}
+            {% else %}
               <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
             {% endif %}
-          
-          <!-- <img src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle"> -->
           {% endfor %}
+        {% else %}
+          <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
         {% endif %}
         <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i>
           <span class="d-none d-md-block dropdown-toggle ps-2" style="text-transform: capitalize;">
@@ -1272,19 +1275,19 @@
         </a>
       </li><!-- End Search Icon-->
   
-      <li class="nav-item dropdown pe-3">
+      <li class="nav-item dropdown pe-3 header-icon" >
   
         <a class="nav-link nav-profile d-flex align-items-center me-3" href="#" data-bs-toggle="dropdown">
           {% if list_profile %}
           {% for list in list_profile %}
             {% if list.profile_pic %}
               <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
-              {% else %}
+            {% else %}
               <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
             {% endif %}
-          
-          <!-- <img src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle"> -->
           {% endfor %}
+        {% else %}
+          <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
         {% endif %}
         <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i>
           <span class="d-none d-md-block dropdown-toggle ps-2" style="text-transform: capitalize;">

@@ -68,6 +68,7 @@
             </div><!-- End Search Bar -->
             
             <div class="POS POS-header">
+                <i class="fa-solid fa-cart-shopping" style="color: #001BDE !important"></i>
                 <a class="active" href="{%url 'reseller_site:add_cart' %}">Order</a>
             </div>
             <!-- End POS -->
@@ -83,13 +84,18 @@
                     <li class="nav-item dropdown pe-3 header-icon">
                 
                         <a class="nav-link nav-profile d-flex align-items-center me-3" href="#" data-bs-toggle="dropdown">
-                            {% if list.profile_pic %}
-                                <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
+                            {% if list_profile %}
+                            {% for list in list_profile %}
+                                {% if list.profile_pic %}
+                                    <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
                                 {% else %}
+                                    <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
+                                {% endif %}
+                                {% endfor %}
+                            {% else %}
                                 <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" width="30" height="30" class="rounded-circle me-2">
                             {% endif %}
-                                <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i>
-                            <!-- <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i> -->
+                            <i alt="Profile" class="ri-checkbox-blank-circle-fill"></i>
                             <span class="d-none d-md-block dropdown-toggle ps-2" style="text-transform: capitalize;">
                             {{ user }}
                             </span>
@@ -130,10 +136,16 @@
             </h1>
         </div>
         <!-- End Page Title -->
-
-        {% for message in messages %}
-        <p class="alert alert-{{ message.tags }} mt-3">{{ message }}</p>
-        {% endfor %}
+<!-- 
+        {% for message in messages  %}
+        {% if 'success' in message.tags %}
+        <p class='alert alert-success mt-3'>{{message}}</p>
+        {% elif 'error' in message.tags %}
+        <p class='alert alert-danger mt-3'>{{message}}</p>
+        {% else %}
+        <p class='alert alert-info mt-3'>{{message}}</p>
+        {% endif %}
+        {% endfor %} -->
 
         <section class="section">
             <div class="row">
@@ -148,12 +160,13 @@
                             {% if list_pos %}
 
                                 <div class="table-res">
-                                    <table class="table table-hover" >
+                                    <table class="table table-hover" id="posTable">
                                         <thead>
                                             <tr class="align-middle">
                                                 <!-- <th scope="col">#</th> -->
                                                 <th scope="col">Product ID</th>
                                                 <th scope="col">Product Name</th>
+                                                <th scope="col">Product Flavor</th>
                                                 <th scope="col">Category</th>
                                                 <th scope="col">Unit</th>
                                                 <th scope="col">Price</th>
@@ -168,7 +181,8 @@
                                                     <!-- <td class="num-row"></td> -->
                                                     <td>{{ list.cart_pcode }}</td>
                                                     <td>{{ list.cart_name }}</td>
-                                                    <td>{{ list.cart_category }}</td>
+                                                    <td style="text-transform: capitalize;">{{ list.cart_flavor }}</td>
+                                                    <td style="text-transform: capitalize;">{{ list.cart_category }}</td>
                                                     <td>{{ list.cart_unit }}</td>
                                                     <td>Php {{ list.cart_reseller_price|floatformat:2|intcomma  }}</td>
                                                     <td class="quantity-main">
@@ -196,7 +210,7 @@
 
                                 
                             {% endif %}
-                            <form action="{% url 'admin_site:pos_removeall' %}" class="remove-div">
+                            <form action="{% url 'reseller_site:cart_removeall' %}" class="remove-div" onsubmit="return removeForm(this);">
                                 {% csrf_token %}
                                 <button type="submit" id="removeAll" class="btn btn-remove btn-danger"><i class="ri-delete-bin-fill align-middle"></i><span class="align-middle ps-2">Remove All</span> </button>
                             </form>
@@ -205,7 +219,7 @@
                 </div>
 
                 <!-- <div class="col-xl-4 col-lg-12 col-md-12"> -->
-                <div class="col-lg-4 col-md-12">
+                <div class="col-lg-4 col-md-12" id="orderSummary">
                     <div class="card p-4" style="background-color: #E5E9F9">
                         <div class="card-body">
                             <div class="add-product">
@@ -274,6 +288,7 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Product code </th>
                                         <th scope="col">Product Name</th>
+                                        <th scope="col">Product Flavor</th>
                                         <th scope="col">Category</th>
                                         <th scope="col">Unit</th>
                                         <th scope="col">Reseller Price</th>
@@ -285,11 +300,13 @@
                                 </thead>
                                 <tbody id="tableRow">
                                     {% for list in list_products %}
+                                    {% if list.product_stock > 0 %}
                                     <tr class="align-middle product-code">
                                         <td class="num-row"></td>
                                         <td>{{ list.product_code }}</td>
-                                        <td><span>{{ list.product_name }}</span></td>
-                                        <td>{{ list.product_category }}</td>
+                                        <td style="text-transform: capitalize;"><span>{{ list.product_name }}</span></td>
+                                        <td style="text-transform: capitalize;"><span>{{ list.product_flavor }}</span></td>
+                                        <td style="text-transform: capitalize;">{{ list.product_category }}</td>
                                         <td>{{ list.product_unit }}</td>
                                         <td>Php {{ list.product_ResellerPrice|floatformat:2|intcomma }}</td>
                                         <td>{{ list.product_stock }}</td>
@@ -309,12 +326,14 @@
                                         <input type="hidden" name="product_code" value="{{ list.product_code }}">
                                         <input type="hidden" name="product_category" value="{{ list.product_category }}">
                                         <input type="hidden" name="product_name" value="{{ list.product_name}}">
+                                        <input type="hidden" name="product_flavor" value="{{ list.product_flavor}}">
                                         <input type="hidden" name="product_unit" value="{{ list.product_unit }}">
                                         <input type="hidden" name="product_reseller_price" value="{{ list.product_ResellerPrice }}">
                                         <input type="hidden" name="product_price" value="{{ list.product_price }}">
                                     </form>
                                     
                                     </tr>
+                                    {% endif %}
                                     {% endfor %}
                                 </tbody>
                             </table>
@@ -349,6 +368,54 @@
             return false;
         }
     </script> -->
+
+    {% for message in messages  %}
+    {% if 'success' in message.tags %}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        var m = "{{message}}"
+        swal({
+            
+        title: m,
+        icon: "success",
+        timer: 1000,
+        buttons: false,
+        className: 'swal-custom',
+    })
+    </script>
+    <!-- <p class='alert alert-success mt-3'>{{messsage}}</p> -->
+    {% elif 'error' in message.tags %}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        var m = "{{message}}"
+        swal({
+            
+        title: m,
+        // text: "Please enter your credentials again.",
+        icon: "error",
+        timer: 1000,
+        buttons: false,
+        className: 'swal-custom',
+    })
+    </script>
+    <!-- <p class='alert alert-success mt-3'>{{messsage}}</p> -->
+    {% else %}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        var m = "{{message}}"
+        swal({
+            
+        title: m,
+        // text: "Please enter your credentials again.",
+        icon: "info",
+        timer: 1000,
+        buttons: false,
+        className: 'swal-custom',
+    })
+    </script>
+    <!-- <p class='alert alert-success mt-3'>{{messsage}}</p> -->
+    {% endif %}
+{% endfor %}
 
 <script>
     function submitForm(form) {
@@ -390,9 +457,64 @@
     }
 </script>
 
+<script>
+    function removeForm(form) {
+        // var message = "Do you really want to <b>remove</b> this item in your cart?";
+        var message = "Are you certain that you wish to <b>remove all of these items</b> from your cart?";
+        
+        swal({
+            title: "Remove All",
+            // text: "Do you really want to <span>archive</span> this reseller?",
+            content: {
+                element: 'p',
+                attributes: {
+                    innerHTML: message,
+                }
+            },
+            
+            // icon: "warning",
+            buttons: {
+                // confirm: "Yes",
+                confirm: {
+                    text: "Yes",
+                },
+                cancel: true,
+            },
+            className: 'swal-wide',
+            dangerMode: true,
+            // allowOutsideClick: false,
+            closeOnClickOutside: false
+
+            
+            
+        })
+        .then(function (isConfirm) {
+            if (isConfirm) {
+                form.submit();
+            }
+        });
+        return false;
+    }
+</script>
 
 
 
+<script>
+      if ($("#posTable > tbody > tr").length == null || $("#posTable > tbody > tr").length == 0){
+        $("#removeAll").addClass("d-none");
+        $("#orderSummary").addClass("d-none");
+
+    }
+    else{
+        $("#removeAll").removeClass("d-none");
+        $("#orderSummary").removeClass("d-none");
+    };
+
+    $('#btnCart').on('click', function(e){
+        e.preventDefault();
+        $('#addToCart').modal('show');
+    });
+</script>
 
 
 
@@ -412,6 +534,7 @@
 
     <!-- Template Main JS File -->
     <!-- <script src="../../static/css/assets/js/main.js"></script> -->
+    <script src="https://kit.fontawesome.com/ef60a252be.js" crossorigin="anonymous"></script>
     <script src="{% static '/css/assets/js/main.js' %}" alt=""></script>
     <script src="{% static '/js/modal.js' %}" alt=""></script>
     <script src="{% static '/js/table.js' %}" alt=""></script>

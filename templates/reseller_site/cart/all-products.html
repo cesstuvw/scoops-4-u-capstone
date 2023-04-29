@@ -43,6 +43,7 @@
                         </thead>
                         <tbody id="tableRow">
                             {% for list in list_products %}
+                            {% if list.product_stock > 0 %}
                             <tr class="align-middle product-code">
                                 <td class="num-row"></td>
                                 <td>{{ list.product_code }}</td>
@@ -72,6 +73,7 @@
                                 <input type="hidden" name="product_price" value="{{ list.product_price }}">
                             </form>
                             </tr>
+                            {% endif %}
                             {% endfor %}
                         </tbody>
                     </table>

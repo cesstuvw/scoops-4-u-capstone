@@ -6,54 +6,6 @@
 
 {% block template %}
 {% load humanize %}
-<!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
-    <ul class="sidebar-nav" id="sidebar-nav">
-  
-        <li class="nav-item ">
-            <a class="nav-link collapsed" href="{% url 'rider_site:dashboard'%}">
-            <i class="ri-apps-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
-            <span>Dashboard</span>
-            </a>
-        </li><!-- End Dashboard Nav -->
-  
-        <li class="nav-heading pt-3">Management</li>
-        <li class="nav-item ">
-        <a class="nav-link collapsed" href="{% url 'rider_site:transaction_orders'  %}">
-            <i class="ri-truck-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
-            <span>Delivery</span>
-        </a>
-        </li><!-- End Products Page Nav -->
-  
-        <li class="nav-heading pt-3">Reports</li>
-        <li class="nav-item active-nav">
-            <a class="nav-link" href="{% url 'rider_site:report_deliver'%}">
-                <i class="ri-file-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
-                <span>Delivery Report</span>
-            </a>
-        </li><!-- End Reports Page Nav -->
-  
-        <li class="nav-heading pt-3">Others</li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#settings-nav" data-bs-toggle="collapse" href="#">
-                <i class="ri-settings-3-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Settings</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
-            </a>
-            <ul id="settings-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-                <li>
-                <a href="{% url 'admin_site:settings_profile' %}">
-                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Edit Profile</span>
-                </a>
-                </li>
-            </ul>
-        </li>
-  
-        <li class="nav-item">
-            <a class="nav-link collapsed">
-                <i class="ri-information-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Support</span>
-            </a>
-        </li>
-    </ul>
-</aside><!-- End Sidebar-->
 
 <main id="main" class="main mt-5">
     <div class="pagetitle">

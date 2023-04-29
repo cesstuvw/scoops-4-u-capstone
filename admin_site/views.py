@@ -909,17 +909,6 @@ def add_qty(request,productid):
         result = current_amount + current_price
         pos.cart_amount = result
         pos.save()
-    
-
-        # product = Product.objects.get(product_code = current_pcode)
-        # current_stock = int(product.product_stock)
-        # minus_stock = current_stock - 1
-        # product.product_stock = minus_stock
-        # product.save()
-
-        # if product.product_stock == 0:	
-        #     product.product_status = "not available"	
-        #     product.save()
         return redirect('admin_site:pos')
 
 

@@ -182,18 +182,6 @@ $(document).ready(function () {
         tableOr.search($(this).val()).draw();
     });  
 
-    // Hide pending order
-    if ($("#tableOrder > tbody > tr").length == null || $("#tableOrder > tbody > tr").length == 0){
-        $("#tableOrder").addClass("d-none");
-        $("#ordersID").addClass("d-none");
-        $(".empty-screen").removeClass("d-none");
-        
-    }
-    else{
-        $(".empty-screen").addClass("d-none");
-        $("#tableOrder").removeClass("d-none");
-        $("#ordersID").removeClass("d-none");
-    };
 
 
     // Hide user table if empty
@@ -219,6 +207,31 @@ $(document).ready(function () {
         $("#proListID").removeClass("d-none");
         $(".empty-screenProL").addClass("d-none");
     }
+
+    if ($('#tableOrder').DataTable().rows().count() === 0) {
+        $("#tableOrder").addClass("d-none");
+        $("#ordersID").addClass("d-none");
+        $(".empty-screen").removeClass("d-none");
+    } else {
+        $("#tableOrder").removeClass("d-none");
+        $("#ordersID").removeClass("d-none");
+        $(".empty-screen").addClass("d-none");
+    }
+
+
+        // Hide pending order
+        // if ($("#tableOrder > tbody > tr").length == null || $("#tableOrder > tbody > tr").length == 0){
+        //     $("#tableOrder").addClass("d-none");
+        //     $("#ordersID").addClass("d-none");
+        //     $(".empty-screen").removeClass("d-none");
+            
+        // }
+        // else{
+        //     $(".empty-screen").addClass("d-none");
+        //     $("#tableOrder").removeClass("d-none");
+        //     $("#ordersID").removeClass("d-none");
+        // };
+    
     
     // if ($('#tableAdd').DataTable().rows().count() === 0) {
     //     $("#tableAdd").addClass("d-none");

@@ -17,7 +17,7 @@ def dashboard(request):
     transaction_shipped = Transaction.objects.filter(transaction_user = request.user,transaction_orderstatus = "Out for Shipping").count()
     transaction_decline = Transaction.objects.filter(transaction_user = request.user,transaction_orderstatus = "Decline").count()
     list_profile = Profile.objects.filter(list_user = request.user)
-    
+
     context={
         'list_numberorder':list_numberorder,
         'transaction_pending':transaction_pending,
@@ -73,7 +73,7 @@ def cart_reseller(request):
         'list_cart':list_cart,
         'sum_amount':sum_amount,
         'total_item':total_item,
-        'promo':times_amount
+        'promo':times_amount,
     }
     return render(request, 'reseller_site/cart/checkout.html', context)
 
@@ -112,37 +112,34 @@ def minus_qty(request, productid):
 
 @login_required(login_url='landing_page:login')
 def add_qty(request,productid):
-    pos = Cart.objects.get(id =productid)
-    current_qty = int(pos.cart_quantity)
-    result = current_qty + 1
+        pos = Cart.objects.get(id =productid)
+        current_qty = int(pos.cart_quantity)
+        result = current_qty + 1
 
-    #for checking product code
-    current_pcode = pos.cart_pcode
+        #for checking product code
+        current_pcode = pos.cart_pcode
 
-    product = Product.objects.get(product_code = current_pcode)
-    if product.product_stock == 0:
-        messages.error(request,("No available Stock"))
-        return redirect('reseller_site:add_cart')
-    else:
-        pos.cart_quantity = result
-        pos.save()
+        product = Product.objects.get(product_code = current_pcode)
+        if product.product_stock == 0:
+            messages.success(request,("No available Stock"))
+            return redirect('reseller_site:add_cart')
 
-        current_amount = int(pos.cart_ResellerAmount)
-        current_price = int(pos.cart_reseller_price )
-        result = current_amount + current_price
-        pos.cart_ResellerAmount = result
-        pos.save()
-    
+        elif product.product_stock <= pos.cart_quantity:	
+            messages.error(request,('The available stock is not enough'))	
+            return redirect('reseller_site:add_cart')
 
-        # product = Product.objects.get(product_code = current_pcode)
-        # current_stock = int(product.product_stock)
-        # minus_stock = current_stock - 1
-        # product.product_stock = minus_stock
-        # product.save()
+        else:
+            pos.cart_quantity = result
+            pos.save()
 
-        # if product.product_stock == 0:	
-        #     product.product_status = "not available"	
-        #     product.save()
+            current_amount = int(pos.cart_ResellerAmount)
+            current_price = int(pos.cart_reseller_price)
+            result = current_amount + current_price
+            pos.cart_ResellerAmount = result
+            pos.save()
+
+
+
         return redirect('reseller_site:add_cart')
 
 @login_required(login_url='landing_page:login')
@@ -287,6 +284,7 @@ def transaction_orders(request):
 #list reseller cart
 @login_required(login_url='landing_page:login')
 def add_cart(request):
+    list_profile = Profile.objects.filter(list_user = request.user)
     list_products = Product.objects.all()
     current_user = request.user
     list_pos = Cart.objects.filter(cart_user = current_user).order_by('-id')
@@ -296,7 +294,8 @@ def add_cart(request):
     context = {
         'list_products':list_products,
         'list_pos':list_pos,
-        'sum_amount':sum_amount
+        'sum_amount':sum_amount,
+        'list_profile': list_profile,
         }
     return render(request, 'reseller_site/cart/cart.html', context)
 
@@ -324,6 +323,7 @@ def cart_products(request, productid):
         p_unit = request.POST['product_unit']
         p_category = request.POST['product_category']
         p_name = request.POST['product_name']
+        p_flavor = request.POST['product_flavor']	
 
        
          
@@ -435,5 +435,11 @@ def cart_cancel(request,productid):
         
         messages.success(request,("Successfully cancelled"))
         return redirect('reseller_site:add_cart')
+
+def cart_removeall(request):	
+    pos = Cart.objects.filter(cart_user = request.user)	
+    pos.delete()	
+    messages.success(request,("successfully removed all"))	
+    return redirect('reseller_site:add_cart')	
 
 

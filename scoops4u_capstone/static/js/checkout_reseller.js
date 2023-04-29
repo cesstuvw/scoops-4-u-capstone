@@ -3,7 +3,7 @@ $(document).ready(function(){
     var discount = parseInt($('#discount').val())
 
     var result =   total_amount - discount
-    var currency = parseFloat(result).toLocaleString('en-PH', { style: 'currency', currency: 'PHP' });	
+    var currency = parseFloat(result).toLocaleString('en-PH', { style: 'currency', currency: 'PHP', currencyDisplay: 'code' }).replace('PHP', 'Php');	
 
     $('#vgtotal').val(currency)	
     $('#gtotal').val(result)	

@@ -75,6 +75,7 @@
             </div><!-- End Search Bar -->
             
             <div class="POS POS-header">
+                <i class="fa-solid fa-cash-register" style="color: #001BDE !important"></i>
                 <a class="active" href="{%url 'reseller_site:add_cart' %}">Order</a>
             </div>
             <!-- End POS -->
@@ -213,8 +214,11 @@
 
                             <div class="row">
                                 <div class="col total total-amount align-middle"  style="display:flex; flex-direction: row; justify-content: space-between; align-items: center;">
-                                    <label class="label-co text" for="">Grand Total</label>
-                                    <input type="text" style="text-align: right;" class="form-control text-end input-co" name="grand_total"  id="gtotal" readonly="readonly"> 
+                                    <!-- <label class="label-co text" for="">Grand Total</label>
+                                    <input type="text" style="text-align: right;" class="form-control text-end input-co" name="grand_total"  id="gtotal" readonly="readonly">  -->
+                                    <label class="label-co text" > Grand Total</label>
+                                    <input type="text" style="text-align: right;" name="vgrand_total" class="form-control text-end input-co" id="vgtotal" readonly="readonly" >   
+                                    <input type="hidden"style="text-align: right;" name="grand_total"  id="gtotal"  readonly > 
                                 </div>
                             </div>
 
