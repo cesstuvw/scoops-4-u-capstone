@@ -142,6 +142,11 @@ $(document).ready(function () {
         e.preventDefault();
         $('#addUnitModal').modal('show').find('.modal-content').load($(this).attr('href'));
     });
+
+    $('.modal-add-prod-empty').on('click', 'a', function(e){
+        e.preventDefault();
+        $('#addProductEmpty').modal('show').find('.modal-content').load($(this).attr('href'));
+    });
 });
 
 setTimeout(function() {

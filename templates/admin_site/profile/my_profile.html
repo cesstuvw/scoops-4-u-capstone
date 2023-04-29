@@ -48,7 +48,7 @@
             </div>
             {% endif %}
 
-            {% if user.role == "staff"%}
+            {% if user.role == "si_staff"%}
             <div class="row">
                 <div class="col-6">
                     <h1>My Profile</h1>
@@ -124,7 +124,7 @@
             </div>
             {% endif %}
 
-            {% if user.role == "rider"%}
+            {% if user.role == "delivery_staff"%}
             <div class="row">
                 <div class="col-6">
                     <h1>My Profile</h1>
@@ -178,6 +178,7 @@
         <div class="empty-screen2 d-none modal-add-prod">
             <img src="../../../../static/img/noresellers.svg" alt="haha">
             <h5 class="pt-3">Complete your Profile</h5>
+            <img class="arrow-here"src="../../../../static/img/arrow.svg" alt="haha">
             <p data-bs-toggle="modal" data-bs-target="#addProductModal">Please provide all necessary information <a href="{% url 'admin_site:settings_profile' %}">here</a> in order to fully create your profile.
             </p>
         </div>

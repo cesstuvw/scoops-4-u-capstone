@@ -16,7 +16,7 @@
                 <li class="breadcrumb-item"><a href="{% url 'admin_site:dashboard'%}">Home</a></li>
                 {% endif %}
         
-                {% if user.role == "staff"%}
+                {% if user.role == "si_staff"%}
                 <li class="breadcrumb-item"><a href="{% url 'staff_site:dashboard'%}">Home</a></li>
                 {% endif %}
 
@@ -24,7 +24,7 @@
                 <li class="breadcrumb-item"><a href="{% url 'reseller_site:dashboard'%}">Home</a></li>
                 {% endif %}
         
-                {% if user.role == "rider"%}
+                {% if user.role == "delivery_staff"%}
                 <li class="breadcrumb-item"><a href="{% url 'rider_site:dashboard'%}">Home</a></li>
                 {% endif %}
                 

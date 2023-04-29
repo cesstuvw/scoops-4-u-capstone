@@ -19,7 +19,7 @@
             </ol>
             {% endif %}
 
-            {% if user.role == "staff"%}
+            {% if user.role == "si_staff"%}
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'staff_site:dashboard'%}">Home</a></li>
                 <li class="breadcrumb-item">Inventory</li>
@@ -40,7 +40,26 @@
     {% endfor %}
     
     <section class="section">
-        <div class="row">
+        <div class="empty-screenAdd d-none modal-add-prod-empty">
+            <img src="../../../../static/img/nostocks.svg" alt="">
+            <h5>No Products means No Stocks</h5>
+            <p>There are currently no records of products added on the system. 
+                <a href="{% url 'admin_site:add_product' %}" data-bs-toggle="modal" data-bs-target="#addProductEmpty">Add</a> Here so you'll be able to update their stocks.
+                <!-- <div class="modal-add-res">
+                </div> -->
+            </p>
+        </div>
+
+        <!-- ADD PRODUCT -->
+        <div class="modal fade border-0"  id="addProductEmpty">
+            <div class="modal-dialog modal-dialog-centered ">
+                <div class="modal-content border-0 p-4">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div id="addStoID" class="row d-none">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body mt-3">
@@ -69,11 +88,6 @@
                                     <form action="{% url 'admin_site:add_reseller' %}" method="POST">
                                             {% csrf_token %}
                                             <div class="modal-body pt-2 mt-0">
-                                                <!-- {% for message in  messages %}
-                                                    <p class="alert alert-success  mt-1">{{ message }}</p>
-                                                {% endfor %}
-                                                <form action="{% url 'admin_site:add_product' %}" method="POST">
-                                                        {% csrf_token %} -->
                                                     <label for="first name">First Name</label>
                                                     <input type="text" placeholder="" name="fname" class="form-control" required>
     
@@ -127,7 +141,6 @@
                                             <th scope="col">#</th>
                                             <th scope="col">Product Code</th>
                                             <th scope="col">Product Name</th>
-                                            <!-- <th scope="col">Batch Number</th> -->
                                             <th scope="col">Quantity</th>
                                             <th scope="col">Expiry Date</th>
                                             <th scope="col" >Action</th>
@@ -147,7 +160,6 @@
                                                 <td><input type="number" name="quantity" class="form-control" style="text-align:right;" placeholder="0" required></td>
                                         
                                                 <td><input type="date" class="form-control" name="expdate"  required></td>
-                                                <!-- <td><input type="submit" value="add" class="btn btn-edit"></td> -->
                                                 <td><button type="submit" class="btn btn-edit align-middle"><i class="ri-add-circle-fill"></i></button></td>
                                                 <input type="hidden" value="{{ list.product_stock }}" name="stock" >
                                                 <input type="hidden" value="{{ list.product_code }}" name="product_code">

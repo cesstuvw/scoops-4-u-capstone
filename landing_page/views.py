@@ -154,7 +154,7 @@ def loginView(request):
                 return redirect('reseller_site:dashboard')
             elif user.role == "delivery_staff" and user.status == "active":    
                 return redirect('staff_site:dashboard')
-            elif user.role == "staff" and user.status == "active": 
+            elif user.role == "si_staff" and user.status == "active": 
                 return redirect('staff_site:dashboard')
             elif user.status == "inactive": 
                 messages.error(request, ("Your account is no longer active"))

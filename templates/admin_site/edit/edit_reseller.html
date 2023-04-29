@@ -18,7 +18,7 @@
 
         <!-- this should be sex not gender -->
         <label>Sex</label>
-        <select name="gender" class="form-control" id="gender" required >
+        <select name="gender" class="form-control form-select" id="gender" required >
             <option value="Male"{% if list_reseller.reseller_gender == 'Male' %}selected{% endif %}>Male</option>
             <option value="Female"{% if list_reseller.reseller_gender == 'Female' %}selected{% endif %}>Female</option>
         </select>
@@ -49,3 +49,7 @@
         <!-- <button  class="btn btn-secondary" data-bs-dismiss="modal"><i class="ri-close-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Cancel</span></button> -->
     </div>
 </form>
+
+<script>
+    $('.modal-body select').addClass('form-select');
+</script>

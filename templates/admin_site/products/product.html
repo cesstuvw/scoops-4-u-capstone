@@ -21,7 +21,7 @@
             </ol>
             {% endif %}
 
-            {% if user.role == "staff"%}
+            {% if user.role == "si_staff"%}
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'staff_site:dashboard'%}">Home</a></li>
                 <li class="breadcrumb-item active">Products</li>
@@ -42,7 +42,27 @@
     {% endfor %}
 
     <section class="section ">
-        <div class="row">
+        <div class="empty-screenProL d-none modal-add-prod-empty">
+            <img src="../../../../static/img/noproducts.svg" alt="">
+            <h5>No Products</h5>
+            <p>There are currently no records of products added on the system. 
+                <a href="{% url 'admin_site:add_product' %}" data-bs-toggle="modal" data-bs-target="#addProductEmpty">Add</a> Now.
+                <!-- <div class="modal-add-res">
+                </div> -->
+            </p>
+        </div>
+
+        <!-- ADD PRODUCT -->
+        <div class="modal fade border-0"  id="addProductEmpty">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content border-0 p-4">
+                
+            </div>
+        </div>
+        </div>
+
+
+        <div id="proListID" class="row d-none">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body mt-3">
@@ -63,7 +83,7 @@
                         
                         <!-- Table with hoverable rows -->
                         <div class="table-responsive">
-                            <table id="tableMain" class="table table-hover">
+                            <table id="tableMainProL" class="table table-hover">
                                 <thead>
                                 <tr class="align-middle">
                                     <th scope="col">#</th>

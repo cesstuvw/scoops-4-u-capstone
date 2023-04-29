@@ -16,12 +16,15 @@ def dashboard(request):
     transaction_pending = Transaction.objects.filter(transaction_user = request.user,transaction_orderstatus = "Pending").count()
     transaction_shipped = Transaction.objects.filter(transaction_user = request.user,transaction_orderstatus = "Out for Shipping").count()
     transaction_decline = Transaction.objects.filter(transaction_user = request.user,transaction_orderstatus = "Decline").count()
+    list_profile = Profile.objects.filter(list_user = request.user)
+    
     context={
         'list_numberorder':list_numberorder,
         'transaction_pending':transaction_pending,
         'transaction_shipped':transaction_shipped,
         'transaction_decline':transaction_decline,
-        'sidebar':'resdashboard'
+        'sidebar':'resdashboard',
+        'list_profile': list_profile,
     }
     return render(request, 'reseller_site/dashboard/index.html',context)
 
@@ -272,9 +275,11 @@ def checkout(request):
 @login_required(login_url='landing_page:login') 
 def transaction_orders(request):
     list_transaction = Transaction.objects.filter(transaction_user= request.user).order_by('-id')
+    list_profile = Profile.objects.filter(list_user = request.user)
     context = {
         'list_transaction':list_transaction,
-        'sidebar':'resorders'
+        'sidebar':'resorders',
+        'list_profile': list_profile,
     }
     return render(request, 'reseller_site/orders/orders.html', context)
 

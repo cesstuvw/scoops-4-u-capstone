@@ -2063,6 +2063,7 @@ thead th.sorting::after {
 }
 
 #tableFlavor,
+#tableMainProL,
 #tableUnit,
 #tableCat{
   /* width: 110rem !important; */
@@ -2191,6 +2192,8 @@ thead .sort-no {
 
 #tableMain th,
 #tableMain td,
+#tableMainProL th,
+#tableMainProL td,
 #tableFlavor th,
 #tableFlavor td,
 #tableUnit th,
@@ -2251,7 +2254,9 @@ thead .sort-no {
 .empty-screenUs,
 .empty-screenRes,
 .empty-screenSto,
+.empty-screenProL,
 .empty-screenAct,
+.empty-screenAdd,
 .empty-screen2{
   display: flex;
   justify-content: center;
@@ -2264,8 +2269,10 @@ thead .sort-no {
 
 .empty-screen h5,
 .empty-screenAct h5,
+.empty-screenAdd h5,
 .empty-screen1 h5,
 .empty-screenPro h5,
+.empty-screenProL h5,
 .empty-screenRes h5,
 .empty-screenUs h5,
 .empty-screenSto h5,
@@ -2279,8 +2286,10 @@ thead .sort-no {
 .empty-screen1 img,
 .empty-screenPro img,
 .empty-screenSto img,
+.empty-screenProL img,
 .empty-screenRes img,
 .empty-screenUs img,
+.empty-screenAdd img,
 .empty-screenAct img,
 .empty-screen2 img{
   width: 30%;
@@ -2290,9 +2299,11 @@ thead .sort-no {
 .empty-screenUs p,
 .empty-screenRes p,
 .empty-screenPro p,
+.empty-screenProL p,
 .empty-screenSto p,
 .empty-screen1 p,
 .empty-screenAct p,
+.empty-screenAdd p,
 .empty-screen2 p{
   max-width: 30%;
   font-size: .9375rem;
@@ -2721,4 +2732,14 @@ btn-edit-profile{
 .return-text label{
   font-family: P-Medium;
   
+}
+
+.arrow-here{
+  position: absolute;
+  width: 20% !important;
+  right: 65px;
+}
+
+.empty-screen2{
+  position: relative;
 }
