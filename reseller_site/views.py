@@ -205,7 +205,7 @@ def checkout(request):
                         products.product_status = "not available"	
                         products.save()	
                     elif products.product_stock <= 20:	
-                        products.product_status = "not available"	
+                        products.product_status = "low stock"	
                         products.save()
                 pos.delete()	
                 messages.success(request, ("Please wait for your order"))	

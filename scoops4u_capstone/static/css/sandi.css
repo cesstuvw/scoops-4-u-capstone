@@ -1036,19 +1036,20 @@ textarea{
 .nav-tabs-bordered .nav-link {
   margin-bottom: -2px;
   border: none;
-  color: #2c384e;
+  color: var(--primary-c-grey-text);
 }
 
 .nav-tabs-bordered .nav-link:hover,
 .nav-tabs-bordered .nav-link:focus {
-  color: #4154f1;
+  color: var(--primary-c-blue);
 
 }
 
 .nav-tabs-bordered .nav-link.active {
-  color: #4154f1;
+  color: var(--primary-c-blue);
   background-color: #fff;
-  border-bottom: 2px solid #4154f1;}
+  border-bottom: 2px solid var(--c-d-purple);
+}
 
 
 /*--------------------------------------------------------------
@@ -2121,6 +2122,10 @@ thead th.sorting::after {
 #tableFlavor,
 #tableMainProL,
 #tableMainRetu,
+#tableOrderResOr,
+#tableOrderPen,
+#tableOrderOut,
+#tableOrderCom,
 #tableUnit,
 #tableCat{
   /* width: 110rem !important; */
@@ -2251,6 +2256,14 @@ thead .sort-no {
 #tableMain td,
 #tableMainProL th,
 #tableMainProL td,
+#tableOrderPen th,
+#tableOrderPen td,
+#tableOrderResOr th,
+#tableOrderResOr td,
+#tableOrderCom th,
+#tableOrderCom td,
+#tableOrderOut th,
+#tableOrderOut td,
 #tableMainRetu th,
 #tableMainRetu td,
 #tableFlavor th,
@@ -2314,9 +2327,14 @@ thead .sort-no {
 .empty-screenRes,
 .empty-screenSto,
 .empty-screenProL,
+.empty-screenOut,
+.empty-screenPending,
 .empty-screenAct,
 .empty-screenAdd,
 .empty-screenRetu,
+.empty-screenCom,
+.empty-screenResOr,
+.empty-screenOrDe,
 .empty-screenPos,
 .empty-screen2{
   display: flex;
@@ -2330,11 +2348,16 @@ thead .sort-no {
 
 .empty-screen h5,
 .empty-screenAct h5,
+.empty-screenOrDe h5,
 .empty-screenAdd h5,
 .empty-screen1 h5,
 .empty-screenPro h5,
 .empty-screenProL h5,
+.empty-screenCom h5,
+.empty-screenPending h5,
 .empty-screenRes h5,
+.empty-screenOut h5,
+.empty-screenResOr h5,
 .empty-screenUs h5,
 .empty-screenSto h5,
 .empty-screenRetu h5,
@@ -2347,12 +2370,17 @@ thead .sort-no {
 
 .empty-screen img,
 .empty-screen1 img,
+.empty-screenOrDe img,
 .empty-screenPro img,
 .empty-screenPos img,
+.empty-screenPending img,
 .empty-screenSto img,
+.empty-screenResOr img,
+.empty-screenOut img,
 .empty-screenProL img,
 .empty-screenRes img,
 .empty-screenRetu img,
+.empty-screenCom img,
 .empty-screenUs img,
 .empty-screenAdd img,
 .empty-screenAct img,
@@ -2363,14 +2391,19 @@ thead .sort-no {
 .empty-screen p,
 .empty-screenUs p,
 .empty-screenRes p,
+.empty-screenOrDe p,
+.empty-screenOut p,
 .empty-screenPro p,
 .empty-screenProL p,
+.empty-screenCom p,
 .empty-screenSto p,
+.empty-screenPending p,
 .empty-screenPos p,
 .empty-screen1 p,
 .empty-screenAct p,
 .empty-screenAdd p,
 .empty-screenRetu p,
+.empty-screenResOr p,
 .empty-screen2 p{
   max-width: 30%;
   font-size: .9375rem;
@@ -2825,5 +2858,35 @@ btn-edit-profile{
   overflow-y: scroll !important;
 }
 
+.title-head-profile{
+  font-family: P-Medium;
+}
 
-                                      
+.main-title-overview{
+  font-family: P-Bold;
+  color: var(--primary-c-blue);
+}
+
+.profile-overview p{
+  color: var(--primary-c-d-blue) !important;
+  font-family: P-Mono;
+  font-size: 18px;
+}
+
+.profile-overview .label-left,
+.col-form-label{
+  color: var(--primary-c-grey-text) !important;
+  font-family: P-Medium;
+}
+.profile-overview .right{
+  color: var(--primary-c-d-blue) !important;
+  /* font-family: P-Mono; */
+}
+
+.profile-edit input[readonly] {
+  pointer-events: none !important;
+  font-size: 15px !important;
+  color: var(--primary-c-dark-blue) !important;
+  border-color: #E5E8F8 !important;
+  background-color: var(--primary-c-white-text);
+}

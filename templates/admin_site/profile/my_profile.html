@@ -12,7 +12,7 @@
             {% if user.role == "admin"%}
 
             <div class="row">
-                <div class="col-6">
+                <div class="col-12">
                     <h1>My Profile</h1>
                     <ol class="breadcrumb mb-3 pb-1">
                         <li class="breadcrumb-item"><a href="{% url 'admin_site:dashboard'%}">Home</a></li>
@@ -25,114 +25,36 @@
 
             {% if user.role == "si_staff"%}
             <div class="row">
-                <div class="col-6">
+                <div class="col-12">
                     <h1>My Profile</h1>
                     <ol class="breadcrumb mb-3 pb-1">
                         <li class="breadcrumb-item"><a href="{% url 'staff_site:dashboard'%}">Home</a></li>
                         <li class="breadcrumb-item active">My Profile</li>
                     </ol>
                 </div>
-                <div class="col-6 edit-profile" style="list-style: none;">
-                    <li class="nav-item dropdown">
-                    <a class="nav-link nav-profile d-flex align-items-center me-3" href="#" data-bs-toggle="dropdown">
-                    <button class="btn btn-edit-profile" ><i class="ri-settings-3-line"></i></button>
-                        
-                    </a><!-- End Profile Image Icon -->
-                
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile p-2">
-                
-                        <li class="modal-add-prod">
-                        <a class="dropdown-item d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#addProductModal" href="{% url 'admin_site:settings_profile' %}">
-                            <!-- <i class="ri-user-line"></i>               -->
-                            <span>Edit Profile</span>
-                        </a>
-                        </li>
-                
-                        <li class="modal-edit-prod">
-                        <a class="dropdown-item d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#editProductModal" href="{%  url 'admin_site:settings_password' %}">
-                            <!-- <i class="ri-logout-box-r-line"></i>               -->
-                            <span>Change Password</span>
-                        </a>
-                        </li>
-                
-                        </ul><!-- End Profile Dropdown Items -->
-                    </li><!-- End Profile Nav -->
-                </div>
             </div>
             {% endif %}
 
             {% if user.role == "reseller"%}
             <div class="row">
-                <div class="col-6">
+                <div class="col-12">
                     <h1>My Profile</h1>
                     <ol class="breadcrumb mb-3 pb-1">
                         <li class="breadcrumb-item"><a href="{% url 'reseller_site:dashboard'%}">Home</a></li>
                         <li class="breadcrumb-item active">My Profile</li>
                     </ol>
                 </div>
-                <div class="col-6 edit-profile" style="list-style: none;">
-                    <li class="nav-item dropdown">
-                    <a class="nav-link nav-profile d-flex align-items-center me-3" href="#" data-bs-toggle="dropdown">
-                    <button class="btn btn-edit-profile" ><i class="ri-settings-3-line"></i></button>
-                        
-                    </a><!-- End Profile Image Icon -->
-                
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile p-2">
-                
-                        <li class="modal-add-prod">
-                        <a class="dropdown-item d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#addProductModal" href="{% url 'admin_site:settings_profile' %}">
-                            <!-- <i class="ri-user-line"></i>               -->
-                            <span>Edit Profile</span>
-                        </a>
-                        </li>
-                
-                        <li class="modal-edit-prod">
-                        <a class="dropdown-item d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#editProductModal" href="{%  url 'admin_site:settings_password' %}">
-                            <!-- <i class="ri-logout-box-r-line"></i>               -->
-                            <span>Change Password</span>
-                        </a>
-                        </li>
-                
-                        </ul><!-- End Profile Dropdown Items -->
-                    </li><!-- End Profile Nav -->
-                </div>
             </div>
             {% endif %}
 
             {% if user.role == "delivery_staff"%}
             <div class="row">
-                <div class="col-6">
+                <div class="col-12">
                     <h1>My Profile</h1>
                     <ol class="breadcrumb mb-3 pb-1">
                         <li class="breadcrumb-item"><a href="{% url 'rider_site:dashboard'%}">Home</a></li>
                         <li class="breadcrumb-item active">My Profile</li>
                     </ol>
-                </div>
-                <div class="col-6 edit-profile" style="list-style: none;">
-                    <li class="nav-item dropdown">
-                    <a class="nav-link nav-profile d-flex align-items-center me-3" href="#" data-bs-toggle="dropdown">
-                    <button class="btn btn-edit-profile" ><i class="ri-settings-3-line"></i></button>
-                        
-                    </a><!-- End Profile Image Icon -->
-                
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile p-2">
-                
-                        <li class="modal-add-prod">
-                        <a class="dropdown-item d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#addProductModal" href="{% url 'admin_site:settings_profile' %}">
-                            <!-- <i class="ri-user-line"></i>               -->
-                            <span>Edit Profile</span>
-                        </a>
-                        </li>
-                
-                        <li class="modal-edit-prod">
-                        <a class="dropdown-item d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#editProductModal" href="{%  url 'admin_site:settings_password' %}">
-                            <!-- <i class="ri-logout-box-r-line"></i>               -->
-                            <span>Change Password</span>
-                        </a>
-                        </li>
-                
-                        </ul><!-- End Profile Dropdown Items -->
-                    </li><!-- End Profile Nav -->
                 </div>
             </div>
             {% endif %}
@@ -194,15 +116,15 @@
                                 <ul class="nav nav-tabs nav-tabs-bordered">
                     
                                     <li class="nav-item">
-                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview"><span class="title-head-profile">Overview</span></button>
                                     </li>
                     
                                     <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit"><span class="title-head-profile">Edit Profile</span></button>
                                     </li>
                     
                                     <li class="nav-item">
-                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password"><span class="title-head-profile">Change Password</span></button>
                                     </li>
                     
                                 </ul>
@@ -210,43 +132,45 @@
                     
                                     <div class="tab-pane fade show active profile-overview" id="profile-overview">
                                         
-                                    <h5 class="card-title">About</h5>
-                                    <p class="small fst-italic">
+                                    <h5 class="card-title main-title-overview">About</h5>
+                                    <p class="fst-italic">
                                         {% if profile.profile_about %}
-    {{ profile.profile_about }}
-{% elif list.profile_about %}
-    {{ list.profile_about }}
-{% else %}
-    Hello! I'm {{ list.profile_fname }}.
-{% endif %}
+                                            {{ profile.profile_about }}
+                                        {% elif list.profile_about %}
+                                            {{ list.profile_about }}
+                                        {% elif not list.profile_fname %}
+                                            {{ user.role|title }}
+                                        {% else %}
+                                            Hello! I'm {{ list.profile_fname }}.
+                                        {% endif %}
 
                                     </p>
                     
-                                    <h5 class="card-title">Profile Details</h5>
+                                    <h5 class="card-title title-overview main-title-overview">Profile Details</h5>
                     
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                                        <div class="col-lg-9 col-md-8">{{ list.profile_fname }} {{list.profile_mname}} {{list.profile_lname}}</div>
+                                        <div class="col-lg-3 col-md-4 label label-left">Full Name</div>
+                                        <div class="col-lg-9 col-md-8 right">{{ list.profile_fname }} {{list.profile_mname}} {{list.profile_lname}}</div>
                                     </div>
                     
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-4 label">Role</div>
-                                        <div class="col-lg-9 col-md-8">{{ user.role|title }}</div>
+                                        <div class="col-lg-3 col-md-4 label label-left">Role</div>
+                                        <div class="col-lg-9 col-md-8 right">{{ user.role|title }}</div>
                                     </div>
                                         
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-4 label">Address</div>
-                                        <div class="col-lg-9 col-md-8">{{list.profile_address}}</div>
+                                        <div class="col-lg-3 col-md-4 label label-left">Address</div>
+                                        <div class="col-lg-9 col-md-8 right">{{list.profile_address}}</div>
                                     </div>
                     
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-4 label">Contact No.</div>
-                                        <div class="col-lg-9 col-md-8">0{{list.profile_cnumber}}</div>
+                                        <div class="col-lg-3 col-md-4 label label-left">Contact No.</div>
+                                        <div class="col-lg-9 col-md-8 right">0{{list.profile_cnumber}}</div>
                                     </div>
                     
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-4 label">Email</div>
-                                        <div class="col-lg-9 col-md-8" id="desc-profile">{{list.profile_email}}</div>
+                                        <div class="col-lg-3 col-md-4 label label-left">Email</div>
+                                        <div class="col-lg-9 col-md-8 right" id="desc-profile">{{list.profile_email}}</div>
                                     </div>
                     
                                     </div>
@@ -259,11 +183,14 @@
                                         <div class="row mb-3">
                                         <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                                         <div class="col-md-8 col-lg-9 profile-settings">
-                                            {% if list.profile_pic %}
-                                            <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" class="image-cropper">
-                                            {% else %}
-                                            <img id="output" src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" class="image-cropper">
-                                            {% endif %}
+                                                <!-- {% if list.profile_pic %} -->
+                                                <!-- <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" class="image-cropper">
+                                                {% else %}
+                                                <img id="output" src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" class="image-cropper">
+                                                {% endif %} -->
+                                                <img id="preview" src="{% if list.profile_pic %}/media/{{ list.profile_pic}}{% else %}{% static 'img/default_profile.jpg' %}{% endif %}" alt="Profile-pic" class="image-cropper">
+                                                <!-- <img id="output" src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" class="image-cropper"> -->
+
                                             <div class="pt-2 edit-profile-settings">
                                                 <!-- <label for="file-upload" class="btn btn-print btn-upload custom-file-upload me-2">
                                                     <i class="ri-upload-2-line"></i>
@@ -271,7 +198,9 @@
                                                 <label for="file-upload" class="btn btn-print btn-upload custom-file-upload me-2">
                                                     <i class="ri-upload-2-line"></i>
                                                 </label>
-                                                <input id="file-upload"  name="profile_pic" type="file" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])"/>
+                                                <input id="file-upload" name="profile_pic" type="file" onchange="document.getElementById('preview').src = window.URL.createObjectURL(this.files[0])">
+
+                                                <!-- <input id="file-upload"  name="profile_pic" type="file" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])"/> -->
                                             </div>
                                         </div>
                                         </div>
@@ -311,8 +240,10 @@
                                                     {{ profile.profile_about|striptags|truncatechars:255 }}
                                                 {% elif list.profile_about %}
                                                     {{ list.profile_about|striptags|truncatechars:255 }}
+                                                {% elif not profile.profile_fname %}
+                                                    {{ user.role|title }}
                                                 {% else %}
-                                                    Hello! I'm {{ profile.profile_fname }}.
+                                                    Hello! I'm {{ profile.profile_fname }}. 
                                                 {% endif %}
                                             {% endspaceless %}</textarea>
                                             
@@ -360,31 +291,26 @@
                     
                                     <div class="tab-pane fade pt-3" id="profile-change-password">
                                     <!-- Change Password Form -->
-                                    <form>
-                    
+                                    <form  method="POST">
+                                        {% csrf_token %}
                                         <div class="row mb-3">
                                         <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="password" type="password" class="form-control" id="currentPassword">
+                                            <!-- <input name="password" type="password" class="form-control" id="currentPassword"> -->
+                                            {{ form.current_password }}
                                         </div>
                                         </div>
                     
                                         <div class="row mb-3">
                                         <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="newpassword" type="password" class="form-control" id="newPassword">
-                                        </div>
-                                        </div>
-                    
-                                        <div class="row mb-3">
-                                        <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                                            <!-- <input name="newpassword" type="password" class="form-control" id="newPassword"> -->
+                                            {{ form.new_password }}
                                         </div>
                                         </div>
                     
                                         <div class="text-end">
-                                        <button type="submit" class="btn btn-profile-up">Change Password</button>
+                                        <button type="submit" class="btn btn-profile-upload">Change Password</button>
                                         </div>
                                     </form><!-- End Change Password Form -->
                     

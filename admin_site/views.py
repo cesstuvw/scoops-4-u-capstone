@@ -595,6 +595,7 @@ def add_profile(request):
         NewProfile.profile_address = request.POST.get('address')
         NewProfile.profile_email = request.POST.get('email')
         NewProfile.save()
+        messages.success(request, 'Your profile information has been saved')
         return redirect('admin_site:my_profile')
 
 def update_profile(request,profileid):
@@ -623,13 +624,30 @@ def update_profile(request,profileid):
 
 
 def my_profile(request):
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            current_password = form.cleaned_data['current_password']
+            new_password = form.cleaned_data['new_password']
+            if user.check_password(current_password):
+                user.set_password(new_password)
+                user.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('admin_site:my_profile')
+            else:
+                form.add_error('current_password', 'Incorrect password')
+    else:
+        form = ChangePasswordForm()
     
     current_profile = Profile.objects.filter(list_user = request.user)
     list_profile = Profile.objects.filter(list_user = request.user)
 
     context ={
         'list_profile': list_profile,
-        'current_profile':current_profile
+        'current_profile':current_profile,
+        'form':form
     }
     return render(request, 'admin_site/profile/my_profile.html',context)
 
@@ -863,8 +881,8 @@ def pos_receipt_process(request):
                     products.product_status = "not available"	
                     products.save()	
                 elif products.product_stock <= 20:	
-                        products.product_status = "low stock"	
-                        products.save()  	
+                    products.product_status = "low stock"	
+                    products.save()  	
 
                 # if Cart_Payment.objects.filter(cart_cash = 0):	
                 #     return_product.return_status = "returned"	

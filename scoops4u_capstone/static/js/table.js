@@ -193,6 +193,16 @@ $(document).ready(function () {
         $(".empty-screen1").addClass("d-none");
     }
 
+    // if ($('#tableDRep').DataTable().rows().count() === 0) {
+    //     $("#tableDRep").addClass("d-none");
+    //     $("#repOrID").addClass("d-none");
+    //     $(".empty-screenOrDe").removeClass("d-none");
+    // } else {
+    //     $("#tableDRep").removeClass("d-none");
+    //     $("#repOrID").removeClass("d-none");
+    //     $(".empty-screenOrDe").addClass("d-none");
+    // }
+
     // Hide user table if empty
     // if ($("#tableMain > tbody > tr").length == null || $("#tableMain > tbody > tr").length == 0){
     //     $("#tableMain").addClass("d-none");
@@ -218,6 +228,16 @@ $(document).ready(function () {
         $("#proListID").removeClass("d-none");
         $(".empty-screenProL").addClass("d-none");
     }
+
+    // if ($('#tableOrder').DataTable().rows().count() === 0) {
+    //     $("#tableOrder").addClass("d-none");
+    //     $("#ordersID").addClass("d-none");
+    //     $(".empty-screenResOr").removeClass("d-none");
+    // } else {
+    //     $("#tableOrder").removeClass("d-none");
+    //     $("#ordersID").removeClass("d-none");
+    //     $(".empty-screen").addClass("d-none");
+    // }
 
     if ($('#tableOrder').DataTable().rows().count() === 0) {
         $("#tableOrder").addClass("d-none");
@@ -263,6 +283,17 @@ $(document).ready(function () {
         $(".empty-screenAdd").addClass("d-none");
         $("#tableAdd").removeClass("d-none");
         $("#addStoID").removeClass("d-none");
+    };
+    
+    if ($("#tableDRep > tbody > tr").length == null || $("#tableAdd > tbody > tr").length == 0){
+        $("#tableDRep").addClass("d-none");
+        $("#repOrID").addClass("d-none");
+        $(".empty-screenOrDe").removeClass("d-none");
+    }
+    else{
+        $(".empty-screenOrDe").addClass("d-none");
+        $("#tableDRep").removeClass("d-none");
+        $("#repOrID").removeClass("d-none");
     };
     
     // if ($("#tableMainRetu > tbody > tr").length == null || $("#tableMainRetu > tbody > tr").length == 0){
