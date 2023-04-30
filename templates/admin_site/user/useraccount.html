@@ -111,7 +111,8 @@
                                         <!-- <form method="POST" action="{% url 'admin_site:archive_reseller'  list.id %}" onsubmit="return submitForm(this);">
                                             {% csrf_token %} -->
                                         <td> 
-                                            <a href="{% url 'admin_site:edit_user_account' list.id %}"class="btn btn-edit modal-edit"><i class="ri-edit-fill"></i></a>
+                                            <a href="{% url 'admin_site:edit_user_account' list.id %}"class="btn btn-edit modal-edit" data-toggle="tooltip" data-placement="top" title="Edit"><i class="ri-edit-fill"></i></a>
+                                            <a href="{% url 'admin_site:send_email' list.id %}" class="btn btn-edit"  data-toggle="tooltip" data-placement="top" title="Send Email"><i class="ri-mail-send-fill"></i></a>
                                             <!-- <button type="submit" class="btn btn-archive"><i class="ri-archive-fill"></i></button> -->
                                             <!-- <input type="submit" class="btn btn-archive"><i class="ri-archive-fill"></i> -->
                                         </td>

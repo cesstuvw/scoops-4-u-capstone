@@ -56,8 +56,8 @@ $(document).ready(function () {
     $('#tableM').keyup(function(){
         table.search($(this).val()).draw();
     });    
-    
-    
+
+
 
 
 
@@ -183,19 +183,30 @@ $(document).ready(function () {
     });  
 
 
-
-    // Hide user table if empty
-    if ($("#tableMain > tbody > tr").length == null || $("#tableMain > tbody > tr").length == 0){
+    if ($('#tableMain').DataTable().rows().count() === 0) {
         $("#tableMain").addClass("d-none");
         $("#resliID").addClass("d-none");
         $(".empty-screen1").removeClass("d-none");
-        
-    }
-    else{
-        $(".empty-screen1").addClass("d-none");
+    } else {
         $("#tableMain").removeClass("d-none");
         $("#resliID").removeClass("d-none");
-    };
+        $(".empty-screen1").addClass("d-none");
+    }
+
+    // Hide user table if empty
+    // if ($("#tableMain > tbody > tr").length == null || $("#tableMain > tbody > tr").length == 0){
+    //     $("#tableMain").addClass("d-none");
+    //     $("#resliID").addClass("d-none");
+    //     $(".empty-screen1").removeClass("d-none");
+        
+    // }
+    // else{
+    //     $(".empty-screen1").addClass("d-none");
+    //     $("#tableMain").removeClass("d-none");
+    //     $("#resliID").removeClass("d-none");
+    // };
+
+
 
 
     if ($('#tableMainProL').DataTable().rows().count() === 0) {
@@ -247,13 +258,25 @@ $(document).ready(function () {
         $("#tableAdd").addClass("d-none");
         $("#addStoID").addClass("d-none");
         $(".empty-screenAdd").removeClass("d-none");
-        
     }
     else{
         $(".empty-screenAdd").addClass("d-none");
         $("#tableAdd").removeClass("d-none");
         $("#addStoID").removeClass("d-none");
     };
+    
+    // if ($("#tableMainRetu > tbody > tr").length == null || $("#tableMainRetu > tbody > tr").length == 0){
+    //     $("#tableMainRetu").addClass("d-none");
+    //     $("#unreturnID").addClass("d-none");
+    //     $(".empty-screenRetu").removeClass("d-none");
+        
+    // }
+    // else{
+    //     $(".empty-screenRetu").addClass("d-none");
+    //     $("#tableMainRetu").removeClass("d-none");
+    //     $("#unreturnID").removeClass("d-none");
+    // };
+    
     
 
 
@@ -262,13 +285,34 @@ $(document).ready(function () {
         $("#tableRepOS").addClass("d-none");
         $("#osID").addClass("d-none");
         $(".empty-screen").removeClass("d-none");
-        
     }
     else{
         $(".empty-screen").addClass("d-none");
         $("#tableRepOS").removeClass("d-none");
         $("#osID").removeClass("d-none");
     };
+
+    if ($("#tableRepPOS > tbody > tr").length == null || $("#tableRepPOS > tbody > tr").length == 0){
+        $("#tableRepPOS").addClass("d-none");
+        $("#posID").addClass("d-none");
+        $(".empty-screenPos").removeClass("d-none");
+    }
+    else{
+        $(".empty-screenPos").addClass("d-none");
+        $("#tableRepPOS").removeClass("d-none");
+        $("#posID").removeClass("d-none");
+    };
+
+    // if ($('#tableRepOS').DataTable().rows().count() === 0) {
+    //     $("#tableRepOS").addClass("d-none");
+    //     $("#osID").addClass("d-none");
+    //     $(".empty-screen").removeClass("d-none");
+    // } else {
+    //     $("#tableRepOS").removeClass("d-none");
+    //     $("#osID").removeClass("d-none");
+    //     $(".empty-screen").addClass("d-none");
+    // }
+
 
 
 

@@ -19,32 +19,7 @@
                         <li class="breadcrumb-item active">My Profile</li>
                     </ol>
                 </div>
-                <div class="col-6 edit-profile" style="list-style: none;">
-                    <li class="nav-item dropdown">
-                    <a class="nav-link nav-profile d-flex align-items-center me-3" href="#" data-bs-toggle="dropdown">
-                    <button class="btn btn-edit-profile" ><i class="ri-settings-3-line"></i></button>
-                        
-                    </a><!-- End Profile Image Icon -->
                 
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile p-2">
-                
-                        <li class="modal-add-prod">
-                        <a class="dropdown-item d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#addProductModal" href="{% url 'admin_site:settings_profile' %}">
-                            <!-- <i class="ri-user-line"></i>               -->
-                            <span>Edit Profile</span>
-                        </a>
-                        </li>
-                
-                        <li class="modal-edit-prod">
-                        <a class="dropdown-item d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#editProductModal" href="{%  url 'admin_site:settings_password' %}">
-                            <!-- <i class="ri-logout-box-r-line"></i>               -->
-                            <span>Change Password</span>
-                        </a>
-                        </li>
-                
-                        </ul><!-- End Profile Dropdown Items -->
-                    </li><!-- End Profile Nav -->
-                </div>
             </div>
             {% endif %}
 
@@ -178,7 +153,7 @@
         <div class="empty-screen2 d-none modal-add-prod">
             <img src="../../../../static/img/noresellers.svg" alt="haha">
             <h5 class="pt-3">Complete your Profile</h5>
-            <img class="arrow-here"src="../../../../static/img/arrow.svg" alt="haha">
+            <!-- <img class="arrow-here"src="../../../../static/img/arrow.svg" alt="haha"> -->
             <p data-bs-toggle="modal" data-bs-target="#addProductModal">Please provide all necessary information <a href="{% url 'admin_site:settings_profile' %}">here</a> in order to fully create your profile.
             </p>
         </div>
@@ -213,51 +188,221 @@
 
                     <!-- Profile Info -->
                     <div class="col-lg-8">
-                        <div class="card info-card profile-info-card">
-                                <div class="card-body label-profile-body dash mt-3 py-3 mb-3">
-                                    <div class="col-lg-12 ps-5">
-                                        <div class="row">
-                                            <!-- EMAIL -->
-                                            <div class="col-lg-6">
-                                                <label class="label-profile" for="">Email</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <label class="label-desc" id="desc-profile" for="">{{list.profile_email}}</label>
-                                            </div>
+                        <div class="card">
+                            <div class="card-body pt-3">
+                                <!-- Bordered Tabs -->
+                                <ul class="nav nav-tabs nav-tabs-bordered">
+                    
+                                    <li class="nav-item">
+                                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                                    </li>
+                    
+                                    <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                                    </li>
+                    
+                                    <li class="nav-item">
+                                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+                                    </li>
+                    
+                                </ul>
+                                <div class="tab-content pt-2">
+                    
+                                    <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                                        
+                                    <h5 class="card-title">About</h5>
+                                    <p class="small fst-italic">
+                                        {% if profile.profile_about %}
+    {{ profile.profile_about }}
+{% elif list.profile_about %}
+    {{ list.profile_about }}
+{% else %}
+    Hello! I'm {{ list.profile_fname }}.
+{% endif %}
 
-                                            <!-- USERNAME -->
-                                            <div class="col-lg-6">
-                                                <label class="label-profile" for="">Username</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <label class="label-desc" for="">{{list.list_user}}</label>
-                                            </div>
-
-                                            <!-- PHONE NUMBER -->
-                                            <div class="col-lg-6">
-                                                <label class="label-profile" for="">Phone Number</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <label class="label-desc" for="">0{{list.profile_cnumber}}</label>
-                                            </div>
-
-                                            <!-- PHONE NUMBER -->
-                                            <div class="col-lg-6">
-                                                <label class="label-profile" for="">Address</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <label class="label-desc" for="">{{list.profile_address}}</label>
+                                    </p>
+                    
+                                    <h5 class="card-title">Profile Details</h5>
+                    
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                                        <div class="col-lg-9 col-md-8">{{ list.profile_fname }} {{list.profile_mname}} {{list.profile_lname}}</div>
+                                    </div>
+                    
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Role</div>
+                                        <div class="col-lg-9 col-md-8">{{ user.role|title }}</div>
+                                    </div>
+                                        
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Address</div>
+                                        <div class="col-lg-9 col-md-8">{{list.profile_address}}</div>
+                                    </div>
+                    
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Contact No.</div>
+                                        <div class="col-lg-9 col-md-8">0{{list.profile_cnumber}}</div>
+                                    </div>
+                    
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-4 label">Email</div>
+                                        <div class="col-lg-9 col-md-8" id="desc-profile">{{list.profile_email}}</div>
+                                    </div>
+                    
+                                    </div>
+                    
+                                    <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                    
+                                    <!-- Profile Edit Form -->
+                                    <form action="{% url 'admin_site:update_profile' list.id %}" method="POST" enctype="multipart/form-data">
+                                        {% csrf_token %}                                    
+                                        <div class="row mb-3">
+                                        <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                                        <div class="col-md-8 col-lg-9 profile-settings">
+                                            {% if list.profile_pic %}
+                                            <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" class="image-cropper">
+                                            {% else %}
+                                            <img id="output" src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" class="image-cropper">
+                                            {% endif %}
+                                            <div class="pt-2 edit-profile-settings">
+                                                <!-- <label for="file-upload" class="btn btn-print btn-upload custom-file-upload me-2">
+                                                    <i class="ri-upload-2-line"></i>
+                                                </label> -->
+                                                <label for="file-upload" class="btn btn-print btn-upload custom-file-upload me-2">
+                                                    <i class="ri-upload-2-line"></i>
+                                                </label>
+                                                <input id="file-upload"  name="profile_pic" type="file" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])"/>
                                             </div>
                                         </div>
-                                        
+                                        </div>
+                    
+                                        <div class="row mb-3">
+                                        <label for="first" class="col-md-4 col-lg-3 col-form-label">First Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="first" type="text" class="form-control" id="first" value="{{ list.profile_fname}}" required>
+                                        </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                        <label for="middle" class="col-md-4 col-lg-3 col-form-label">Middle Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="middle" type="text" class="form-control" id="middle" value="{{ list.profile_mname}}">
+                                        </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                        <label for="last" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="last" type="text" class="form-control" id="last" value="{{ list.profile_lname}}" required>
+                                        </div>
+                                        </div>
+                    
+                                        <div class="row mb-3">
+                                        <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <!-- {% if list.profile_about %}
+                                            <textarea name="about" class="form-control" id="about">{{ list.profile_about }}</textarea>
+                                            {% else %}
+                                            <textarea name="about" class="form-control" id="about">Hello! I'm {{ list.profile_fname}}.</textarea>
+                                            {% endif %} -->
+
+                                            <textarea name="about" class="form-control" cols="1" rows="2" id="about">{% spaceless %}
+                                                {% if profile.profile_about %}
+                                                    {{ profile.profile_about|striptags|truncatechars:255 }}
+                                                {% elif list.profile_about %}
+                                                    {{ list.profile_about|striptags|truncatechars:255 }}
+                                                {% else %}
+                                                    Hello! I'm {{ profile.profile_fname }}.
+                                                {% endif %}
+                                            {% endspaceless %}</textarea>
+                                            
+                                            
+                                        </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                        <label for="Job" class="col-md-4 col-lg-3 col-form-label">Role</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="job" type="text" class="form-control" id="Job" value="{{user.role|title}}" readonly>
+                                        </div>
+                                        </div>
+                    
+                                        <div class="row mb-3">
+                                        <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="address" type="text" class="form-control" id="Address" value="{{ list.profile_address}}" required>
+                                        </div>
+                                        </div>
+                    
+                                        <div class="row mb-3">
+                                        <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Contact No.</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="contact_no" type="number" class="form-control" id="contact_no" min="0" value="{{ list.profile_cnumber}}" 
+                                            maxlength="11" 
+                                            oninput="this.value=this.value.slice(0,this.maxLength)"
+                                            required>
+                                        </div>
+                                        </div>
+                    
+                                        <div class="row mb-3">
+                                        <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="email" type="email" class="form-control" id="Email" value="{{ list.profile_email}}" required>
+                                        </div>
+                                        </div>
+                    
+                                        <div class="text-end mt-4">
+                                        <button type="submit" class="btn btn-primary btn-profile-upload">Save Changes</button>
+                                        </div>
+                                    </form><!-- End Profile Edit Form -->
+                    
                                     </div>
+                    
+                                    <div class="tab-pane fade pt-3" id="profile-change-password">
+                                    <!-- Change Password Form -->
+                                    <form>
+                    
+                                        <div class="row mb-3">
+                                        <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="password" type="password" class="form-control" id="currentPassword">
+                                        </div>
+                                        </div>
+                    
+                                        <div class="row mb-3">
+                                        <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="newpassword" type="password" class="form-control" id="newPassword">
+                                        </div>
+                                        </div>
+                    
+                                        <div class="row mb-3">
+                                        <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="renewpassword" type="password" class="form-control" id="renewPassword">
+                                        </div>
+                                        </div>
+                    
+                                        <div class="text-end">
+                                        <button type="submit" class="btn btn-profile-up">Change Password</button>
+                                        </div>
+                                    </form><!-- End Change Password Form -->
+                    
+                                    </div>
+                    
+                                </div><!-- End Bordered Tabs -->
+                    
                                 </div>
                         </div>
-                    </div><!-- End Walk-in Sales Card -->
+
+                    </div>
+                    <!-- End Walk-in Sales Card -->
             </div>
             </div>
             {% endfor %}
             {% endif %}
+
+            
     </section>
 </main>
 

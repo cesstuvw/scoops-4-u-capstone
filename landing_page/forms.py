@@ -56,45 +56,20 @@ class SignUpForm(UserCreationForm):
         self.fields['status'].widget.attrs.update({
             'class': 'form-select',
         })
-        
 
-    # username = forms.CharField(
-    #     widget=forms.TextInput(
-    #         attrs={
-    #             "class": "form-control"
-    #         }
-    #     )
-    # )
 
-    # password1 = forms.CharField(
-    #     widget=forms.PasswordInput(
-    #         attrs={
-    #             "class": "form-control",'placeholder':'password'
-    #         }
-    #     )
-    # )
-
-    # password2 = forms.CharField(
-    #     widget=forms.PasswordInput(
-    #         attrs={
-    #             "class": "form-control",'placeholder':'Re Enter password'
-    #         }
-    #     )
-    # )
-
-    # email = forms.CharField(
-    #     widget=forms.TextInput(
-    #         attrs={
-    #             "class": "form-control"
-    #         }
-    #     )
-    # )
-
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Email address already exists.")
+        return email
+            
 
     class Meta:
         model = User
         fields = ('username','email','password1','password2','role','status')
-        
+    
+    
 class ChangePasswordForm(forms.Form):
     # current_password = forms.CharField(label='Current Password', widget=forms.PasswordInput)
     current_password = forms.CharField(label='Current Password',widget=forms.PasswordInput(attrs={'class' : 'form-control'}))

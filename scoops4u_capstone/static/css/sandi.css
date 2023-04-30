@@ -1701,6 +1701,12 @@ td .form-control{
   right: 35px;
 }
 
+.btn-profile-upload{
+  font-family: P-Light;
+  background-color: var(--primary-c-blue);
+  color: var(--primary-c-white-text);
+}
+
 
 /* POS */
 
@@ -1725,7 +1731,7 @@ td .form-control{
 
 .btn-quan{
   background-color: var(--primary-c-white);
-  width: 5rem;
+  /* width: 5rem; */
   /* padding: 0.4rem 1rem; */
 }
 
@@ -1864,11 +1870,26 @@ input{
   border-radius:50%;
 }
 
+.profile-settings .image-cropper{
+  width: 20%;
+  object-fit: cover; /* Required to prevent the image from stretching, use the object-position property to adjust the visible area */
+  aspect-ratio: 1/1;
+  border-radius:0% !important;
+}
+
 .edit-profile input[type="file"] {
   display: none;
 }
 
+.edit-profile-settings input[type="file"] {
+  display: none;
+}
+
 .edit-file input[type="file"] {
+  display: none;
+}
+
+.edit-file-settings input[type="file"] {
   display: none;
 }
 
@@ -1882,6 +1903,8 @@ input{
   margin-right: 0.5rem !important;
   /* border-radius: 0.5rem; */
 }
+
+
 
 
 /* MY PROFILE */
@@ -2097,6 +2120,7 @@ thead th.sorting::after {
 
 #tableFlavor,
 #tableMainProL,
+#tableMainRetu,
 #tableUnit,
 #tableCat{
   /* width: 110rem !important; */
@@ -2227,6 +2251,8 @@ thead .sort-no {
 #tableMain td,
 #tableMainProL th,
 #tableMainProL td,
+#tableMainRetu th,
+#tableMainRetu td,
 #tableFlavor th,
 #tableFlavor td,
 #tableUnit th,
@@ -2290,6 +2316,8 @@ thead .sort-no {
 .empty-screenProL,
 .empty-screenAct,
 .empty-screenAdd,
+.empty-screenRetu,
+.empty-screenPos,
 .empty-screen2{
   display: flex;
   justify-content: center;
@@ -2309,6 +2337,8 @@ thead .sort-no {
 .empty-screenRes h5,
 .empty-screenUs h5,
 .empty-screenSto h5,
+.empty-screenRetu h5,
+.empty-screenPos h5,
 .empty-screen2 h5{
   font-family: P-Bold;
   font-size: 1.3rem;
@@ -2318,9 +2348,11 @@ thead .sort-no {
 .empty-screen img,
 .empty-screen1 img,
 .empty-screenPro img,
+.empty-screenPos img,
 .empty-screenSto img,
 .empty-screenProL img,
 .empty-screenRes img,
+.empty-screenRetu img,
 .empty-screenUs img,
 .empty-screenAdd img,
 .empty-screenAct img,
@@ -2334,9 +2366,11 @@ thead .sort-no {
 .empty-screenPro p,
 .empty-screenProL p,
 .empty-screenSto p,
+.empty-screenPos p,
 .empty-screen1 p,
 .empty-screenAct p,
 .empty-screenAdd p,
+.empty-screenRetu p,
 .empty-screen2 p{
   max-width: 30%;
   font-size: .9375rem;
@@ -2778,58 +2812,18 @@ btn-edit-profile{
 }
 
 
+.modal-body input[readonly],
+.modal-body textarea[readonly] {
+  pointer-events: none !important;
+  font-size: 15px !important;
+  color: var(--primary-c-dark-blue) !important;
+  border-color: #E5E8F8 !important;
+  background-color: var(--primary-c-white-text);
+}
+
+.modal-body textarea[readonly]{
+  overflow-y: scroll !important;
+}
 
 
-
-
-/* <!-- <div class="col">
-<span>{{ list.date_time|date:"m/d/Y" }} </span>
-</div>
-<div class="col">
-<span>{{ list.date_time|date:"h:i A" }} </span>
-</div> -->
-<div class="col">
-<!-- <div class="activite-label">{{ list.date_time|date:"m/d/Y" }} {{ list.date_time|date:"h:i A" }} </div> -->
-<div class="activite-labels">
-     <div class="row">
-          <div class="col">
-               {{ list.date_time|date:"m/d/Y" }} 
-          </div>
-          <div class="col">
-               {{ list.date_time|date:"h:i A" }}
-          </div>
-          <div class="col">
-              <div></div>
-          </div>
-     </div>
-</div>
-</div>
-</div>
-
-<i class='ri-checkbox-blank-circle-fill activity-badge text-success align-self-start'></i>
-<div class="activity-content">
-</div>
-<div>{{ list.user_name }}</div>
-<div>{{ list.activity }}</div> */
-/* 
-<div class="activity-item d-flex">
-                                             <div class="row">
-                                                  <div class="col">
-                                                       <!-- <div><span>{{ list.date_time|date:"m/d/Y" }}</span></div> -->
-                                                       
-                                                       <div class="activite-label">{{ list.date_time|date:"m/d/Y" }} {{ list.date_time|date:"h:i A" }} </div>
-
-                                                  </div>
-                                                  <div class="col">
-                                                       <div class="activite-label"></div>
-                                                       <div><span>{{ list.date_time|date:"h:i A" }}</span></div>
-                                                  </div>
-                                                  <div class="col activite-label-main">
-                                                            <span><i class='ri-checkbox-blank-circle-fill activity-badge text-success align-self-start'></i></span>
-                                                       <!-- <div><span><i class='ri-checkbox-blank-circle-fill activity-badge text-success align-self-start'></i></span></div> -->
-                                                  </div>
-                                                  <div class="col">
-                                                       
-                                                  </div>
-                                             </div>
-                                        </div><!-- End activity item--> */
+                                      

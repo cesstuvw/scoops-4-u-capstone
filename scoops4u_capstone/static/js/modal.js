@@ -43,6 +43,12 @@ $(document).ready(function () {
     });
 
     // Add Product
+    $('.modal-view-reason').on('click', 'a', function(e){
+        e.preventDefault();
+        $('#viewReasonModal').modal('show').find('.modal-content').load($(this).attr('href'));
+    });
+
+    // Add Product
     $('.modal-add-res').on('click', 'a', function(e){
         e.preventDefault();
         $('#addResellerEmpty').modal('show').find('.modal-content').load($(this).attr('href'));

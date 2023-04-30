@@ -30,7 +30,7 @@ $(document).ready(function(){
             // $('#change').val(result.toLocaleString('en-PH', { style: 'currency', currency: 'PHP' }));
 
             // $('#btn-receipt').removeAttr('hidden');
-            $('#btn-receipt').show()	
+            $('#btn-receipt').removeClass('d-none')	
             
             // $('#form').submit()
 

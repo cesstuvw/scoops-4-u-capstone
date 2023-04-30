@@ -30,11 +30,13 @@ urlpatterns = [
 
 
 
-    path('send-email/', views.send_email, name='send_email'),
+    # path('send-email/', views.send_email, name='send_email'),
+    path('send-email/<int:id>/', views.send_email, name='send_email'),
+    path('send-email-reseller/<int:id>/', views.send_email_reseller, name='send_email_reseller'),    
 
 
 
-    path('process/inquiry', views.process_inquiry, name='process_inquiry'),
+    path('process/inquiry/', views.process_inquiry, name='process_inquiry'),
 
     #adding reseller 
     path('adding-reseller/', views.add_reseller, name='add_reseller'),
@@ -123,10 +125,19 @@ urlpatterns = [
     path('remove/Product-flavor/<int:id>/', views.remove_flavor , name='remove_flavor'),
 
     #return products	
-    path('Return/Product/', views.return_product, name='return_product'),	
+    # path('Return/Product/', views.return_product, name='return_product'),
+
+    path('unreturned/Product/', views.unreturned_product, name='unreturned_product'),
+    path('returned/Product/', views.returned_product, name='returned_product'),
+    path('returned/completed/<int:id>/', views.returned_completed, name='returned_completed'),
+    path('view-unreturned/<int:id>/', views.view_unreturned, name='view_unreturned'),
+    path('view-returned/<int:id>/', views.view_unreturned, name='view_unreturned'),
+
+
     path('Add/Return-Product/', views.add_returnproduct , name='add_returnproduct'),
     path('edit/Return-Product/<int:id>/', views.edit_returnproduct , name='edit_returnproduct'),	
     path('update/Return-Product/<int:id>/', views.update_returnproduct , name='update_returnproduct'),
+    
 
     path('support/', views.support, name='support'),
    

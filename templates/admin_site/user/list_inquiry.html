@@ -79,10 +79,10 @@
                                         <td>{{ list.reseller_address }}</td>
                                         <td>{{ list.reseller_email }}</td>
                                         <td class="modal-view-file-VID">
-                                            <a href="{% url 'admin_site:viewingpic_vid' list.id %}"><i class="ri-eye-fill btn-edit" data-bs-toggle="modal" data-bs-target="#viewFileModal"></i></a>
+                                            <a href="{% url 'admin_site:viewingpic_vid' list.id %}" data-toggle="tooltip" data-placement="top" title="View"><i class="ri-eye-fill btn-edit" data-bs-toggle="modal" data-bs-target="#viewFileModal"></i></a>
                                         </td>
                                         <td class="modal-view-file-BP">
-                                            <a href="{% url 'admin_site:viewingpic_bpermit' list.id %}"><i class="ri-eye-fill btn-edit" data-bs-toggle="modal" data-bs-target="#viewFileModal"></i></a>
+                                            <a href="{% url 'admin_site:viewingpic_bpermit' list.id %}" data-toggle="tooltip" data-placement="top" title="View"><i class="ri-eye-fill btn-edit" data-bs-toggle="modal" data-bs-target="#viewFileModal"></i></a>
                                         </td>
                                     
                                         {% if list.reseller_status == "pending" %}
@@ -94,7 +94,7 @@
                                             {% csrf_token %}
                                             <td> 
                                                 <!-- <a href="{% url 'admin_site:edit_reseller' list.id %}"class="btn btn-edit modal-edit"><i class="ri-edit-fill"></i></a> -->
-                                                <button type="submit" class="btn btn-archive"><i class="ri-checkbox-circle-fill"></i></button>
+                                                <button type="submit" class="btn btn-archive" data-toggle="tooltip" data-placement="top" title="Approve"><i class="ri-checkbox-circle-fill"></i></button>
                                                 <!-- <input type="submit" class="btn btn-archive"><i class="ri-archive-fill"></i> -->
                                             </td>
                                         </form>

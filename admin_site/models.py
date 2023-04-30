@@ -159,6 +159,7 @@ class Profile(models.Model):
     profile_fname = models.CharField(max_length=250, null=False, verbose_name="First Name")
     profile_mname = models.CharField(max_length=250,  null=False, verbose_name="Middle Name")
     profile_lname = models.CharField(max_length=250, null=False, verbose_name="Last Name")
+    profile_about = models.TextField(blank=True)
     profile_cnumber = models.BigIntegerField( null=False, verbose_name="Contact Number")
     profile_address = models.TextField(null=False, verbose_name="Address")
     profile_email = models.CharField( max_length=100, null=False, verbose_name="Email Address")

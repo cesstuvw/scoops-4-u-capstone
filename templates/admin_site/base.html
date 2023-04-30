@@ -429,10 +429,15 @@
                   </a>
               </li>
               <li>
-                <a href="{%url 'admin_site:return_product' %}">
-                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returns</span>
+                <a href="{%url 'admin_site:unreturned_product' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Unreturned</span>
                 </a>
-            </li>
+              </li>
+              <li>
+                <a href="{%url 'admin_site:returned_product' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returned</span>
+                </a>
+              </li>
         </ul>
         </li><!-- End Sales Nav -->
 
@@ -458,10 +463,15 @@
                   </a>
               </li>
               <li>
-                <a href="{%url 'admin_site:return_product' %}">
-                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returns</span>
+                <a href="{%url 'admin_site:unreturned_product' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Unreturned</span>
                 </a>
-            </li>
+              </li>
+              <li>
+                <a href="{%url 'admin_site:returned_product' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returned</span>
+                </a>
+              </li>
         </ul>
         </li><!-- End Sales Nav -->
 
@@ -487,19 +497,24 @@
                   </a>
               </li>
               <li>
-                <a href="{%url 'admin_site:return_product' %}">
-                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returns</span>
+                <a href="{%url 'admin_site:unreturned_product' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Unreturned</span>
                 </a>
-            </li>
+              </li>
+              <li>
+                <a href="{%url 'admin_site:returned_product' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returned</span>
+                </a>
+              </li>
         </ul>
         </li><!-- End Sales Nav -->
 
-        {% elif sidebar == 'returns' %}
-        <li class="nav-item {% if sidebar == 'returns' %}active-nav{% endif %}">
-        <a class="nav-link {% if sidebar != 'returns' %}collapsed{% endif %}" data-bs-target="#sales-nav" data-bs-toggle="collapse" href="#">
+        {% elif sidebar == 'returned' %}
+        <li class="nav-item {% if sidebar == 'returned' %}active-nav{% endif %}">
+        <a class="nav-link {% if sidebar != 'returned' %}collapsed{% endif %}" data-bs-target="#sales-nav" data-bs-toggle="collapse" href="#">
               <i class="ri-shopping-cart-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Order</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
         </a>
-        <ul id="sales-nav" class="nav-content collapse {% if sidebar == 'returns' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+        <ul id="sales-nav" class="nav-content collapse {% if sidebar == 'returned' %}show{% endif %}" data-bs-parent="#sidebar-nav">
               <li>
                   <a href="{% url 'admin_site:transaction_orders' %}" >
                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Pending</span>
@@ -516,8 +531,47 @@
                   </a>
               </li>
               <li>
-                <a href="{%url 'admin_site:return_product' %}" class="{% if sidebar == 'returns' %}active{% endif %}">
-                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returns</span>
+                <a href="{%url 'admin_site:unreturned_product' %}">
+                  <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Unreturned</span>
+                </a>
+              </li>
+              <li>
+                <a href="{%url 'admin_site:returned_product' %}" class="{% if sidebar == 'returned' %}active{% endif %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returned</span>
+                </a>
+            </li>
+        </ul>
+        </li><!-- End Sales Nav -->
+
+        {% elif sidebar == 'unreturned' %}
+        <li class="nav-item {% if sidebar == 'unreturned' %}active-nav{% endif %}">
+        <a class="nav-link {% if sidebar != 'unreturned' %}collapsed{% endif %}" data-bs-target="#sales-nav" data-bs-toggle="collapse" href="#">
+              <i class="ri-shopping-cart-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Order</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+        </a>
+        <ul id="sales-nav" class="nav-content collapse {% if sidebar == 'unreturned' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+              <li>
+                  <a href="{% url 'admin_site:transaction_orders' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Pending</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{% url 'admin_site:transaction_outshipping' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Out For Delivery</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{% url 'admin_site:transaction_completed' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Delivered</span>
+                  </a>
+              </li>
+              <li>
+                <a href="{%url 'admin_site:unreturned_product' %}" class="{% if sidebar == 'unreturned' %}active{% endif %}">
+                  <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Unreturned</span>
+                </a>
+              </li>
+              <li>
+                <a href="{%url 'admin_site:returned_product' %}" ">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returned</span>
                 </a>
             </li>
         </ul>
@@ -545,10 +599,15 @@
                   </a>
               </li>
               <li>
-                <a href="{%url 'admin_site:return_product' %}">
-                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returns</span>
+                <a href="{%url 'admin_site:unreturned_product' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Unreturned</span>
                 </a>
-            </li>
+              </li>
+              <li>
+                <a href="{%url 'admin_site:returned_product' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returned</span>
+                </a>
+              </li>
         </ul>
         </li><!-- End Sales Nav -->
         {% endif %}

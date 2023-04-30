@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.db.models import Sum, Q,F, Max
 from django.core.mail import send_mail,  EmailMessage
 
-from datetime import datetime,date, timedelta
+from datetime import datetime,date
 from landing_page.forms import SignUpForm,ChangePasswordForm, ReviewForm 
 from landing_page.models import User
 
@@ -63,7 +63,7 @@ def add_useraccount(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('admin_site:send_email')
+            return redirect('admin_site:user_list')
     else:
         form = SignUpForm()
     return render(request, 'admin_site/user/add_useraccount.html',{'form':form})
@@ -307,11 +307,11 @@ def archive_reseller(request,resellerid):
 
 
 @login_required(login_url='landing_page:login')
-def send_email(request):
+def send_email(request, id):
+    user = User.objects.get(pk=id)
+    context = {'user': user}
     if request.method == "POST":
-        # tile_email = "Your inquiry has been successfully approved."
         tile_email = "Account Confirmation"
-        # tile_email = request.POST['name']
         email = request.POST['email']
         message = request.POST['message']
         send_mail(
@@ -322,7 +322,40 @@ def send_email(request):
             fail_silently=False)
         messages.success(request, 'Email sent to new user')
         return redirect('admin_site:user_list')
-    return render(request, 'admin_site/user/send_email.html')        
+    
+    return render(request, 'admin_site/user/send_email.html', context)
+
+
+
+
+@login_required(login_url='landing_page:login')
+def send_email_reseller(request,id):
+    reseller = Reseller.objects.get(pk = id)
+
+    email_reseller = reseller.reseller_email
+
+    user = User.objects.get(email = email_reseller)
+    if request.method == "POST":
+        email = request.POST['email']
+        tile_email = "your inquiry successfully approved"
+
+
+        message = request.POST['message']
+        send_mail(
+            tile_email,
+            message,
+            'settings.EMAIL_HOST_USER',
+            [email],
+            fail_silently=False)
+        return redirect('admin_site:list_reseller')
+
+    context = {
+        'reseller':reseller,
+        'user':user,
+    }
+
+    return render(request, 'admin_site/user/send_email_reseller.html',context)
+
 
 #process inquiry for reseller
 def process_inquiry(request):
@@ -557,6 +590,7 @@ def add_profile(request):
         NewProfile.profile_fname = request.POST.get('first')
         NewProfile.profile_mname = request.POST.get('middle')
         NewProfile.profile_lname = request.POST.get('last')
+        NewProfile.profile_about = request.POST.get('about')
         NewProfile.profile_cnumber = request.POST.get('contact_no')
         NewProfile.profile_address = request.POST.get('address')
         NewProfile.profile_email = request.POST.get('email')
@@ -571,16 +605,25 @@ def update_profile(request,profileid):
         profile.profile_fname = request.POST.get('first')
         profile.profile_mname = request.POST.get('middle')
         profile.profile_lname = request.POST.get('last')
+        profile.profile_about = request.POST.get('about')
+        if not request.POST.get('about'):
+            profile.profile_about = f"Hello! I'm {request.POST.get('first')}."
+        # profile.profile_about = request.POST.get('about', "Hello! I'm {}.".format(profile.profile_fname))
+
         profile.profile_cnumber = request.POST.get('contact_no')
         profile.profile_address = request.POST.get('address')
         profile.profile_email = request.POST.get('email')
         if profile_picture:
             profile.profile_pic = profile_picture
+       
+        
         profile.save()
         messages.success(request,("Profile updated"))
         return redirect('admin_site:my_profile') 
 
+
 def my_profile(request):
+    
     current_profile = Profile.objects.filter(list_user = request.user)
     list_profile = Profile.objects.filter(list_user = request.user)
 
@@ -803,11 +846,13 @@ def pos_receipt_process(request):
         get_paymentID = request.POST['get_id']
         pos = Cart.objects.filter(cart_user = request.user)	
         pos_payment = Cart_Payment.objects.get(id = get_paymentID)	
-       	
+           
         if Cart.objects.filter(cart_user = request.user):	
             for carts in pos:	
                 products = Product.objects.get(product_code = carts.cart_pcode)	
-                return_product = Return_product.objects.get(product_code = carts.cart_pcode, product_qty = carts.cart_quantity)	
+                # return_product = Return_product.objects.get(product_code = carts.cart_pcode, product_qty = carts.cart_quantity)	
+                # return_product = Return_product.objects.get(Q(product_code = carts.cart_pcode) & Q(product_qty = carts.cart_quantity))
+
                 cart_quantity = int(carts.cart_quantity)	
                 current_stock = int(products.product_stock)	
                 minus_stock = current_stock - cart_quantity 	
@@ -821,9 +866,9 @@ def pos_receipt_process(request):
                         products.product_status = "low stock"	
                         products.save()  	
 
-                if Cart_Payment.objects.filter(cart_cash = 0):	
-                    return_product.return_status = "returned"	
-                    return_product.save()	
+                # if Cart_Payment.objects.filter(cart_cash = 0):	
+                #     return_product.return_status = "returned"	
+                #     return_product.save()	
 
             pos_payment = Cart_Payment.objects.get(id = get_paymentID)	
             pos_payment.cart_status = "Printed"	
@@ -1172,17 +1217,52 @@ def transaction_view(request, id):
 
 
 
-		
+        
 #return products	
-@login_required(login_url='landing_page:login')	
-def return_product(request):	
-        return_product = Return_product.objects.all()	
-        context ={	
-            'return_product':return_product,
-            'sidebar' : 'returns' 	
-        }	
-        return render(request,'admin_site/transaction/return_products.html',context)
+# @login_required(login_url='landing_page:login')	
+# def return_product(request):	
+#         return_product = Return_product.objects.all()	
+#         context ={	
+#             'return_product':return_product,
+#             'sidebar' : 'returns' 	
+#         }	
+#         return render(request,'admin_site/transaction/return_products.html',context)
 
+def unreturned_product(request):
+    list_profile = Profile.objects.filter(list_user = request.user)
+    return_product = Return_product.objects.filter(return_status= "unreturned")
+    current_profile = Profile.objects.filter(list_user = request.user)
+    context ={
+        'return_product':return_product,
+        'current_profile':current_profile,
+        'sidebar' : 'unreturned',
+        'list_profile':list_profile, 
+    }
+    return render(request,'admin_site/transaction/unreturned_products.html',context)
+
+
+@login_required(login_url='landing_page:login')
+def returned_product(request):
+    list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
+    return_product = Return_product.objects.filter(return_status= "returned")
+    context ={
+        'return_product':return_product,
+        'current_profile':current_profile,
+        'sidebar' : 'returned',
+        'list_profile':list_profile,  
+    }
+    return render(request,'admin_site/transaction/returned_products.html',context)
+
+
+@login_required(login_url='landing_page:login')
+def returned_completed(request, id):
+    return_product = Return_product.objects.get(pk = id)
+    return_product.return_status = "returned"
+    return_product.save()
+
+    messages.success(request,("Sucessfully returned"))
+    return redirect('admin_site:returned_product')
 
 @login_required(login_url='landing_page:login')	
 def add_returnproduct(request):	
@@ -1197,7 +1277,7 @@ def add_returnproduct(request):
         return_product.return_status =  "unreturned"	
         return_product.save()	
         messages.success(request,("Successfully added"))	
-        return redirect ('admin_site:return_product')	
+        return redirect ('admin_site:unreturned_product')
     context={	
         'product':product	
     }	
@@ -1224,7 +1304,25 @@ def update_returnproduct(request,id):
         return_product.return_status =  request.POST.get('status')	
         return_product.save()	
         messages.success(request,("Successfully Updated"))	
-        return redirect ('admin_site:return_product')
+        return redirect ('admin_site:unreturned_product')
+
+@login_required(login_url='landing_page:login')
+def view_unreturned(request, id):
+    unreturned_product = Return_product.objects.get(pk = id)
+    context = {
+        'unreturned_product': unreturned_product,
+
+    }
+    return render(request, 'admin_site/transaction/view_unreturned.html',context)
+
+@login_required(login_url='landing_page:login')
+def view_returned(request, id):
+    returned_product = Return_product.objects.get(pk = id)
+    context = {
+        'returned_product': returned_product,
+
+    }
+    return render(request, 'admin_site/transaction/view_returned.html',context)
 
 #settings feature	
 def settings_product(request):	

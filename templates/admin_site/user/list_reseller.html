@@ -130,13 +130,13 @@
                                         <td>{{ list.reseller_email }}</td>
                                       
                                         <td class="modal-view-file-VID">
-                                            <a href="{% url 'admin_site:viewingpic_vid' list.id %}"><i class="ri-eye-fill btn-edit"  data-bs-toggle="modal" data-bs-target="#viewFileModal"></i></a>
+                                            <a href="{% url 'admin_site:viewingpic_vid' list.id %}"><i class="ri-eye-fill btn-edit" data-toggle="tooltip" data-placement="top" title="View" data-bs-toggle="modal" data-bs-target="#viewFileModal"></i></a>
                                         </td>
 
                                       
 
                                         <td class="modal-view-file-BP">
-                                            <a href="{% url 'admin_site:viewingpic_bpermit' list.id %}"><i class="ri-eye-fill btn-edit"  data-bs-toggle="modal" data-bs-target="#viewFileModal"></i></a>
+                                            <a href="{% url 'admin_site:viewingpic_bpermit' list.id %}"><i class="ri-eye-fill btn-edit" data-toggle="tooltip" data-placement="top" title="View"  data-bs-toggle="modal" data-bs-target="#viewFileModal"></i></a>
                                         </td>
                                         
                                         <!-- <td><i class="ri-eye-fill btn-edit" data-bs-toggle="modal" data-bs-target="#viewPic"></i></a></td> -->
@@ -157,11 +157,12 @@
 
                                         <form method="POST" action="{% url 'admin_site:archive_reseller'  list.id %}" onsubmit="return submitForm(this);">
                                             {% csrf_token %}
-                                        <td> 
-                                            <a href="{% url 'admin_site:edit_reseller' list.id %}"class="btn btn-edit modal-edit"><i class="ri-edit-fill"></i></a>
-                                            <button type="submit" class="btn btn-archive"><i class="ri-archive-fill"></i></button>
-                                            <!-- <input type="submit" class="btn btn-archive"><i class="ri-archive-fill"></i> -->
-                                        </td>
+                                            <td> 
+                                                <a href="{% url 'admin_site:edit_reseller' list.id %}"class="btn btn-edit modal-edit me-1" data-toggle="tooltip" data-placement="top" title="Edit"><i class="ri-edit-fill"></i></a>
+                                                <button type="submit" class="btn btn-archive me-1"><i class="ri-archive-fill" data-toggle="tooltip" data-placement="top" title="Archive"></i></button>
+                                                <a href="{% url 'admin_site:send_email_reseller' list.id %}" class="btn btn-edit me-0 ms-0 ps-0" data-toggle="tooltip" data-placement="top" title="Send Email"><i class="ri-mail-send-fill"></i></a>
+                                                <!-- <input type="submit" class="btn btn-archive"><i class="ri-archive-fill"></i> -->
+                                            </td>
                                         </form>
 
                                         <script>
