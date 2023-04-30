@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.db.models import Sum, Q,F, Max
 from django.core.mail import send_mail,  EmailMessage
 
-from datetime import datetime,date
+from datetime import datetime,date, timedelta
 from landing_page.forms import SignUpForm,ChangePasswordForm, ReviewForm 
 from landing_page.models import User
 
@@ -35,7 +35,11 @@ def dashboard_admin(request):
     transaction_completed = Transaction.objects.filter(transaction_orderstatus = "Completed").count()
     transaction_shipped = Transaction.objects.filter(transaction_orderstatus = "Out for Delivery").count()
     transaction_decline = Transaction.objects.filter(transaction_orderstatus = "Decline").count()
+    list_reseller = Reseller.objects.filter(reseller_status = "active").count()
+    list_reports = Activity_log.objects.all().order_by('-id')[:10]
+    current_profile = Profile.objects.filter(list_user = request.user)
     list_profile = Profile.objects.filter(list_user = request.user)
+
     context = {
         'transaction_OnlineSales': transaction_OnlineSales,
         'transaction_pos_payment':transaction_pos_payment,
@@ -45,7 +49,10 @@ def dashboard_admin(request):
         'transaction_shipped':transaction_shipped,
         'transaction_decline':transaction_decline,
         'sidebar': 'dashboard',
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'list_reseller': list_reseller,
+        'list_reports': list_reports,
+        'current_profile': current_profile,
     }
     return render(request, 'admin_site/dashboard/index.html', context)
 
@@ -107,11 +114,13 @@ def register(request, inquiryid):
 def list_reseller(request):
     list_reseller = Reseller.objects.order_by('-id').filter(reseller_status = "active") 
     list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
 
     context = {
         'list_reseller':list_reseller,
         'sidebar': 'reseller',
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/user/list_reseller.html', context)
 
@@ -120,10 +129,12 @@ def list_reseller(request):
 def user_list(request):
     users = User.objects.all()
     list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
     context = {
         'users':users,
         'list_profile': list_profile,
-        'sidebar': 'users'
+        'sidebar': 'users',
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/user/useraccount.html', context)
 
@@ -162,11 +173,12 @@ def update_user_account(request,userid):
 def list_inquiry(request):
     list_inquiry = Reseller.objects.order_by('-id').filter(reseller_status = "pending")
     list_profile = Profile.objects.filter(list_user = request.user)
-
+    current_profile = Profile.objects.filter(list_user = request.user)
     context = {
         'list_inquiry':list_inquiry,
         'sidebar': 'requests',
         'list_profile': list_profile,
+        'current_profile':current_profile,
         }
     return render(request, 'admin_site/user/list_inquiry.html', context)
 
@@ -270,7 +282,7 @@ def update_reseller(request,id ):
 def archive_reseller(request,resellerid):
     
     if request.method =="POST":
-        # changing status to inactice
+        # changing status to inactive
         reseller = Reseller.objects.get(id = resellerid)
         # reseller.delete()
         status = "inactive"
@@ -360,11 +372,12 @@ def process_inquiry(request):
 def list_products(request):
     list_products = Product.objects.all().order_by('-id')
     list_profile = Profile.objects.filter(list_user = request.user)
-
+    current_profile = Profile.objects.filter(list_user = request.user)
     context = {
         'list_products':list_products,
         'sidebar': 'product',
         'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/products/product.html', context)
 
@@ -460,10 +473,12 @@ def update_product(request, productid):
 def list_archive(request):
     list_profile = Profile.objects.filter(list_user = request.user)
     list_reseller = Reseller.objects.order_by('-id').filter(reseller_status = "inactive") 
+    current_profile = Profile.objects.filter(list_user = request.user)
     context = {
         'list_reseller':list_reseller,
         'sidebar': 'archived',
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/user/archive.html', context)    
 
@@ -498,8 +513,11 @@ def settings_profile(request):
         form = ChangePasswordForm()
     
     list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
+
     context={
         'list_profile':list_profile,
+        'current_profile':current_profile,
         'form':form
     }
     return render(request,'admin_site/profile/settings_profile.html', context)
@@ -619,11 +637,13 @@ def my_profile(request):
 def inventory(request):
     list_products = Product.objects.all().order_by('-id')
     list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
 
     context = {
         'list_products':list_products,
         'sidebar' : 'stocks',
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/inventory/add-stock.html', context)   
 
@@ -722,7 +742,7 @@ def update_inventory(request, productid):
             NewActLog.role = request.user.role
             NewActLog.activity = activity 
             NewActLog.save()
-            messages.info(request,("Successfully Updated"))
+            messages.info(request,("Record updated."))
             return redirect('admin_site:inventory')  
 
 
@@ -752,14 +772,15 @@ def pos(request):
     sum_amount = Cart.objects.filter(cart_user = current_user).all().aggregate(total =Sum('cart_amount'))['total']
     list_pospayment = Cart_Payment.objects.filter(cart_status = "not Print")
     list_profile = Profile.objects.filter(list_user = request.user)
-
+    current_profile = Profile.objects.filter(list_user = request.user)
 
     context = {
         'list_products':list_products,
         'list_pos':list_pos,
         'sum_amount':sum_amount,
         'list_pospayment':list_pospayment,
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'current_profile':current_profile,
         }
     return render(request, 'admin_site/pos/pos_admin.html', context)
 
@@ -840,7 +861,7 @@ def pos_addreceipt(request):
 def pos_removeall(request):	
     pos = Cart.objects.filter(cart_user = request.user)	
     pos.delete()	
-    messages.success(request,("successfully removed all"))	
+    messages.success(request,("Removal successful"))	
     return redirect('admin_site:pos')	
 
 
@@ -893,7 +914,7 @@ def add_qty(request,productid):
 
     product = Product.objects.get(product_code = current_pcode)
     if product.product_stock == 0:
-        messages.success(request,("No available Stock"))
+        messages.info(request,("No available Stock"))
         return redirect('admin_site:pos')
 
     elif product.product_stock <= pos.cart_quantity:	
@@ -1058,11 +1079,15 @@ def Transaction_orders(request):
     list_transaction = Transaction.objects.filter(Q(transaction_orderstatus = "Pending")).order_by('-id')
     transaction_pending = Transaction.objects.filter(transaction_orderstatus = "Pending").count()
     list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
+
     context = {
         'list_transaction':list_transaction,
         'transaction_pending':transaction_pending,
         'sidebar' : 'pending',
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'current_profile':current_profile,
+
     }
     return render(request, 'admin_site/transaction/pending.html', context)
 
@@ -1071,10 +1096,13 @@ def Transaction_orders(request):
 def Transaction_outshipping(request):
     list_profile = Profile.objects.filter(list_user = request.user)
     list_transaction = Transaction.objects.filter(Q(transaction_orderstatus = "Out for Delivery")).order_by('-id')
+    current_profile = Profile.objects.filter(list_user = request.user)
+    
     context = {
         'list_transaction':list_transaction,
         'sidebar' : 'orders',
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/transaction/orders.html', context)
 
@@ -1084,10 +1112,13 @@ def Transaction_outshipping(request):
 def Transaction_completed(request):
     list_profile = Profile.objects.filter(list_user = request.user)
     list_transaction = Transaction.objects.filter(Q(transaction_orderstatus = "Completed")).order_by('-id')
+    current_profile = Profile.objects.filter(list_user = request.user)
+
     context = {
         'list_transaction':list_transaction,
         'sidebar' : 'completed',
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/transaction/completed.html', context)
 
@@ -1201,11 +1232,14 @@ def settings_product(request):
     list_category = Settings_category.objects.all()	
     list_flavor = Settings_flavor.objects.all()	
     list_unit = Settings_unit.objects.all()	
+    current_profile = Profile.objects.filter(list_user = request.user)
+
     context ={	
         'list_profile':list_profile,	
         'list_category':list_category,	
         'list_flavor':list_flavor,	
         'list_unit':list_unit,	
+        'current_profile':current_profile,
     }	
     return render(request, 'admin_site/settings/product_settings.html',context)
 
@@ -1279,10 +1313,13 @@ def settings_addunit(request):
 def report_users(request):
     list_users = User.objects.all()
     list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
+
     context = {
         'list_users':list_users,
         'sidebar': 'rep_users',
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/reports/rep_users.html', context)
 
@@ -1290,11 +1327,13 @@ def report_users(request):
 def report_res(request):
     list_reseller = Reseller.objects.order_by('-id')
     list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
     
     context = {
         'list_reseller':list_reseller,
         'sidebar': 'rep_res',
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/reports/rep_res.html', context)
 
@@ -1303,12 +1342,14 @@ def report_product(request):
     list_products = Product.objects.all().order_by('-id')
     list_profile = Profile.objects.filter(list_user = request.user)
     list_category = Settings_category.objects.all()	
+    current_profile = Profile.objects.filter(list_user = request.user)
 
     context = {
         'list_products':list_products,
         'sidebar': 'rep_prod',
         'list_profile': list_profile,
         'list_category': list_category,
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/reports/rep_product.html', context)
 
@@ -1316,10 +1357,13 @@ def report_product(request):
 def report_stocks(request):
     list_inventory = By_Batch.objects.all().order_by('-id')
     list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
+
     context = {
         'list_inventory':list_inventory,
         'sidebar': 'rep_stocks',
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/reports/rep_stock.html', context)
 
@@ -1328,10 +1372,13 @@ def report_stocks(request):
 def report_actlog(request):
     list_reports = Activity_log.objects.all().order_by('-id')
     list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
+
     context = {
         'list_reports':list_reports,
         'sidebar': 'act_log',
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/reports/act_log.html', context)
 
@@ -1341,10 +1388,13 @@ def report_actlog(request):
 def report_pos_sales(request):
     list_profile = Profile.objects.filter(list_user = request.user)
     pos_payment = Cart_Payment.objects.filter(cart_status = 'Printed')
+    current_profile = Profile.objects.filter(list_user = request.user)
+
     context = {
         'pos_payment':pos_payment,
         'sidebar': 'posS',
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/reports/pos_sales.html',context)
 
@@ -1355,10 +1405,12 @@ def report_pos_sales(request):
 def report_online_sales(request):
     transaction = Transaction.objects.filter(transaction_orderstatus = 'Completed')
     list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
     context = {
         'transaction':transaction,
         'sidebar': 'os',
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/reports/online_sales.html', context) 
 
@@ -1492,10 +1544,12 @@ def search_pos_sales(request):
 @login_required(login_url='landing_page:login')
 def support(request):
     list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
 
     context = {
         'sidebar' : 'support',
         'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/support.html', context)
 
@@ -1548,9 +1602,11 @@ def settings_page(request):
 @login_required(login_url='landing_page:login') 
 def export_view(request):
     list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
 
     context = {
-        'list_profile': list_profile
+        'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'admin_site/profile/my_profile.html', context)
 

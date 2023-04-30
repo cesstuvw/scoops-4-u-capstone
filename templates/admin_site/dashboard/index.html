@@ -55,7 +55,7 @@ DASHBOARD
                                                   <!-- <input step="0.01" min="0" value="&#8369;">{{ transaction_OnlineSales }}> -->
                                                   <!-- <h6 class="transaction-input d-none">Php 0.00</h6> -->
                                                   <!-- <input class="transaction-input-main" type="text" value="Php {{ transaction_OnlineSales|floatformat:2|intcomma }}" step="0.01" min="0" readonly> -->
-                                                  <h6 class="" id="id_your_field">Php {{ transaction_OnlineSales|default:"0.00"|floatformat:2|intcomma }}</h6>
+                                                  <h6 class="" >Php {{ transaction_OnlineSales|default:"0.00"|floatformat:2|intcomma }}</h6>
                                                   <!-- <br> -->
                                                   <span class="text-muted small pt-1 ">Made</span>
                                                   <span class="text-muted small pt-2">Today</span>
@@ -287,12 +287,75 @@ DASHBOARD
                                         }).render();
                                         });
                                    </script>
+
+                                   
+
+                                   
                                    <!-- End Line Chart -->
                                    </div>
                               </div>
                          </div><!-- End Reports -->
                     </div>
                </div><!-- End Left side columns -->
+
+
+               <!-- Right side column -->
+               <div class="col-lg-4">
+                    <div class="row">
+                         <!-- Recent Activity -->
+                         <div class="col-12">
+                              <div class="card info-card">
+                                   <div class="card-body dash">
+                                        <h5 class="card-title pt-3">Recent Activity</h5>
+                                        <div class="activity pt-3 pb-3 ps-2 pe-2">
+                                             {% if list_reports %}  
+                                             {% for list in list_reports %}   
+                                             <div class="activity-item d-flex">
+                                                  <div class="pe-4 date">{{ list.date_time|date:"m/d/Y" }}</div>
+                                                  <div class="activite-label"><span class="pe-3 time">{{ list.date_time|date:"h:i A" }}</span></div>
+                                                  <i class='ri-checkbox-blank-circle-fill mt-2  activity-badge align-self-start'></i>
+                                                  <div class="activity-content">
+                                                       <div><span class="username">{{ list.user_name }}</span></div>
+                                                       <div>{{ list.activity }}</div>
+                                                  </div>
+                                             </div><!-- End activity item-->
+                                             {% endfor %}
+                                             {% endif %}
+                                        </div>
+                                   </div>
+                              </div><!-- End Recent Activity -->
+                         </div>
+
+                         <!-- Online Sales Card -->
+                         <div class="col-12">
+                              <div class="card info-card osales-card ">
+                                   <div class="card-body dash mb-4">
+                                        <h5 class="card-title pt-3 pb-3">Resellers
+                                        <span class="px-1"></span> 
+                                        <span></span></h5>
+                                        <div class="d-flex align-items-center">
+                                             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center" style="background-color: #E1E3F3">
+                                                  <i class="ri-user-5-fill"></i>
+                                             </div>
+                                             <div class="ps-3">
+                                                  <!-- <input step="0.01" min="0" value="&#8369;">{{ transaction_OnlineSales }}> -->
+                                                  <!-- <h6 class="transaction-input d-none">Php 0.00</h6> -->
+                                                  <!-- <input class="transaction-input-main" type="text" value="Php {{ transaction_OnlineSales|floatformat:2|intcomma }}" step="0.01" min="0" readonly> -->
+                                                  <h6 class="" >{{ list_reseller }} </h6>
+                                                  <!-- <br> -->
+                                                  <span class="text-muted small pt-1 "></span>
+                                                  <span class="text-muted small pt-2">Active Resellers</span>
+                                                  <!-- <span class="text-muted small pt-2 fw-bold">Today</span> -->
+                                             </div>
+                                        </div>
+                                   </div>
+                              </div>
+                         </div><!-- End Sales Card -->
+                    </div>
+               </div>
+
+               
+               
 
           </div>
      </section>

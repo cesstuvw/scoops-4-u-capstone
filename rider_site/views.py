@@ -11,11 +11,14 @@ def dashboard(request):
     list_pending = Transaction.objects.filter(transaction_orderstatus = "Out for Delivery").count()
     list_complete = Transaction.objects.filter(transaction_orderstatus = "Completed").count()
     list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
+
     context ={
         'list_pending':list_pending,
         'list_complete':list_complete,
         'sidebar' : 'riderdashboard',
         'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'rider_site/dashboard/index.html', context)
 
@@ -54,12 +57,14 @@ def orders_completed(request, orderid):
 @login_required(login_url='landing_page:login') 
 def transaction_orders(request):
     status = "Out for Delivery"
+    current_profile = Profile.objects.filter(list_user = request.user)
     list_profile = Profile.objects.filter(list_user = request.user)
     list_transaction = Transaction.objects.filter(transaction_orderstatus = status).order_by('-id')
     context = {
         'list_transaction':list_transaction,
         'sidebar' : 'riderorders',
         'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'rider_site/orders/index.html', context)
 
@@ -107,10 +112,12 @@ def completed_process(request):
 def report_deliver(request):
     list_profile = Profile.objects.filter(list_user = request.user)
     list_transaction = Transaction.objects.filter(transaction_orderstatus = "Completed").order_by('-id')
+    current_profile = Profile.objects.filter(list_user = request.user)
     context = {
         'list_transaction':list_transaction,
         'sidebar' : 'riderreport',
         'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'rider_site/report/index.html',context)
 

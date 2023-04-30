@@ -347,6 +347,11 @@ footer .title-p{
     color: var(--primary-c-blue);
 }
 
+.socials i{
+    font-size: 1.9rem !important;
+    color: var(--primary-c-blue);
+}
+
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
@@ -421,6 +426,7 @@ footer .title-p{
 .swal-text{
     font-family: P-Light;
     color: var(--primary-c-blue);
+    text-align: center !important;
 }
 
 .swal-content{

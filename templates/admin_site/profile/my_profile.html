@@ -194,7 +194,7 @@
                         <div class="card info-card profile-card ">
                             <div class="card-body profile-card-left d-flex align-items-center justify-content-center flex-column">
                                 <div class="profile-pic mb-4 my-5 pt-5">
-                                    {% if list.profile_pic %}
+                                {% if list.profile_pic %}
                                 <img id="output" src="/media/{{ list.profile_pic}}" alt="Profile-pic" class="image-cropper">
                                 {% else %}
                                 <img src="{% static 'img/default_profile.jpg' %}" alt="Profile-pic" class="image-cropper">

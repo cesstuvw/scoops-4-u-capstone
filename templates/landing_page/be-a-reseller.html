@@ -52,6 +52,7 @@
                             </div>
                             <div class="col-12 col-md-9">
                                 <input type="text" class="form-control" name="fname" id="" aria-describedby="" required>
+                                
                             </div>
                         </div>
 
@@ -95,15 +96,6 @@
 
                         </div>
 
-                        <!-- <div class="row d-flex justify-content-center align-items-center mb-4">
-                            <div class="col-12 col-md-3">
-                                <label for="">Contact No.</label>
-                            </div>
-                            <div class="col-12 col-md-9">
-                                <input type="number" class="form-control" id="" aria-describedby="emailHelp" required>                          
-                            </div>
-                        </div> -->
-
                         <div class="row d-flex justify-content-center mb-3">
                             <div class="col-12 col-md-3">
                                 <label for="">Address</label>
@@ -130,7 +122,7 @@
                                 <label for="">Valid ID</label>
                             </div>
                             <div class="col-12 col-md-9">
-                                <input type="file" class="form-control custom" name="valid-ID" accept=".jpg, .jpeg, .png, .pdf"  required>                          
+                                <input type="file" class="form-control custom" name="valid-ID" accept=".jpg, .jpeg, .png"  required>                          
                             </div>
                         </div>
 
@@ -146,7 +138,7 @@
                                 </div>
                                 <div class="btn-container">
                                     <!-- <input type="submit" class="btn btn-send d-none" name="submit" value="Submit Request"> -->
-                                    <button type="submit" class="btn btn-send d-none" name="submit">Submit Request</button> 
+                                    <button type="submit" class="btn btn-send d-none" name="submit" id="submit-btn">Submit Request</button> 
                                 </div>
                             </div>
                         </div>
@@ -331,6 +323,8 @@
             var typed1 = new Typed("#typed", options1);
     });
 </script>
+
+
 
 <script src="{% static 'js/registration.js' %}"></script>
 <script src="{% static 'js/modal-split.js' %}"></script>

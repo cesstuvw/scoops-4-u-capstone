@@ -258,16 +258,11 @@ h1{
 
 .header-nav .nav-profile {
   color: var(--primary-c-blue);
-
-
 }
 
 .header-nav .nav-profile img {
   object-fit: cover;
-
-
 }
-
 
 
 .header-nav .nav-profile i {
@@ -284,11 +279,21 @@ h1{
 .header-nav .profile .dropdown-header h6 {
   font-size: 18px;
   margin-bottom: 0;
-  color: #444444;
+  color: var(--primary-c-blue);
+  font-family: P-Medium;
 }
 
+.header-nav .dropdown-menu{
+  width: 15rem;
+}
+
+.header-nav .dropdown-divider{
+  color: var(--primary-c-white-text);
+  height: 1.5px;
+}
 .header-nav .profile .dropdown-header span {
   font-size: 14px;
+  color: var(--primary-c-d-blue);
 }
 
 .header-nav .profile .dropdown-item {
@@ -1241,14 +1246,35 @@ textarea{
   background-color: #eceefe;
 }
 
+.dashboard .activity-content .username{
+  font-size: 15px;
+  font-family: P-Medium;
+  text-transform: capitalize;
+}
+
+.dashboard .activity-content{
+  margin-top: -1.5px;
+  color: var(--primary-c-d-blue);
+}
+
+.dashboard .activity .activity-item .date {
+  font-family: P-Medium;
+  color: var(--primary-c-grey-text);
+}
+
+.dashboard .activity .activity-item .time {
+  font-family: P-Light;
+  color: var(--primary-c-grey-text);
+}
+
 .dashboard .activity .activity-item .activity-badge {
   margin-top: 3px;
   z-index: 1;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 0;
   border-radius: 50%;
   flex-shrink: 0;
-  border: 3px solid #fff;
+  border: 2px solid #fff;
   flex-grow: 0;
 }
 
@@ -1826,6 +1852,13 @@ input{
 /* EDIT PROFILE */
 .image-cropper {
   width: 100%;
+  object-fit: cover; /* Required to prevent the image from stretching, use the object-position property to adjust the visible area */
+  aspect-ratio: 1/1;
+  border-radius:50%;
+}
+
+.dropdown-header .image-cropper {
+  width: 75%;
   object-fit: cover; /* Required to prevent the image from stretching, use the object-position property to adjust the visible area */
   aspect-ratio: 1/1;
   border-radius:50%;
@@ -2743,3 +2776,60 @@ btn-edit-profile{
 .empty-screen2{
   position: relative;
 }
+
+
+
+
+
+
+/* <!-- <div class="col">
+<span>{{ list.date_time|date:"m/d/Y" }} </span>
+</div>
+<div class="col">
+<span>{{ list.date_time|date:"h:i A" }} </span>
+</div> -->
+<div class="col">
+<!-- <div class="activite-label">{{ list.date_time|date:"m/d/Y" }} {{ list.date_time|date:"h:i A" }} </div> -->
+<div class="activite-labels">
+     <div class="row">
+          <div class="col">
+               {{ list.date_time|date:"m/d/Y" }} 
+          </div>
+          <div class="col">
+               {{ list.date_time|date:"h:i A" }}
+          </div>
+          <div class="col">
+              <div></div>
+          </div>
+     </div>
+</div>
+</div>
+</div>
+
+<i class='ri-checkbox-blank-circle-fill activity-badge text-success align-self-start'></i>
+<div class="activity-content">
+</div>
+<div>{{ list.user_name }}</div>
+<div>{{ list.activity }}</div> */
+/* 
+<div class="activity-item d-flex">
+                                             <div class="row">
+                                                  <div class="col">
+                                                       <!-- <div><span>{{ list.date_time|date:"m/d/Y" }}</span></div> -->
+                                                       
+                                                       <div class="activite-label">{{ list.date_time|date:"m/d/Y" }} {{ list.date_time|date:"h:i A" }} </div>
+
+                                                  </div>
+                                                  <div class="col">
+                                                       <div class="activite-label"></div>
+                                                       <div><span>{{ list.date_time|date:"h:i A" }}</span></div>
+                                                  </div>
+                                                  <div class="col activite-label-main">
+                                                            <span><i class='ri-checkbox-blank-circle-fill activity-badge text-success align-self-start'></i></span>
+                                                       <!-- <div><span><i class='ri-checkbox-blank-circle-fill activity-badge text-success align-self-start'></i></span></div> -->
+                                                  </div>
+                                                  <div class="col">
+                                                       
+                                                  </div>
+                                             </div>
+                                        </div><!-- End activity item--> */

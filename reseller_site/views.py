@@ -17,6 +17,7 @@ def dashboard(request):
     transaction_shipped = Transaction.objects.filter(transaction_user = request.user,transaction_orderstatus = "Out for Shipping").count()
     transaction_decline = Transaction.objects.filter(transaction_user = request.user,transaction_orderstatus = "Decline").count()
     list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
 
     context={
         'list_numberorder':list_numberorder,
@@ -25,6 +26,7 @@ def dashboard(request):
         'transaction_decline':transaction_decline,
         'sidebar':'resdashboard',
         'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'reseller_site/dashboard/index.html',context)
 
@@ -273,10 +275,13 @@ def checkout(request):
 def transaction_orders(request):
     list_transaction = Transaction.objects.filter(transaction_user= request.user).order_by('-id')
     list_profile = Profile.objects.filter(list_user = request.user)
+    current_profile = Profile.objects.filter(list_user = request.user)
+
     context = {
         'list_transaction':list_transaction,
         'sidebar':'resorders',
         'list_profile': list_profile,
+        'current_profile':current_profile,
     }
     return render(request, 'reseller_site/orders/orders.html', context)
 
@@ -287,6 +292,7 @@ def add_cart(request):
     list_profile = Profile.objects.filter(list_user = request.user)
     list_products = Product.objects.all()
     current_user = request.user
+    current_profile = Profile.objects.filter(list_user = request.user)
     list_pos = Cart.objects.filter(cart_user = current_user).order_by('-id')
     sum_amount = Cart.objects.filter(cart_user = current_user).all().aggregate(total =Sum('cart_ResellerAmount'))['total']
     
@@ -296,6 +302,7 @@ def add_cart(request):
         'list_pos':list_pos,
         'sum_amount':sum_amount,
         'list_profile': list_profile,
+        'current_profile':current_profile,
         }
     return render(request, 'reseller_site/cart/cart.html', context)
 
