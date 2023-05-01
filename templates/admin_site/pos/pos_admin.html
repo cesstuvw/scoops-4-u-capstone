@@ -661,47 +661,6 @@
     }
 </script>
 
-<script>
-        // for most tables
-    var tableAll = $('#tableMainAll').DataTable({
-
-        "fnDrawCallback": function(oSettings) {
-            if (oSettings._iDisplayLength > oSettings.fnRecordsDisplay()) {
-                $(oSettings.nTableWrapper).find('.dataTables_paginate').hide();
-            } else {
-                $(oSettings.nTableWrapper).find('.dataTables_paginate').show();
-            }
-        },
-        "lengthChange": true,
-
-        initComplete: (settings, json)=>{
-            $('.dataTables_length').appendTo('#showEntries');
-        },
-
-        "oLanguage": {
-            // &nbsp; is a blank text ---- used for spacing
-            "sLengthMenu": "_MENU_ &nbsp;&nbsp;Entries per page",
-            "oPaginate": {
-                sNext: '<i class="ri-arrow-right-s-line"></i>',
-                sPrevious: '<i class="ri-arrow-left-s-line"></i>',
-                // sFirst: '<i class="ri-arrow-left-s-fill"></i>',
-                // sLast: '<i class="ri-arrow-right-s-fill"></i>'
-            }
-        },
-
-        columnDefs: [
-            {
-                searchable: false,
-                orderable: false,
-                targets: 0, 
-            },
-        ],
-        // order: [[1, 'asc']],
-
-         // order: [[1, 'asc']],
-        order: [] 
-    });
-</script>
 
 
 

@@ -125,13 +125,13 @@
                       {% csrf_token %}
                         <div class="card-body">
                           <div class="add-product mb-2 mt-3">
-                              <h5 class="card-title feature">Register New Rse</h5>
+                              <h5 class="card-title feature">Register New User</h5>
                           </div> 
 
                           {% for field in form %}
                               
                             {% for error in  field.errors %}
-                                <p class="alert alert-danger mt-3">{{ error}}</p>
+                                <p class="alert alert-danger mt-3">{{error}}</p>
                             {% endfor %}
           
                           {% endfor %}
@@ -144,7 +144,7 @@
 
                             <div class="col col-main">
                               <label for="email">Email</label>
-                              <span>{{ form.email}}</span>
+                              <span>{{ form.email }}</span>
                             </div>
                             
                             <div class="col col-main">

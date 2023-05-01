@@ -84,7 +84,7 @@
                                 <thead>
                                     <tr class="align-middle">
                                         <th scope="col">#</th>
-                                        <th scope="col">Sales No</th>
+                                        <th scope="col">POS No</th>
                                         <th scope="col">Sales</th>
                                         <th scope="col">Date</th>
                                     </tr>
@@ -94,7 +94,7 @@
                                             {% if list.cart_cash > 0 %}
                                             <tr class="align-middle">
                                                 <td class="num-row"></td>
-                                                <td>{{ list.id }}</td>
+                                                <td>{{ list.pos_number }}</td>
                                                 <td>Php {{ list.cart_TotalAmount|floatformat:2|intcomma}}</td>
                                                 <td>{{ list.cart_date|date:"m/d/Y" }}</td>
                                             </tr>

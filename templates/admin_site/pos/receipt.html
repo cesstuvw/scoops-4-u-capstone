@@ -61,8 +61,13 @@
             <div class="line-sep mt-1 mb-2"></div>
 
             <div class="employee">
-                <p class="pos_number ps-3"><span>POS:</span> {{ user }}</p>
+                <p class="pos_number ps-3"><span>SERVED:</span> {{ user }}</p>
+                
             </div>
+
+            <!-- <div class="employee" style="background-color: rgb(94, 94, 94);">
+                <p class="pos_number ps-3"><span>POS NO:</span> {{ pos_payment.pos_number }}</p>
+            </div> -->
 
             <div class="col bg-header mb-2 p-2">
                 <div class="row">
@@ -119,6 +124,8 @@
                 <p class="mb-1">************************************</p>
                 <p class="mb-0">THANK YOU FOR PURCHASING!</p>
                 <p class="tagline">Happy <span>scoops</span> for everyone!</p>
+                <p class="pos_number mb-0"><span>POS NO:</span> {{ pos_payment.pos_number }}</p>
+                <p class="date mb-4" id="datetime"></p>
             </footer>
     
         </div>
@@ -135,6 +142,22 @@
         
 
 </main>
+
+<script>
+    var currentDateTime = new Date();
+    var day = currentDateTime.getDate();
+    var month = currentDateTime.getMonth() + 1;
+    var year = currentDateTime.getFullYear();
+    var hours = currentDateTime.getHours();
+    var minutes = currentDateTime.getMinutes();
+    var seconds = currentDateTime.getSeconds();
+    var amOrPm = (hours < 12) ? 'AM' : 'PM';
+    var hours12 = (hours % 12 == 0) ? 12 : hours % 12;
+    var formattedDateTime = day + '/' + month + '/' + year + ' ' + hours12 + ':' + minutes + ':' + seconds + ' ' + amOrPm;
+    document.getElementById('datetime').innerHTML = formattedDateTime;
+</script>
+
+
 
     <!-- <thead>
         <tr>

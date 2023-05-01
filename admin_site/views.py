@@ -88,24 +88,45 @@ def add_useraccount(request):
 #     return render(request, 'admin_site/user/changepass.html', {'form': form})     
 
 
+# def register(request, inquiryid):
+#     if request.method =="POST":
+#         reseller = Reseller.objects.get(id = inquiryid)
+#         status = "active"
+#         check_sign = SignUpForm()
+#         form = SignUpForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+
+#             #changing status for reseller
+#             reseller.reseller_status = status  
+#             reseller.save()
+#             return redirect('admin_site:send_email')
+            
+
+#     else:
+#         form = SignUpForm()
+#     return render(request, 'admin_site/user/register.html',{'form':form})     
+
+
 def register(request, inquiryid):
     if request.method =="POST":
         reseller = Reseller.objects.get(id = inquiryid)
         status = "active"
         check_sign = SignUpForm()
         form = SignUpForm(request.POST)
+
         if form.is_valid():
             form.save()
-
             #changing status for reseller
             reseller.reseller_status = status  
             reseller.save()
-            return redirect('admin_site:send_email')
-            
 
+            return redirect('admin_site:list_reseller')
+        
+        
     else:
         form = SignUpForm()
-    return render(request, 'admin_site/user/register.html',{'form':form})      
+    return render(request, 'admin_site/user/register.html',{'form':form})       
 
 
 
@@ -333,11 +354,12 @@ def send_email_reseller(request,id):
     reseller = Reseller.objects.get(pk = id)
 
     email_reseller = reseller.reseller_email
+    
 
     user = User.objects.get(email = email_reseller)
     if request.method == "POST":
         email = request.POST['email']
-        tile_email = "your inquiry successfully approved"
+        tile_email = "Account Confirmation"
 
 
         message = request.POST['message']
@@ -347,6 +369,7 @@ def send_email_reseller(request,id):
             'settings.EMAIL_HOST_USER',
             [email],
             fail_silently=False)
+        messages.success(request, 'Email sent to reseller')
         return redirect('admin_site:list_reseller')
 
     context = {
@@ -908,6 +931,7 @@ def pos_addreceipt(request):
     if request.method == "POST":
 
         #saving to pos payment in databse
+        pos_number = 'S4UPOS'+str(random.randint(1111111,9999999))
         pos_id = request.POST['get_id']
 
 
@@ -915,9 +939,13 @@ def pos_addreceipt(request):
             messages.error(request,('receipt still not done'))
             return redirect('admin_site:pos')
         else:
+            while Cart_Payment.objects.filter(pos_number = pos_number) is None:
+                pos_number = 'S4UPOS'+str(random.randint(1111111,9999999))
+
             new_Cart_Payment = Cart_Payment()
             new_Cart_Payment.cart_user = request.user.role
             new_Cart_Payment.cart_no = pos_id
+            new_Cart_Payment.pos_number = pos_number
             new_Cart_Payment.cart_TotalAmount = request.POST.get('total_amount')
             new_Cart_Payment.cart_cash = request.POST.get('cash')
             new_Cart_Payment.cart_change = request.POST.get('change')
@@ -1363,6 +1391,7 @@ def settings_product(request):
         'list_flavor':list_flavor,	
         'list_unit':list_unit,	
         'current_profile':current_profile,
+        'sidebar' : 'product_settings'
     }	
     return render(request, 'admin_site/settings/product_settings.html',context)
 

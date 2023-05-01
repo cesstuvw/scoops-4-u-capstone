@@ -83,7 +83,7 @@
                                 <thead>
                                     <tr class="align-middle">
                                         <th scope="col">#</th>
-                                        <th scope="col">Sales No</th>
+                                        <th scope="col">Transaction No</th>
                                         <th scope="col">Sales</th>
                                         <th scope="col">Date</th>
                                     </tr>
@@ -92,7 +92,7 @@
                                         {% for list in transaction %}
                                         <tr class="align-middle">
                                             <td class="num-row"></td>
-                                            <td>{{ list.id }}</td>
+                                            <td>{{ list.transaction_no }}</td>
                                             <td>Php {{ list.transaction_totalprice|floatformat:2|intcomma}}</td>
                                             
                                             <td>{{ list.created_at|date:"m/d/Y"}}</td>

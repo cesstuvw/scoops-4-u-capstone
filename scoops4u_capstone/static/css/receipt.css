@@ -262,6 +262,11 @@ footer p{
     /* width: 13rem; */
 }
 
+footer .pos_number,
+footer .date{
+    font-family: P-Light;
+}
+
 footer .tagline{
     font-family: P-Light;
     width: 10rem;
