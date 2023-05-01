@@ -28,7 +28,7 @@ def dashboard_admin(request):
     now = datetime.now()
     # now = datetime.now.strftime("%Y-%m-%d")
     # formatnow = now
-    transaction_OnlineSales = Transaction.objects.filter(created_at = now).aggregate(data =Sum('transaction_totalprice'))['data']
+    transaction_OnlineSales = Transaction.objects.filter(created_at = now, transaction_orderstatus = 'Completed').aggregate(data =Sum('transaction_totalprice'))['data']
     transaction_pos_payment = Cart_Payment.objects.filter(cart_status = 'Printed', cart_date=now).aggregate(data =Sum('cart_TotalAmount'))['data']
     transaction_count = Transaction.objects.count()
     transaction_pending = Transaction.objects.filter(transaction_orderstatus = "Pending").count()
