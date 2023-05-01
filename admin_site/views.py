@@ -406,6 +406,7 @@ def list_products(request):
     list_products = Product.objects.all().order_by('-id')
     list_profile = Profile.objects.filter(list_user = request.user)
     current_profile = Profile.objects.filter(list_user = request.user)
+
     context = {
         'list_products':list_products,
         'sidebar': 'product',
@@ -458,7 +459,6 @@ def process_product(request):
         pstock = 0
         pstatus = "not available"
 
-
         if Product.objects.filter(Q(product_name =pname) & Q(product_flavor = flavor) & Q(product_category = pcategory) & Q(product_unit =product_unit)):	
             messages.error(request,'Product already Exist!')	
             return redirect('admin_site:add_product')	
@@ -483,6 +483,7 @@ def process_product(request):
 
 def edit_product(request, productid):
     product = Product.objects.get(pk = productid)
+    
     context = {
         'list_product':product
     }
@@ -729,10 +730,11 @@ def update_inventory(request, productid):
         product_stock = int(request.POST['stock'])
         product_qty = int(request.POST['quantity'])
         p_code = request.POST['product_code']
-     
 
         #check batch
         by_batch = By_Batch.objects.filter(product_code = product.product_code).count()
+
+        
         
         
         if by_batch == None:
@@ -740,7 +742,6 @@ def update_inventory(request, productid):
             #the sum of quantity and stock
             sum = product_stock + product_qty
 
-        
             #update product stock
             product.product_stock = sum 
             product.product_status = "available"
@@ -778,7 +779,10 @@ def update_inventory(request, productid):
         
             #update product stock
             product.product_stock = sum 
-            product.product_status = "available"
+            if sum < 20:
+                product.product_status = "low stock"
+            else:
+                product.product_status = "available"
             product.save()
 
 
@@ -1263,7 +1267,7 @@ def unreturned_product(request):
 def returned_product(request):
     list_profile = Profile.objects.filter(list_user = request.user)
     current_profile = Profile.objects.filter(list_user = request.user)
-    return_product = Return_product.objects.filter(return_status= "returned")
+    return_product = Return_product.objects.filter(return_status= "returned").order_by('-id')
     context ={
         'return_product':return_product,
         'current_profile':current_profile,
@@ -1275,8 +1279,11 @@ def returned_product(request):
 
 @login_required(login_url='landing_page:login')
 def returned_completed(request, id):
+    now = datetime.now()
     return_product = Return_product.objects.get(pk = id)
+    return_product.return_completed_date = now
     return_product.return_status = "returned"
+    
     return_product.save()
 
     messages.success(request,("Sucessfully returned"))
@@ -1503,7 +1510,8 @@ def report_actlog(request):
 @login_required(login_url='landing_page:login') 
 def report_pos_sales(request):
     list_profile = Profile.objects.filter(list_user = request.user)
-    pos_payment = Cart_Payment.objects.filter(cart_status = 'Printed')
+    # pos_payment = Cart_Payment.objects.filter(cart_status = 'Printed')
+    pos_payment = Cart_Payment.objects.filter(Q(cart_status = 'Printed'))
     current_profile = Profile.objects.filter(list_user = request.user)
 
     context = {

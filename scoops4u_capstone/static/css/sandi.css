@@ -2327,6 +2327,7 @@ thead .sort-no {
 .empty-screenRes,
 .empty-screenSto,
 .empty-screenProL,
+.empty-screenPro,
 .empty-screenOS,
 .empty-screenOut,
 .empty-screenPending,
@@ -2358,6 +2359,7 @@ thead .sort-no {
 .empty-screenOS h5,
 .empty-screenPending h5,
 .empty-screenRes h5,
+.empty-screenPro h5,
 .empty-screenOut h5,
 .empty-screenResOr h5,
 .empty-screenUs h5,
@@ -2386,6 +2388,7 @@ thead .sort-no {
 .empty-screenCom img,
 .empty-screenUs img,
 .empty-screenAdd img,
+.empty-screenPro img,
 .empty-screenAct img,
 .empty-screen2 img{
   width: 30%;
@@ -2404,6 +2407,7 @@ thead .sort-no {
 .empty-screenOS p,
 .empty-screenPos p,
 .empty-screen1 p,
+.empty-screenPro p,
 .empty-screenAct p,
 .empty-screenAdd p,
 .empty-screenRetu p,

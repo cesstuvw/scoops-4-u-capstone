@@ -67,7 +67,9 @@ $(document).ready(function(){
 
     $('#return').change(function() {	
         var defaultCash = 0	
+        var sumAmount= $('#sum_amount').val()
         if(this.checked) {	
+            $('#total_amount').val(0)
             $('.cash').addClass('d-none')
             $('.change').addClass('d-none')
             $('#cash').val(defaultCash)
@@ -77,7 +79,7 @@ $(document).ready(function(){
             $('#btn_compute').addClass('d-none')
         
         } else {	
-        
+            $('#total_amount').val(sumAmount)	
             $('#btn-receipt').addClass('d-none')	
             $('.cash').removeClass('d-none')
             $('.change').removeClass('d-none')

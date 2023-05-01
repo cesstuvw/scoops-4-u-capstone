@@ -24,6 +24,7 @@
         <label for="status">Status</label>
         <select name="status" class="form-select form-control" id="gender" required >
             <option value="available"{% if list_product.product_status == 'available' %}selected{% endif %}>available</option>
+            <option value="low stock"{% if list_product.product_status == 'low stock' %}selected{% endif %}>low stock</option>
             <option value="not available"{% if list_product.product_status == 'not available' %}selected{% endif %}>not available</option>
         </select>
     </div>

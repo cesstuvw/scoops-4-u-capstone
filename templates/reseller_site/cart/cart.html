@@ -352,9 +352,11 @@
                                         
                                         <!-- <td class="badge-status text-capitalize">{{ list.product_status }}</td> -->
                                         {% if list.product_status == "available" %}
-                                        <td><span class="badge rounded-pill bg-primary">{{ list.product_status }}</span></td>
+                                        <td><span class="badge status rounded-pill bg-primary">{{ list.product_status }}</span></td>
+                                        {% elif list.product_status == "low stock" %}
+                                        <td><span class="badge status rounded-pill bg-pending">{{ list.product_status }}</span></td>
                                         {% else %}
-                                        <td><span class="badge rounded-pill bg-danger">{{ list.product_status }}</span></td>
+                                        <td><span class="badge status rounded-pill bg-danger">{{ list.product_status }}</span></td>
                                         {% endif %}
                             
                                     <form action="{% url 'reseller_site:cart_products' list.id %}" method="POST">

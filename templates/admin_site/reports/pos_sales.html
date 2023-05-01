@@ -91,12 +91,14 @@
                                 </thead>
                                     <tbody id="tableRow">
                                         {% for list in pos_payment %}
-                                        <tr class="align-middle">
-                                            <td class="num-row"></td>
-                                            <td>{{ list.id }}</td>
-                                            <td>Php {{ list.cart_TotalAmount|floatformat:2|intcomma}}</td>
-                                            <td>{{ list.cart_date|date:"m/d/Y" }}</td>
-                                        </tr>
+                                            {% if list.cart_cash > 0 %}
+                                            <tr class="align-middle">
+                                                <td class="num-row"></td>
+                                                <td>{{ list.id }}</td>
+                                                <td>Php {{ list.cart_TotalAmount|floatformat:2|intcomma}}</td>
+                                                <td>{{ list.cart_date|date:"m/d/Y" }}</td>
+                                            </tr>
+                                            {% endif %}
                                         {% endfor %}
                                     </tbody>
                             </table>
