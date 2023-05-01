@@ -242,11 +242,11 @@ $(document).ready(function () {
     if ($('#tableOrder').DataTable().rows().count() === 0) {
         $("#tableOrder").addClass("d-none");
         $("#ordersID").addClass("d-none");
-        $(".empty-screen").removeClass("d-none");
+        $(".empty-screenResOr").removeClass("d-none");
     } else {
         $("#tableOrder").removeClass("d-none");
         $("#ordersID").removeClass("d-none");
-        $(".empty-screen").addClass("d-none");
+        $(".empty-screenResOr").addClass("d-none");
     }
 
 

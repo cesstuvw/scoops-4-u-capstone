@@ -267,7 +267,7 @@ def checkout(request):
                             products.product_status = "low stock"	
                             products.save()
                 pos.delete()
-            messages.success(request, ("Please wait for your orders"))
+            messages.success(request, ("Please wait for your order"))
             return redirect('reseller_site:transaction_orders')
 
 
