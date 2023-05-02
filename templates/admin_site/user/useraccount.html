@@ -52,7 +52,7 @@
                             <a href="{% url 'admin_site:add_useraccount' %}" class="btn btn-add "><i class="ri-add-line align-middle me-2 text-end" style="font-size:17px; font-weight: 500;"></i><span class="align-middle pe-1">Add a New User</span></a>
                             <!-- <a href="{% url 'admin_site:add_useraccount' %}" class="btn btn-add modal-add"><i class="ri-add-line align-middle me-2 text-end" style="font-size:17px; font-weight: 500;"></i><span class="align-middle pe-1">Add a New User</span></a> -->
                             <!-- <a href="{% url 'admin_site:add_reseller' %}" class="btn btn-add" data-add="addRes" data-bs-toggle="modal" data-bs-target="#addReseller"><i class="ri-add-line align-middle me-2 text-end" style="font-size:17px; font-weight: 500;"></i><span class="align-middle pe-1">Add a New Reseller</span></a> -->
-                            <form class="search-tab" action="{% url 'admin_site:search_reseller' %}" method="GET"  class="text-end px-4">
+                            <form class="search-tab" method="GET"  class="text-end px-4">
                                 {% csrf_token %}
                                 <input type="text" id="tableM" class="form-control p-2 ps-3" name="search" placeholder="Search">
                                 <button class="btn btn-search btn-sm nope" type="submit"><i class="ri-search-line"></i></button>

@@ -69,7 +69,7 @@
                                 <div id="showEntries"></div>
                             </div>
                             <!-- <a href="{% url 'admin_site:add_reseller' %}" class="btn btn-add" data-bs-toggle="modal" data-bs-target="#addReseller"><i class="ri-add-line align-middle me-2 text-end" style="font-size:17px; font-weight: 500;"></i><span class="align-middle pe-1">Add New Stock</span></a> -->
-                            <form class="search-tab" action="{% url 'admin_site:search_inventory' %}" method="GET"  class="text-end px-4">
+                            <form class="search-tab" action="" method="GET"  class="text-end px-4">
                                 {% csrf_token %}
                                 <input type="text" id="tableM" class="form-control p-2 ps-3" name="search" placeholder="Search">
                                 <button class="btn btn-search btn-sm nope" type="submit"><i class="ri-search-line"></i></button>

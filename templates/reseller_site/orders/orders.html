@@ -46,7 +46,7 @@
                             <div class="show-entries">
                                 <div id="showEntries"></div>
                             </div>
-                            <form class="search-tab" action="{% url 'admin_site:search_transaction' %}" method="GET"  class="text-end px-4">
+                            <form class="search-tab"  method="GET"  class="text-end px-4">
                                 {% csrf_token %}
                                 <input type="text" id="tableM" class="form-control p-2 ps-3" name="search" placeholder="Search">
                                 <button class="btn btn-search btn-sm nope" type="submit"><i class="ri-search-line"></i></button>

@@ -2157,7 +2157,8 @@ thead th.sorting::after {
   border-collapse: collapse;
 }
 
-#tableOrder{
+#tableOrder,
+#tableOrderDe{
   /* border-bottom: 0 !important; */
   margin-bottom: 1rem !important;
   border-bottom: 0 !important;
@@ -2274,6 +2275,8 @@ thead .sort-no {
 #tableCat td,
 #tableOrder th,
 #tableOrder td,
+#tableOrderDe th,
+#tableOrderDe td,
 #tableRep th,
 #tableRep td,
 #tableRepSto th,
@@ -2322,6 +2325,7 @@ thead .sort-no {
 }
 
 .empty-screen,
+.empty-screenOrDel,
 .empty-screen1,
 .empty-screenUs,
 .empty-screenRes,
@@ -2360,6 +2364,7 @@ thead .sort-no {
 .empty-screenPending h5,
 .empty-screenRes h5,
 .empty-screenPro h5,
+.empty-screenOrDel h5,
 .empty-screenOut h5,
 .empty-screenResOr h5,
 .empty-screenUs h5,
@@ -2380,6 +2385,7 @@ thead .sort-no {
 .empty-screenPending img,
 .empty-screenSto img,
 .empty-screenResOr img,
+.empty-screenOrDel img,
 .empty-screenOut img,
 .empty-screenOS img,
 .empty-screenProL img,
@@ -2398,6 +2404,7 @@ thead .sort-no {
 .empty-screenUs p,
 .empty-screenRes p,
 .empty-screenOrDe p,
+.empty-screenOrDel p,
 .empty-screenOut p,
 .empty-screenPro p,
 .empty-screenProL p,
@@ -2897,4 +2904,9 @@ btn-edit-profile{
   color: var(--primary-c-dark-blue) !important;
   border-color: #E5E8F8 !important;
   background-color: var(--primary-c-white-text);
+}
+
+.total-reports label{
+
+  font-family: P-Bold !important;
 }

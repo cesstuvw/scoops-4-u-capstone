@@ -14,7 +14,7 @@ from decimal import Decimal
 def dashboard(request):
     list_numberorder =    Transaction.objects.filter(transaction_user = request.user).count()
     transaction_pending = Transaction.objects.filter(transaction_user = request.user,transaction_orderstatus = "Pending").count()
-    transaction_shipped = Transaction.objects.filter(transaction_user = request.user,transaction_orderstatus = "Out for Shipping").count()
+    transaction_shipped = Transaction.objects.filter(transaction_user = request.user,transaction_orderstatus = "Out for Delivery").count()
     transaction_decline = Transaction.objects.filter(transaction_user = request.user,transaction_orderstatus = "Decline").count()
     list_profile = Profile.objects.filter(list_user = request.user)
     current_profile = Profile.objects.filter(list_user = request.user)
@@ -40,10 +40,12 @@ def dashboard(request):
 
 @login_required(login_url='landing_page:login')
 def cart_reseller(request):
+    list_profile = Profile.objects.filter(list_user = request.user)
     total_item = Cart.objects.filter(cart_user = request.user).count()
     list_cart = Cart.objects.filter(cart_user = request.user).order_by('-id')
     sum_amount = Cart.objects.filter(cart_user = request.user).aggregate(sum_amount =Sum('cart_ResellerAmount'))['sum_amount']
     cart = Cart.objects.filter(cart_user = request.user)	
+    current_profile = Profile.objects.filter(list_user = request.user)
     times_amount = None
     if Cart.objects.filter(cart_user = request.user):
         for carts in cart:     	
@@ -76,6 +78,9 @@ def cart_reseller(request):
         'sum_amount':sum_amount,
         'total_item':total_item,
         'promo':times_amount,
+        'list_profile': list_profile,
+        'current_profile':current_profile,
+
     }
     return render(request, 'reseller_site/cart/checkout.html', context)
 
