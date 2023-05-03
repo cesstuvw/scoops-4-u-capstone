@@ -262,7 +262,7 @@
                                                     {% if user.role == "admin" %}
                                                         <td>Php {{ list.cart_price|floatformat:2|intcomma }}</td>
                                                     {% elif user.role == "si_staff" %}
-                                                        <td>{{ list.cart_price}}</td>
+                                                        <td>{{ list.cart_price|floatformat:2|intcomma }}</td>
                                                     {% endif %}
                                 
                                                     <td class="quantity-main">
@@ -362,8 +362,10 @@
                                             <input type="text" value="Php {{ sum_amount|floatformat:2|intcomma }}" class="form-control text-end" step="0.01" min="0" readonly="readonly"> 
                                         </div>
 
+
                                         <!-- for hide -->
                                         <input type="hidden" name="total_amount"  value="{{sum_amount}}" class="form-control" id="total_amount"   readonly="readonly">  
+                                        <input type="hidden" value="{{sum_amount}}" class="form-control" id="sum_amount"   readonly="readonly">   
 
 
                                         <div class="col-12 align-middle cash "  style="display:flex; flex-direction: row; justify-content: space-between; align-items: center;">
@@ -376,16 +378,21 @@
                                             <p id="msg" class="py-2" style=" display:none;"></p>
                                         </div>
 
+
                                         <div class="col-12 align-middle change" style="display:flex; flex-direction: row; justify-content: space-between; align-items: center;">
+
                                             <label for="">Change</label>
                                             <input type="text" name="vchange"  class="form-control text-end" id="vchange" placeholder="Php 0.00" readonly="readonly" style="color: #001BDE">
                                             <input type="hidden" name="change"  class="form-control" id="change"  readonly="readonly">
                                             <input type="hidden" name="get_id" id="get_id">
                                         </div>
 
+                                       
+                                        
+
                                         <div class="text-center mt-4">
                                             <button id="btn_compute" class="btn btn-comp mb-3" >compute</button>
-                                            <button  class="btn btn-receipt" id="btn-receipt" hidden>Receipt</button>
+                                            <button  class="btn btn-receipt d-none" id="btn-receipt">Receipt</button>
                                         </div>
                                     </form>
                                     {% endif %}
