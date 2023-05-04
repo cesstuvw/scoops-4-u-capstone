@@ -204,6 +204,19 @@
     <script src="{% static '/js/receipt.js' %}"></script>
 
 
+    <script>
+        $('#btnPrint').on('click', function (e){
+                // window.print()
+
+                if($('#btn-receipt').hasClass("d-none")){
+                        
+                        $('#btn-receipt').removeClass("d-none");
+                        
+                }else{
+                        $('#btn-receipt').addClass("d-none");
+                }
+        });
+    </script>
 
 
 </body>

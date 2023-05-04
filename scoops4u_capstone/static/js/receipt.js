@@ -9,16 +9,6 @@ $(document).ready(function(){
                 
         // })
 
-        $('#btnPrint').on('click', function (e){
-                // window.print()
-
-                if($('#btn-receipt').hasClass("d-none")){
-                        
-                        $('#btn-receipt').removeClass("d-none");
-                        
-                }else{
-                        $('#btn-receipt').addClass("d-none");
-                }
-        });
+        
 
 })
