@@ -371,6 +371,7 @@ def send_email_reseller(request, id):
             'settings.EMAIL_HOST_USER',
             [email],
             fail_silently=False)
+        messages.success(request, 'Email sent to registered reseller')
         return redirect('admin_site:list_reseller')
 
     context = {

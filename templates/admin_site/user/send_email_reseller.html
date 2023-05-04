@@ -39,7 +39,7 @@
 
     <title>
         {% block title %}
-            ADD A NEW USER - SCOOPS 4 U
+            REGISTER RESELLER - SCOOPS 4 U
         {% endblock title %}
     </title>
 
@@ -127,7 +127,7 @@
                         {% csrf_token %}
                         <div class="card-body">
                             <div class="add-product mb-2 mt-3">
-                                <h5 class="card-title feature">Send them Email</h5>
+                                <h5 class="card-title feature" style="text-align: left;">Send them Email</h5>
                             </div> 
 
                             <div class="row flex-column register-col">
@@ -164,7 +164,7 @@
                                 <!-- <label for="password">Password</label>
                                 <span>{{ form.password1 }}</span> -->
                                 <textarea  name="message"  cols="30" rows="15" class="form-control editable" required>
-Dear {{ user.role }},
+Dear {{ user.role|title }},
 
 We are pleased to inform you that you can now access our products and services. We offer a wide range of high-quality products that are designed to meet the needs of our customers.
                                     
