@@ -68,24 +68,6 @@ def add_useraccount(request):
         form = SignUpForm()
     return render(request, 'admin_site/user/add_useraccount.html',{'form':form})
 
-# def change_password(request):
-#     if request.method == 'POST':
-#         form = ChangePasswordForm(request.POST)
-#         if form.is_valid():
-#             user = request.user
-#             current_password = form.cleaned_data['current_password']
-#             new_password = form.cleaned_data['new_password']
-#             if user.check_password(current_password):
-#                 user.set_password(new_password)
-#                 user.save()
-#                 update_session_auth_hash(request, user)
-#                 messages.success(request, 'Your password was successfully updated!')
-#                 return redirect('admin_site:change_password')
-#             else:
-#                 form.add_error('current_password', 'Incorrect password')
-#     else:
-#         form = ChangePasswordForm()
-#     return render(request, 'admin_site/user/changepass.html', {'form': form})     
 
 
 # def register(request, inquiryid):
@@ -94,26 +76,27 @@ def add_useraccount(request):
 #         status = "active"
 #         check_sign = SignUpForm()
 #         form = SignUpForm(request.POST)
+
 #         if form.is_valid():
 #             form.save()
-
 #             #changing status for reseller
 #             reseller.reseller_status = status  
 #             reseller.save()
-#             return redirect('admin_site:send_email')
-            
 
+#             return redirect('admin_site:list_reseller')
+        
+        
 #     else:
 #         form = SignUpForm()
-#     return render(request, 'admin_site/user/register.html',{'form':form})     
+#     return render(request, 'admin_site/user/register.html',{'form':form})       
 
 
 def register(request, inquiryid):
+    reseller = Reseller.objects.get(id = inquiryid)
+    status = "active"
     if request.method =="POST":
-        reseller = Reseller.objects.get(id = inquiryid)
-        status = "active"
-        check_sign = SignUpForm()
         form = SignUpForm(request.POST)
+
 
         if form.is_valid():
             form.save()
@@ -125,15 +108,16 @@ def register(request, inquiryid):
         
         
     else:
-        form = SignUpForm()
-    return render(request, 'admin_site/user/register.html',{'form':form})       
+        form = SignUpForm(instance=reseller, initial={'email':reseller.reseller_email})
+    return render(request, 'admin_site/user/register.html',{'form':form})     
 
 
 
 #list reseller
 @login_required(login_url='landing_page:login')
 def list_reseller(request):
-    list_reseller = Reseller.objects.order_by('-id').filter(reseller_status = "active") 
+    # list_reseller = Reseller.objects.order_by('-id').filter(reseller_status = "active") 
+    list_reseller = Reseller.objects.order_by('-id').filter(reseller_status = "active").order_by('-id')
     list_profile = Profile.objects.filter(list_user = request.user)
     current_profile = Profile.objects.filter(list_user = request.user)
 
@@ -349,27 +333,86 @@ def send_email(request, id):
 
 
 
+# @login_required(login_url='landing_page:login')
+# def send_email_reseller(request, id):
+#     reseller = Reseller.objects.get(pk=id)
+
+#     email_reseller = reseller.reseller_email
+
+#     try:
+#         user = User.objects.get(email=email_reseller)
+#     except User.DoesNotExist:
+#         messages.error(request, 'Register this reseller first on the Users List.')
+#         return redirect('admin_site:list_reseller')
+
+#     if request.method == "POST":
+#         email = request.POST['email']
+#         tile_email = "Account Confirmation"
+#         message = request.POST['message']
+#         send_mail(
+#             tile_email,
+#             message,
+#             'settings.EMAIL_HOST_USER',
+#             [email],
+#             fail_silently=False)
+#         messages.success(request, 'Email sent to registered reseller')
+#         return redirect('admin_site:list_reseller')
+
+#     context = {
+#         'reseller': reseller,
+#         'user': user,
+#     }
+
+#     return render(request, 'admin_site/user/send_email_reseller.html', context)  
+
+# @login_required(login_url='landing_page:login')
+# def send_email_reseller(request,id):
+#     reseller = Reseller.objects.get(pk = id)
+
+#     email = reseller.reseller_email
+
+#     user = User.objects.get(email = email)
+#     if request.method == "POST":
+#         email = request.POST['email']
+#         tile_email = "your inquiry successfully approved"
+    
+        
+#         message = request.POST['message']
+#         send_mail(
+#             tile_email,
+#             message,
+#             'settings.EMAIL_HOST_USER',
+#             [email],
+#             fail_silently=False)
+#         return redirect('admin_site:list_reseller')
+    
+#     context = {
+#         'reseller':reseller,
+#         'user':user,
+#     }
+
+#     return render(request, 'admin_site/user/send_email_reseller.html',context)  
+
 @login_required(login_url='landing_page:login')
 def send_email_reseller(request, id):
     reseller = Reseller.objects.get(pk=id)
-
-    email_reseller = reseller.reseller_email
+    email = reseller.reseller_email
 
     try:
-        user = User.objects.get(email=email_reseller)
+        user = User.objects.get(email=email)
     except User.DoesNotExist:
         messages.error(request, 'Register this reseller first on the Users List.')
         return redirect('admin_site:list_reseller')
 
     if request.method == "POST":
-        email = request.POST['email']
+        email_to_send = request.POST['email']
         tile_email = "Account Confirmation"
         message = request.POST['message']
         send_mail(
             tile_email,
             message,
             'settings.EMAIL_HOST_USER',
-            [email],
+            [email_to_send],
             fail_silently=False)
         messages.success(request, 'Email sent to registered reseller')
         return redirect('admin_site:list_reseller')
@@ -379,7 +422,7 @@ def send_email_reseller(request, id):
         'user': user,
     }
 
-    return render(request, 'admin_site/user/send_email_reseller.html', context)  
+    return render(request, 'admin_site/user/send_email_reseller.html', context)
 
 
 
@@ -399,6 +442,10 @@ def process_inquiry(request):
         #inserting to database
         if Reseller.objects.filter(reseller_email = email):
             messages.error(request,("Email already exists!"))
+            return redirect('/reseller#requestForm')
+
+        elif User.objects.filter(email = email):
+            messages.success(request,("Email already Exist"))
             return redirect('/reseller#requestForm')
         else:
             reseller = Reseller(reseller_fname = f_name, reseller_mname = m_name, reseller_lname = l_name, reseller_gender = gender, reseller_contact = contact_num, reseller_address= address, reseller_email = email, reseller_id = valid_id, reseller_businessp =business_permit, reseller_status=status)

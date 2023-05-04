@@ -24,6 +24,7 @@ class SignUpForm(UserCreationForm):
             'name':'email',
             'id':'email',
             'type':'email',
+            # 'readonly':'readonly',
             # 'placeholder':'enter email',
         })
 

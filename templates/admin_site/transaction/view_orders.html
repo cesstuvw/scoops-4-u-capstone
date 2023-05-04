@@ -45,6 +45,7 @@
     //     $('#modalMessage').modal('show').find('.modal-content').load($(this).attr('href'));
     // });
     
+
     
 </script>
 
@@ -134,24 +135,24 @@
     {% endif %}
 
     {% if list_transaction.transaction_orderstatus == "Out for Delivery" %}
-    <button onclick="window.print()" class="btn btn-primary btn-print me-2"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
+    <!-- <button onclick="window.print()" class="btn btn-primary btn-print me-2"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button> -->
 
         <form action="{% url 'admin_site:completed_process' %}" method="POST" class="text-end ms-auto modal-message">
             {% csrf_token %}
             <input type="hidden" value="{{ list_transaction.transaction_no}}" name="transaction_no">
-            <button class="btn btn-primary me-2"><i class="ri-check-fill align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Delivered</span></button>
+            <button class="btn btn-primary me-2" ><i class="ri-check-fill align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Delivered</span></button>
         </form>
     {% endif %}
 
    
     {% if list_transaction.transaction_orderstatus == "Pending" %}
         {% if user.role == "admin"%}
-        <button onclick="window.print()" class="btn btn-primary btn-print me-2"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
+        <button onclick="window.print()" class="btn btn-primary btn-print me-2" id="btPrint"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
 
         <form action="{% url 'admin_site:in_process' %}" method="POST" class="text-end ms-auto">
             {% csrf_token %}
             <input type="hidden" value="{{ list_transaction.transaction_no}}" name="transaction_no">
-            <button type="submit" class="btn btn-primary me-2"><i class="ri-check-fill align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">In Process</span></button>
+            <button type="submit" class="btn btn-primary me-2" id="btMain" disabled> <i class="ri-check-fill align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">In Process</span></button>
         </form>
         {% endif %}
         {% if user.role == "staff"%}
@@ -159,35 +160,37 @@
         {% endif %}
     {% endif %}
 
+
+
     {% if list_transaction.transaction_doption == "pickup" %}
         {% if list_transaction.transaction_orderstatus == "In Process" %}
             {% if user.role == "admin"%}
-            <button onclick="window.print()" class="btn btn-primary btn-print me-2"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
+            <!-- <button onclick="window.print()" class="btn btn-primary btn-print me-2" id="btPrint"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button> -->
 
             <form action="{% url 'admin_site:completed_process' %}" method="POST" class="text-end ms-auto">
                 {% csrf_token %}
                 <input type="hidden" value="{{ list_transaction.transaction_no}}" name="transaction_no">
-                <button type="submit" class="btn btn-primary me-2"><i class="ri-check-fill align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Completed</span></button>
+                <button type="submit" class="btn btn-primary me-2 btn-primary-main" id="btMain"><i class="ri-check-fill align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Completed</span></button>
             </form>
             {% endif %}
             {% if user.role == "staff"%}
-                <button onclick="window.print()" class="btn btn-primary me-2"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
+                <button onclick="window.print()" class="btn btn-primary me-2" id="btPrint"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
             {% endif %}
         {% endif %}
 
         {% else %}
             {% if list_transaction.transaction_orderstatus == "In Process" %}
             {% if user.role == "admin"%}
-            <button onclick="window.print()" class="btn btn-primary btn-print me-2"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
+            <!-- <button onclick="window.print()" class="btn btn-primary btn-print me-2" id="btPrint"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button> -->
 
             <form action="{% url 'admin_site:delivery_process' %}" method="POST" class="text-end ms-auto">
                 {% csrf_token %}
                 <input type="hidden" value="{{ list_transaction.transaction_no}}" name="transaction_no">
-                <button type="submit" class="btn btn-primary me-2"><i class="ri-check-fill align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Out For Delivery</span></button>
+                <button type="submit" class="btn btn-primary me-2 btn-primary-main" id="btMain"><i class="ri-check-fill align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Out For Delivery</span></button>
             </form>
             {% endif %}
             {% if user.role == "staff"%}
-                <button onclick="window.print()" class="btn btn-primary me-2"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
+                <button onclick="window.print()" class="btn btn-primary me-2" id="btPrint"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
             {% endif %}
         {% endif %}
     {% endif %}
@@ -284,9 +287,17 @@
         <!-- <label style="font-weight: bolder;" > Transaction No:  {{ list_transaction.transaction_no}}   </label> -->
     </div>
 
+    
+
 
         
         
     {% endif %}
 
 </div>
+
+<script>
+    $('#btPrint').on('click', function (e) {
+            $('#btMain').removeAttr("disabled");
+    })
+</script>

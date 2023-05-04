@@ -145,6 +145,14 @@
                             <div class="col col-main">
                               <label for="email">Email</label>
                               <span>{{ form.email }}</span>
+
+                              <!-- disable email input if it has a value -->
+                              <script>
+                                if ($("#email").val()) {
+                                  $("#email").prop("readonly", true);
+                                }
+                              </script>
+
                             </div>
                             
                             <div class="col col-main">
