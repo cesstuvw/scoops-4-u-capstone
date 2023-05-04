@@ -307,12 +307,16 @@ DASHBOARD
                               <div class="card info-card">
                                    <div class="card-body dash">
                                         <h5 class="card-title pt-3">Recent Activity</h5>
-                                        <div class="activity pt-3 pb-3 ps-2 pe-2">
+                                        <div class="activity pt-3 pb-3 ps-2 pe-2" style="width: 100%; overflow-x: auto;">
                                              {% if list_reports %}  
                                              {% for list in list_reports %}   
                                              <div class="activity-item d-flex">
-                                                  <div class="pe-4 date">{{ list.date_time|date:"m/d/Y" }}</div>
-                                                  <div class="activite-label"><span class="pe-3 time">{{ list.date_time|date:"h:i A" }}</span></div>
+                                                  <div class=" date">{{ list.date_time|date:"m/d/Y" }}
+                                                       <div>
+                                                            <span class="time">{{ list.date_time|date:"h:i A" }}</span>
+                                                       </div>
+                                                  </div>
+                                                  <div class="activite-label"></div>
                                                   <i class='ri-checkbox-blank-circle-fill mt-2  activity-badge align-self-start'></i>
                                                   <div class="activity-content">
                                                        <div><span class="username">{{ list.user_name }}</span></div>
