@@ -182,6 +182,18 @@ $(document).ready(function () {
         tableOr.search($(this).val()).draw();
     });  
 
+    $('.status-dropdown').on('change', function(e){
+    var status = $(this).val();
+    $('.status-dropdown').val(status)
+    // console.log(status)
+    //dataTable.column(6).search('\\s' + status + '\\s', true, false, true).draw();
+    // tableRep.column(3).search(status).draw();
+    tableOr.column(4).search('^' + status, true, false).draw();
+
+    })
+
+    
+
 
     if ($('#tableMain').DataTable().rows().count() === 0) {
         $("#tableMain").addClass("d-none");

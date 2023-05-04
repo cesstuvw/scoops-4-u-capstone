@@ -124,7 +124,7 @@ class Cart_Payment(models.Model):
 
 
 class Transaction(models.Model):
-    ORDERSTATUS = ( ("Pending","Pending"),("Out for Delivery","Out for Delivery"),("Completed","Completed"))
+    ORDERSTATUS = ( ("Pending","Pending"), ("In Process","In Process"), ("Out for Delivery","Out for Delivery"),("Completed","Completed"))
     DELIVERY_OPTION = ( ("pickup","pickup"),("delivery","delivery"))
 
     transaction_no =  models.CharField(unique=True, max_length=200, null=False,verbose_name='Transaction Number')

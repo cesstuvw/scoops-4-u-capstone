@@ -51,12 +51,10 @@
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
-            {% if user.role == "admin"%}
             <a href="{% url 'admin_site:dashboard'%}" class="logo d-flex align-items-center">
                 <img src="{% static '/img/logo-header.svg'%}" alt="">
                 <span class="d-none d-lg-block">SCOOPS 4 U</span>
             </a>
-            {% endif %}
     
             
             </div><!-- End Logo -->

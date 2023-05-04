@@ -422,6 +422,50 @@
                   </a>
               </li>
               <li>
+                  <a href="{% url 'admin_site:transaction_in_process' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>In Process</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{% url 'admin_site:transaction_outshipping' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Out For Delivery</span>
+                  </a>
+              </li>
+              <li>
+                  <a href="{% url 'admin_site:transaction_completed' %}">
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Delivered</span>
+                  </a>
+              </li>
+              <li>
+                <a href="{%url 'admin_site:unreturned_product' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Unreturned</span>
+                </a>
+              </li>
+              <li>
+                <a href="{%url 'admin_site:returned_product' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Returned</span>
+                </a>
+              </li>
+        </ul>
+        </li><!-- End Sales Nav -->
+
+        {% elif sidebar == 'in_process' %}
+        <li class="nav-item {% if sidebar == 'in_process' %}active-nav{% endif %}">
+        <a class="nav-link {% if sidebar != 'in_process' %}collapsed{% endif %}" data-bs-target="#sales-nav" data-bs-toggle="collapse" href="#">
+              <i class="ri-shopping-cart-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i><span>Order</span><i class="ri-arrow-down-s-line ms-auto" style="font-size: 20px; font-weight: 100;" ></i>
+        </a>
+        <ul id="sales-nav" class="nav-content collapse {% if sidebar == 'in_process' %}show{% endif %}" data-bs-parent="#sidebar-nav">
+              <li>
+                  <a href="{% url 'admin_site:transaction_orders' %}" >
+                        <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Pending</span>
+                  </a>
+              </li>
+              <li>
+                <a href="{% url 'admin_site:transaction_in_process' %}" class="{% if sidebar == 'in_process' %}active{% endif %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>In Process</span>
+                </a>
+            </li>
+              <li>
                   <a href="{% url 'admin_site:transaction_outshipping' %}">
                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Out For Delivery</span>
                   </a>
@@ -455,6 +499,11 @@
                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Pending</span>
                   </a>
               </li>
+              <li>
+                <a href="{% url 'admin_site:transaction_in_process' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>In Process</span>
+                </a>
+            </li>
               <li>
                   <a href="{% url 'admin_site:transaction_outshipping' %}" class="{% if sidebar == 'orders' %}active{% endif %}">
                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Out For Delivery</span>
@@ -490,6 +539,11 @@
                   </a>
               </li>
               <li>
+                <a href="{% url 'admin_site:transaction_in_process' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>In Process</span>
+                </a>
+            </li>
+              <li>
                   <a href="{% url 'admin_site:transaction_outshipping' %}" >
                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Out For Delivery</span>
                   </a>
@@ -523,6 +577,11 @@
                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Pending</span>
                   </a>
               </li>
+              <li>
+                <a href="{% url 'admin_site:transaction_in_process' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>In Process</span>
+                </a>
+            </li>
               <li>
                   <a href="{% url 'admin_site:transaction_outshipping' %}" >
                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Out For Delivery</span>
@@ -558,6 +617,11 @@
                   </a>
               </li>
               <li>
+                <a href="{% url 'admin_site:transaction_in_process' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>In Process</span>
+                </a>
+            </li>
+              <li>
                   <a href="{% url 'admin_site:transaction_outshipping' %}" >
                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Out For Delivery</span>
                   </a>
@@ -591,6 +655,11 @@
                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Pending</span>
                   </a>
               </li>
+              <li>
+                <a href="{% url 'admin_site:transaction_in_process' %}">
+                      <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>In Process</span>
+                </a>
+            </li>
               <li>
                   <a href="{% url 'admin_site:transaction_outshipping' %}">
                         <i class="ri-checkbox-blank-circle-fill" style="margin-right: 15px" ></i><span>Out For Delivery</span>
@@ -1401,7 +1470,7 @@
   <li class="nav-item {% if sidebar == 'resorders' %}active-nav{% endif %}">
   <a class="nav-link {% if sidebar != 'resorders' %}collapsed{% endif %}" href="{% url 'reseller_site:transaction_orders'  %}">
       <i class="ri-shopping-bag-2-line" style="font-size: 22px; font-weight: 100; margin-right: 20px"></i>
-      <span>Orders</span>
+      <span>My Orders</span>
   </a>
   </li><!-- End Products Page Nav -->
 

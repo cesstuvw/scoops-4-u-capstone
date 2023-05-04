@@ -46,6 +46,16 @@
                             <div class="show-entries">
                                 <div id="showEntries"></div>
                             </div>
+                            <div class="col-3 main-sdie  pe-4">
+                                <label for="role" class="pe-3 role-main">Status</label>
+                                <select class="form-control form-select status-dropdown p-2 ps-3 " name="status">
+                                    <option value="">All</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="in process">In Process</option>
+                                    <option value="out for delivery">Out for Delivery</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div>
                             <form class="search-tab"  method="GET"  class="text-end px-4">
                                 {% csrf_token %}
                                 <input type="text" id="tableM" class="form-control p-2 ps-3" name="search" placeholder="Search">

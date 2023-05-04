@@ -350,18 +350,20 @@ def send_email(request, id):
 
 
 @login_required(login_url='landing_page:login')
-def send_email_reseller(request,id):
-    reseller = Reseller.objects.get(pk = id)
+def send_email_reseller(request, id):
+    reseller = Reseller.objects.get(pk=id)
 
     email_reseller = reseller.reseller_email
-    
 
-    user = User.objects.get(email = email_reseller)
+    try:
+        user = User.objects.get(email=email_reseller)
+    except User.DoesNotExist:
+        messages.error(request, 'Register this reseller first on the Users List.')
+        return redirect('admin_site:list_reseller')
+
     if request.method == "POST":
         email = request.POST['email']
-        tile_email = "Account Confirmation"
-
-
+        tile_email = "your inquiry successfully approved"
         message = request.POST['message']
         send_mail(
             tile_email,
@@ -369,15 +371,15 @@ def send_email_reseller(request,id):
             'settings.EMAIL_HOST_USER',
             [email],
             fail_silently=False)
-        messages.success(request, 'Email sent to reseller')
         return redirect('admin_site:list_reseller')
 
     context = {
-        'reseller':reseller,
-        'user':user,
+        'reseller': reseller,
+        'user': user,
     }
 
-    return render(request, 'admin_site/user/send_email_reseller.html',context)
+    return render(request, 'admin_site/user/send_email_reseller.html', context)  
+
 
 
 #process inquiry for reseller
@@ -1188,6 +1190,21 @@ def Transaction_orders(request):
 
 
 @login_required(login_url='landing_page:login') 
+def Transaction_in_process(request):
+    list_profile = Profile.objects.filter(list_user = request.user)
+    list_transaction = Transaction.objects.filter(Q(transaction_orderstatus = "In Process")).order_by('-id')
+    current_profile = Profile.objects.filter(list_user = request.user)
+    
+    context = {
+        'list_transaction':list_transaction,
+        'sidebar' : 'in_process',
+        'list_profile': list_profile,
+        'current_profile':current_profile,
+    }
+    return render(request, 'admin_site/transaction/in_process.html', context)
+
+
+@login_required(login_url='landing_page:login') 
 def Transaction_outshipping(request):
     list_profile = Profile.objects.filter(list_user = request.user)
     list_transaction = Transaction.objects.filter(Q(transaction_orderstatus = "Out for Delivery")).order_by('-id')
@@ -1217,6 +1234,17 @@ def Transaction_completed(request):
     }
     return render(request, 'admin_site/transaction/completed.html', context)
 
+
+
+@login_required(login_url='landing_page:login')
+def in_process(request):
+    if request.method == "POST":
+        transaction_no = request.POST['transaction_no']
+        transaction = Transaction.objects.get(transaction_no = transaction_no)
+        transaction.transaction_orderstatus = "In Process"
+        transaction.save()
+        messages.success(request,("In Process"))
+        return redirect('admin_site:transaction_in_process')
 
 
 @login_required(login_url='landing_page:login')

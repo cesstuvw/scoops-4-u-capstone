@@ -126,6 +126,9 @@
 <div class="modal-footer border-0 col">
     <!-- <button onclick="window.print()" class="btn btn-success"><i class="ri-printer-fill align-middle"></i> Print</button> -->
     <!-- <button type="submit" class="btn btn-primary" value="Add Product"><i class="ri-check-fill"></i>Add Product</button> -->
+
+
+
     {% if list_transaction.transaction_orderstatus == "Completed" %}
     <button onclick="window.print()" class="btn btn-primary me-2"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
     {% endif %}
@@ -142,27 +145,54 @@
 
    
     {% if list_transaction.transaction_orderstatus == "Pending" %}
-    <!-- <button onclick="window.print()" class="btn btn-primary btn-print me-2"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
-
-    <form action="{% url 'admin_site:delivery_process' %}" method="POST" class="text-end ms-auto">
-        {% csrf_token %}
-        <input type="hidden" value="{{ list_transaction.transaction_no}}" name="transaction_no">
-        <button type="submit" class="btn btn-primary me-2"><i class="ri-check-fill align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Out For Delivery</span></button>
-    </form> -->
-
         {% if user.role == "admin"%}
         <button onclick="window.print()" class="btn btn-primary btn-print me-2"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
 
-        <form action="{% url 'admin_site:delivery_process' %}" method="POST" class="text-end ms-auto">
+        <form action="{% url 'admin_site:in_process' %}" method="POST" class="text-end ms-auto">
             {% csrf_token %}
             <input type="hidden" value="{{ list_transaction.transaction_no}}" name="transaction_no">
-            <button type="submit" class="btn btn-primary me-2"><i class="ri-check-fill align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Out For Delivery</span></button>
+            <button type="submit" class="btn btn-primary me-2"><i class="ri-check-fill align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">In Process</span></button>
         </form>
         {% endif %}
         {% if user.role == "staff"%}
             <button onclick="window.print()" class="btn btn-primary me-2"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
         {% endif %}
     {% endif %}
+
+    {% if list_transaction.transaction_doption == "pickup" %}
+        {% if list_transaction.transaction_orderstatus == "In Process" %}
+            {% if user.role == "admin"%}
+            <button onclick="window.print()" class="btn btn-primary btn-print me-2"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
+
+            <form action="{% url 'admin_site:completed_process' %}" method="POST" class="text-end ms-auto">
+                {% csrf_token %}
+                <input type="hidden" value="{{ list_transaction.transaction_no}}" name="transaction_no">
+                <button type="submit" class="btn btn-primary me-2"><i class="ri-check-fill align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Completed</span></button>
+            </form>
+            {% endif %}
+            {% if user.role == "staff"%}
+                <button onclick="window.print()" class="btn btn-primary me-2"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
+            {% endif %}
+        {% endif %}
+
+        {% else %}
+            {% if list_transaction.transaction_orderstatus == "In Process" %}
+            {% if user.role == "admin"%}
+            <button onclick="window.print()" class="btn btn-primary btn-print me-2"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
+
+            <form action="{% url 'admin_site:delivery_process' %}" method="POST" class="text-end ms-auto">
+                {% csrf_token %}
+                <input type="hidden" value="{{ list_transaction.transaction_no}}" name="transaction_no">
+                <button type="submit" class="btn btn-primary me-2"><i class="ri-check-fill align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Out For Delivery</span></button>
+            </form>
+            {% endif %}
+            {% if user.role == "staff"%}
+                <button onclick="window.print()" class="btn btn-primary me-2"><i class="ri-printer-line align-middle me-2 text-end" style="font-size:17px;"></i><span class="align-middle pe-1">Print</span></button>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
+    
 
 
 

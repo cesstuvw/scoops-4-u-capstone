@@ -49,6 +49,12 @@ $(document).ready(function () {
         .removeClass('bg-pending')
 
     $('.badge-stat-res').filter(function () {
+        return $(this).text() == 'In Process';
+    }).removeClass('bg-primary')
+        .addClass('bg-process')
+        .removeClass('bg-pending')
+
+    $('.badge-stat-res').filter(function () {
         return $(this).text() == 'Completed';
     }).addClass('bg-primary')
         .removeClass('bg-out')

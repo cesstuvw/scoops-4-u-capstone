@@ -70,9 +70,14 @@ urlpatterns = [
 
     path('pos/all-products/', views.all_products ,name='all_products'),
     path('cart/all-products/<int:productid>/', views.cart_products ,name='cart_products'),
-    path('transaction-orders/pending', views.Transaction_orders, name='transaction_orders'),
-    path('transaction-orders/process-out-for-delivery', views.delivery_process, name='delivery_process'),
 
+    path('transaction-orders/pending', views.Transaction_orders, name='transaction_orders'),
+
+# new status
+    path('transaction-orders/in-process', views.in_process, name='in_process'),
+    path('transaction-orders/in process', views.Transaction_in_process, name='transaction_in_process'),
+
+    path('transaction-orders/process-out-for-delivery', views.delivery_process, name='delivery_process'),
     path('transaction-orders/out for shipping', views.Transaction_outshipping, name='transaction_outshipping'),
 
     path('transaction-orders/completed', views.Transaction_completed, name='transaction_completed'),

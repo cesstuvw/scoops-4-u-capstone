@@ -1660,6 +1660,14 @@ td .form-control{
   padding: 0.5rem 0.7rem;
 }
 
+.bg-process{
+  background-color: #FFAD77 !important;
+  color: var(--primary-c-blue);
+  text-transform: capitalize !important;
+  font-family: P-Light !important;
+  padding: 0.5rem 0.7rem;
+}
+
 /* .product-code .bg-primary{
   background-color: var(--c-l-purple) !important;
   color: var(--primary-c-white-text);

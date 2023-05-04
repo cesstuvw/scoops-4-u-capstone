@@ -25,16 +25,26 @@
     <!-- {% for messsage in messages  %}
     <p class='alert alert-success mt-3'>{{messsage}}</p>
     {% endfor %} -->
-
-    {% for message in messages  %}
-    {% if 'success' in message.tags %}
-    <p class='alert alert-success mt-3'>{{message}}</p>
-    {% elif 'error' in message.tags %}
-    <p class='alert alert-danger mt-3'>{{message}}</p>
-    {% else %}
-    <p class='alert alert-info mt-3'>{{message}}</p>
-    {% endif %}
+    {% for message in messages %}
+        {% if 'success' in message.tags %}
+        <p class='alert alert-success mt-3'>{{message}}</p>
+        {% elif 'error' in message.tags %}
+        <p class='alert alert-danger mt-3'>{{message}}</p>
+            {% if 'Register this reseller first on the Users List.' in message %}
+                <p class='alert alert-danger mt-3'>{{message}}</p>
+            {% endif %}
+        {% else %}
+        <p class='alert alert-info mt-3'>{{message}}</p>
+        {% endif %}
     {% endfor %}
+
+    {% for message in messages %}
+    {% if 'Register this reseller first on the Users List.' in message %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endif %}
+{% endfor %}
+
+    
 
     <section class="section">
         <div class="empty-screen1 d-none modal-add-res">
@@ -300,4 +310,3 @@
 </main>
 {% endblock template %}
 
-    

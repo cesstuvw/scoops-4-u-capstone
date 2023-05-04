@@ -22,9 +22,12 @@
                     <div class="col">
                         {% if list_product.product_status == "available" %}
                         <div class="card-product-name text-center"> <span class="badge rounded-pill bg-primary">{{ list_product.product_status }}</span></div>
+                        {% elif list_product.product_status == "low stock" %}
+                        <div class="card-product-name text-center"> <span class="badge rounded-pill bg-pending">{{ list_product.product_status }}</span></div>
                         {% else %}
                         <div class="card-product-name text-center"> <span class="badge rounded-pill bg-danger">{{ list_product.product_status }}</span></div>
                         {% endif %}
+                        <td>
                     </div>
 
                     <div class="col card-batch-no">
