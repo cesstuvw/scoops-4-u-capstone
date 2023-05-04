@@ -363,7 +363,7 @@ def send_email_reseller(request, id):
 
     if request.method == "POST":
         email = request.POST['email']
-        tile_email = "your inquiry successfully approved"
+        tile_email = "Account Confirmation"
         message = request.POST['message']
         send_mail(
             tile_email,
